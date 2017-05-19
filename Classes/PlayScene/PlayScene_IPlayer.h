@@ -5,29 +5,30 @@
 
 namespace PlayScene
 {
-
 class IPlayer : public cocos2d::Node
 {
 public:
 	enum
 	{
 		IDLE,
-		RUNNING_TO_LEFT,
-		RUNNING_TO_RIGHT,
-		DEAD,
+		RUNNING,
+		DEAD
 	};
 
-	virtual int getState() = 0;
+	virtual int getState() const = 0;
 
-	virtual int idle() = 0;
+	virtual void reset( const cocos2d::Vec2& position ) = 0;
 
-	virtual int runToLeft() = 0;
+	virtual void run() = 0;
 
-	virtual int runToRight() = 0;
+	virtual void turnLeft() = 0;
 
-	virtual int die() = 0;
+	virtual void turnRight() = 0;
+
+	virtual void fly() = 0;
+
+	virtual void die() = 0;
 };
-
 }
 
 #endif //!__I_PLAYER_H__

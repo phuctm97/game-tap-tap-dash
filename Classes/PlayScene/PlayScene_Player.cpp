@@ -21,15 +21,16 @@ bool Player::init()
 
 	if ( !initSprite() ) return false;
 
-	if ( !initContent() ) return false;
-
 	if ( !initEvents() ) return false;
+
+	if ( !initContent() ) return false;
 
 	return true;
 }
 
 bool Player::initSprite()
 {
+	// sample sprite
 	_sprite = Sprite::create( "res/blank.png" );
 	if ( !_sprite ) return false;
 
@@ -43,13 +44,6 @@ bool Player::initSprite()
 	return true;
 }
 
-bool Player::initContent()
-{
-	_state = IDLE;
-
-	return true;
-}
-
 bool Player::initEvents()
 {
 	scheduleUpdate();
@@ -57,64 +51,74 @@ bool Player::initEvents()
 	return true;
 }
 
-int Player::getState()
+bool Player::initContent()
+{
+	_state = IDLE;
+
+	return true;
+}
+
+int Player::getState() const
 {
 	return _state;
 }
 
-int Player::idle()
+void Player::reset( const cocos2d::Vec2& position )
 {
-	stopAllActions();
-
-	// run animation idle
-
-	// play audio idle
-
 	_state = IDLE;
 
-	return 0;
+	setPosition( position );
 }
 
-int Player::runToLeft()
+void Player::run()
 {
+	if ( _state != IDLE ) return;
+
 	stopAllActions();
 
-	// run animation running to left
+	// run animation running
 
-	// play audio running to left
+	// play audio running
 
-	_state = RUNNING_TO_LEFT;
-
-	return 0;
+	_state = RUNNING;
 }
 
-int Player::runToRight()
+void Player::turnLeft()
 {
-	stopAllActions();
+	if ( _state == DEAD ) return;
 
-	// run animation running to right
+	// run animation turn left
 
-	// play audio running to right
-
-	_state = RUNNING_TO_RIGHT;
-
-	return 0;
+	// run audio turn left
 }
 
-int Player::die()
+void Player::turnRight()
 {
-	// check whether player'd already died
-	if ( _state == DEAD ) return -1;
+	if( _state == DEAD ) return;
 
-	stopAllActions();
+	// run animation turn right
+
+	// run audio turn right
+}
+
+void Player::fly()
+{
+	if( _state == DEAD ) return;
+
+	// run animation fly
+
+	// run audio fly
+}
+
+void Player::die()
+{
+	if( _state == DEAD ) return;
 
 	// run animation die
 
-	// play audio die
+	// run audio die
 
 	_state = DEAD;
-
-	return 0;
 }
 
 void Player::update( float dt )

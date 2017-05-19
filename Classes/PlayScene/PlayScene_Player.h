@@ -23,22 +23,26 @@ public:
 
 	void update( float dt ) override;
 
-	int getState() override;
+	int getState() const override;
 
-	int idle() override;
+	void reset( const cocos2d::Vec2& position ) override;
 
-	int runToLeft() override;
+	void run() override;
 
-	int runToRight() override;
+	void turnLeft() override;
 
-	int die() override;
+	void turnRight() override;
+
+	void fly() override;
+
+	void die() override;
 
 private:
 	bool initSprite();
 
-	bool initContent();
-
 	bool initEvents();
+	
+	bool initContent();
 };
 
 }

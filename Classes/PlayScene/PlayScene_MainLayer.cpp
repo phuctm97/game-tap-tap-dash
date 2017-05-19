@@ -29,11 +29,6 @@ bool MainLayer::init()
 	return true;
 }
 
-void MainLayer::reset()
-{
-	
-}
-
 void MainLayer::initGraphics()
 {
 	addChild( _player );
@@ -54,18 +49,17 @@ void MainLayer::initEvents()
 	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerKeyboard, this );
 }
 
-void MainLayer::onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Event* e )
+void MainLayer::initGame()
 {
-	if(key == EventKeyboard::KeyCode::KEY_BACK || key == EventKeyboard::KeyCode::KEY_ESCAPE) {
-		MyDirector::getInstance()->end();
-	}
+	reset();
 }
 
-void MainLayer::initGame() {}
-
-void MainLayer::update( float dt )
+void MainLayer::onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Event* e )
 {
-	if ( !_playing ) return;
+	// allow exit game
+	if ( key == EventKeyboard::KeyCode::KEY_BACK || key == EventKeyboard::KeyCode::KEY_ESCAPE ) {
+		MyDirector::getInstance()->end();
+	}
 }
 
 bool MainLayer::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
@@ -75,31 +69,27 @@ bool MainLayer::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
 		return true;
 	}
 
-	if ( _player->getState() == IPlayer::IDLE )
-		_player->runToLeft();
-
-	if ( _player->getState() == IPlayer::RUNNING_TO_LEFT )
-		_player->runToRight();
-
-	if ( _player->getState() == IPlayer::RUNNING_TO_RIGHT )
-		_player->runToLeft();
-
 	return true;
+}
+
+void MainLayer::reset()
+{
+	_player->reset( Vec2( Director::getInstance()->getVisibleSize().width / 2,
+												Director::getInstance()->getVisibleSize().height * 0.1f ) );
+	_playing = false;
 }
 
 void MainLayer::startGame()
 {
-	_player->setPosition( Director::getInstance()->getVisibleSize().width / 2,
-	                      Director::getInstance()->getVisibleSize().height * 0.1f );
 	_player->setVisible( true );
-	_player->idle();
 
 	_playing = true;
 }
 
 void MainLayer::stopGame()
 {
-	_playing = false;
 	_player->setVisible( false );
+	
+	_playing = false;
 }
 }

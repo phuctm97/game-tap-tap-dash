@@ -20,19 +20,17 @@ public:
 
 	bool init() override;
 
-	void reset();
-
 	void initGraphics();
 
 	void initEvents();
 
 	void initGame();
 
-	void update( float dt ) override;
-
 	bool onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e ) override;
 
 	void onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Event* e ) override;
+
+	void reset();
 
 	void startGame();
 

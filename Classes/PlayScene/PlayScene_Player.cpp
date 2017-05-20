@@ -32,12 +32,18 @@ bool Player::initSprite()
 {
 	// sample sprite
 	_sprite = Sprite::create( "res/blank.png" );
+	Sprite* _child = Sprite::create("res/blank.png");
 	if ( !_sprite ) return false;
 
 	addChild( _sprite );
 	_sprite->setTextureRect( Rect( 0, 0, 200, 200 ) );
+	_child->setTextureRect(Rect(0, 0, 100, 50));
+	_child->setColor(Color3B::YELLOW);
+	_sprite->addChild(_child);
+	_child->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
+	_child->setPosition(Vec2(50, 200));
 	_sprite->setColor( Color3B::RED );
-	_sprite->setAnchorPoint( Vec2::ANCHOR_BOTTOM_LEFT );
+	_sprite->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 	_sprite->setPosition( Vec2::ZERO );
 	setContentSize( _sprite->getContentSize() );
 
@@ -78,6 +84,8 @@ void Player::run()
 
 	// run animation running
 
+	_sprite->setColor(Color3B::BLUE);
+
 	// play audio running
 
 	_state = RUNNING;
@@ -89,6 +97,8 @@ void Player::turnLeft()
 
 	// run animation turn left
 
+	_sprite->setRotation(_sprite->getRotation() -90.0f); // xoay trai
+
 	// run audio turn left
 }
 
@@ -97,6 +107,8 @@ void Player::turnRight()
 	if( _state == DEAD ) return;
 
 	// run animation turn right
+
+	_sprite->setRotation(_sprite->getRotation() + 90.0f);
 
 	// run audio turn right
 }
@@ -107,6 +119,17 @@ void Player::fly()
 
 	// run animation fly
 
+	DelayTime* delay = DelayTime::create(0.5f);
+	ScaleBy* zoomin = ScaleBy::create(0.5f, 2.0f);
+	ScaleBy* zoomout = ScaleBy::create(0.5f, 0.5f);
+
+	
+	Sequence* seq = Sequence::create(zoomin, delay, zoomout, delay,nullptr);
+
+	_sprite->runAction(seq);
+
+
+
 	// run audio fly
 }
 
@@ -115,6 +138,8 @@ void Player::die()
 	if( _state == DEAD ) return;
 
 	// run animation die
+
+	_sprite->setColor(Color3B::BLACK);
 
 	// run audio die
 

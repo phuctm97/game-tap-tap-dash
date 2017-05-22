@@ -3,6 +3,14 @@ using namespace cocos2d;
 
 namespace PlayScene
 {
+Player::~Player()
+{
+	CC_SAFE_RELEASE( _actionRun );
+	CC_SAFE_RELEASE( _actionTurnLeft );
+	CC_SAFE_RELEASE( _actionTurnRight );
+	CC_SAFE_RELEASE( _actionFly );
+}
+
 Player* Player::create()
 {
 	auto p = new Player();
@@ -30,22 +38,44 @@ bool Player::init()
 
 bool Player::initSprite()
 {
-	// sample sprite
-	_sprite = Sprite::create( "res/blank.png" );
-	Sprite* _child = Sprite::create("res/blank.png");
+	// sprite
+	_sprite = Sprite::create( "res/player.png", Rect( 0, 0, 130, 125 ) );
 	if ( !_sprite ) return false;
 
 	addChild( _sprite );
-	_sprite->setTextureRect( Rect( 0, 0, 200, 200 ) );
-	_child->setTextureRect(Rect(0, 0, 100, 50));
-	_child->setColor(Color3B::YELLOW);
-	_sprite->addChild(_child);
-	_child->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	_child->setPosition(Vec2(50, 200));
-	_sprite->setColor( Color3B::RED );
 	_sprite->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-	_sprite->setPosition( Vec2::ZERO );
+	_sprite->setPosition( 100, 300 );
 	setContentSize( _sprite->getContentSize() );
+
+	// actions
+
+	// run
+	{
+		Vector<SpriteFrame*> frames;
+		frames.reserve( 3 );
+		frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 0, 0, 130, 125 ) ) );
+		frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 130, 0, 130, 125 ) ) );
+		frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 260, 0, 130, 125 ) ) );
+		_actionRun = Animate::create( Animation::createWithSpriteFrames( frames, 0.5f ) );
+	}
+	_actionRun->retain();
+
+	// turn left
+	_actionTurnLeft = RotateBy::create( 0.1f, -90.0f );
+	_actionTurnLeft->retain();
+
+	// turn right
+	_actionTurnRight = RotateBy::create( 0.1f, 90.0f );
+	_actionTurnRight->retain();
+
+	// fly
+	{
+		DelayTime* delay = DelayTime::create( 0.5f );
+		ScaleBy* zoomin = ScaleBy::create( 0.5f, 2.0f );
+		ScaleBy* zoomout = ScaleBy::create( 0.5f, 0.5f );
+		_actionFly = Sequence::create( zoomin, delay, zoomout, delay, nullptr );
+	}
+	_actionFly->retain();
 
 	return true;
 }
@@ -92,8 +122,7 @@ void Player::run()
 	stopAllActions();
 
 	// run animation running
-
-	_sprite->setColor(Color3B::BLUE);
+	_sprite->runAction( _actionRun );
 
 	// play audio running
 
@@ -105,50 +134,38 @@ void Player::turnLeft()
 	if ( _state == DEAD ) return;
 
 	// run animation turn left
-
-	_sprite->setRotation(_sprite->getRotation() -90.0f); // xoay trai
+	_sprite->runAction( _actionTurnLeft );
 
 	// run audio turn left
 }
 
 void Player::turnRight()
 {
-	if( _state == DEAD ) return;
+	if ( _state == DEAD ) return;
 
 	// run animation turn right
-
-	_sprite->setRotation(_sprite->getRotation() + 90.0f);
+	_sprite->runAction( _actionTurnRight );
 
 	// run audio turn right
 }
 
 void Player::fly()
 {
-	if( _state == DEAD ) return;
+	if ( _state == DEAD ) return;
 
 	// run animation fly
-
-	DelayTime* delay = DelayTime::create(0.5f);
-	ScaleBy* zoomin = ScaleBy::create(0.5f, 2.0f);
-	ScaleBy* zoomout = ScaleBy::create(0.5f, 0.5f);
-
-	
-	Sequence* seq = Sequence::create(zoomin, delay, zoomout, delay,nullptr);
-
-	_sprite->runAction(seq);
-
-
+	_sprite->runAction( _actionFly );
 
 	// run audio fly
 }
 
 void Player::die()
 {
-	if( _state == DEAD ) return;
+	if ( _state == DEAD ) return;
 
 	// run animation die
 
-	_sprite->setColor(Color3B::BLACK);
+	_sprite->setColor( Color3B::BLACK );
 
 	// run audio die
 
@@ -157,7 +174,7 @@ void Player::die()
 
 void Player::win()
 {
-	if( _state == DEAD ) return;
+	if ( _state == DEAD ) return;
 
 	stopAllActions();
 

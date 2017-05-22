@@ -5,7 +5,6 @@
 
 namespace PlayScene
 {
-
 class Player : public IPlayer
 {
 private:
@@ -13,9 +12,21 @@ private:
 
 	int _state;
 
+	cocos2d::Action* _actionRun;
+	cocos2d::Action* _actionTurnLeft;
+	cocos2d::Action* _actionTurnRight;
+	cocos2d::Action* _actionFly;
+
 public:
 	Player()
-		: _state( -1 ), _sprite( nullptr ) {}
+		: _state( -1 ),
+		  _sprite( nullptr ),
+		  _actionRun( nullptr ),
+		  _actionTurnLeft( nullptr ),
+		  _actionTurnRight( nullptr ),
+		  _actionFly( nullptr ) {}
+
+	~Player();
 
 	static Player* create();
 
@@ -26,7 +37,7 @@ public:
 	void reset( const cocos2d::Vec2& position ) override;
 
 	void idle() override;
-	
+
 	void run() override;
 
 	void turnLeft() override;
@@ -43,11 +54,9 @@ private:
 	bool initSprite();
 
 	bool initEvents();
-	
+
 	bool initContent();
-
 };
-
 }
 
 #endif //!__PLAY_SCENE_PLAYER_H__

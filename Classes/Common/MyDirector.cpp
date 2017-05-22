@@ -1,6 +1,6 @@
 #include "MyDirector.h"
-#include "PlayScene/PlayScene_Player.h"
-#include "PlayScene/PlayScene_MainLayer.h"
+#include "PlayScene/Players/PlayScene_Player.h"
+#include "PlayScene/Layers/PlayScene_MainLayer.h"
 using namespace cocos2d;
 
 MyDirector* MyDirector::_instance = nullptr;
@@ -49,6 +49,6 @@ void MyDirector::createPlayScene()
 	_playScene = Scene::create();
 	_playScene->retain();
 
-	auto mainLayer = PlayScene::MainLayer::create( PlayScene::Player::create() );
+	auto mainLayer = PlayScene::MainLayer::create( PlayScene::Player::create(), nullptr );
 	_playScene->addChild( mainLayer, 0, "mainLayer" );
 }

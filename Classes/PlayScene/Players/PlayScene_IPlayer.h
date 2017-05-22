@@ -1,5 +1,5 @@
-#ifndef __I_PLAYER_H__
-#define __I_PLAYER_H__
+#ifndef __PLAY_SCENE_I_PLAYER_H__
+#define __PLAY_SCENE_I_PLAYER_H__
 
 #include <cocos2d.h>
 
@@ -19,6 +19,8 @@ public:
 
 	virtual void reset( const cocos2d::Vec2& position ) = 0;
 
+	virtual void idle() = 0;
+
 	virtual void run() = 0;
 
 	virtual void turnLeft() = 0;
@@ -28,6 +30,8 @@ public:
 	virtual void fly() = 0;
 
 	virtual void die() = 0;
+
+	virtual void win() = 0;
 };
 }
 

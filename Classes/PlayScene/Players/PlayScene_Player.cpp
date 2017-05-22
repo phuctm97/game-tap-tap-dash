@@ -52,8 +52,6 @@ bool Player::initSprite()
 
 bool Player::initEvents()
 {
-	scheduleUpdate();
-
 	return true;
 }
 
@@ -71,9 +69,20 @@ int Player::getState() const
 
 void Player::reset( const cocos2d::Vec2& position )
 {
-	_state = IDLE;
-
 	setPosition( position );
+
+	idle();
+}
+
+void Player::idle()
+{
+	stopAllActions();
+
+	// run animation idle
+
+	// run audio idle
+
+	_state = IDLE;
 }
 
 void Player::run()
@@ -146,8 +155,16 @@ void Player::die()
 	_state = DEAD;
 }
 
-void Player::update( float dt )
+void Player::win()
 {
-	// update position based on state
+	if( _state == DEAD ) return;
+
+	stopAllActions();
+
+	// run animation win
+
+	// run audio win
+
+	_state = IDLE;
 }
 }

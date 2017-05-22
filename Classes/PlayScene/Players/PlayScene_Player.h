@@ -1,5 +1,5 @@
-#ifndef __PLAYER_H__
-#define __PLAYER_H__
+#ifndef __PLAY_SCENE_PLAYER_H__
+#define __PLAY_SCENE_PLAYER_H__
 
 #include "PlayScene_IPlayer.h"
 
@@ -21,12 +21,12 @@ public:
 
 	bool init() override;
 
-	void update( float dt ) override;
-
 	int getState() const override;
 
 	void reset( const cocos2d::Vec2& position ) override;
 
+	void idle() override;
+	
 	void run() override;
 
 	void turnLeft() override;
@@ -37,14 +37,17 @@ public:
 
 	void die() override;
 
+	void win() override;
+
 private:
 	bool initSprite();
 
 	bool initEvents();
 	
 	bool initContent();
+
 };
 
 }
 
-#endif //!__PLAYER_H__
+#endif //!__PLAY_SCENE_PLAYER_H__

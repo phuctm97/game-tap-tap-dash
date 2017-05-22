@@ -12,12 +12,17 @@ public:
 	static MyDirector* getInstance();
 
 private:
+	cocos2d::Scene* _introScene;
 	cocos2d::Scene* _playScene;
 
 public:
 	MyDirector();
 
 	~MyDirector();
+
+	cocos2d::Scene* getIntroScene() const;
+
+	cocos2d::Scene* resetIntroScene() const;
 
 	cocos2d::Scene* getPlayScene() const;
 
@@ -26,6 +31,8 @@ public:
 	void end();
 
 private:
+	void createIntroScene();
+	
 	void createPlayScene();
 };
 

@@ -23,7 +23,7 @@ bool MainLayer::init()
 	initGraphics();
 
 	initGame();
-	
+
 	initEvents();
 
 	return true;
@@ -114,7 +114,7 @@ void MainLayer::reset()
 void MainLayer::startGame()
 {
 	_state = PLAYING;
-	
+
 	_map->scroll();
 
 	_player->run();
@@ -142,24 +142,18 @@ void MainLayer::update( float dt )
 {
 	if ( _state != PLAYING ) return;
 
-	int rc = _map->getCurrentNode()->checkPositionInside( _player->getPosition() );
-	switch ( rc ) {
-	case IGameMapNode::POSITION_OUTSIDE: {
-		loseGame();
+	if ( _map->isEnd() ) {
+		winGame();
 	}
-		break;
-	case IGameMapNode::POSITION_EXITED: {
+
+	if ( _map->getCurrentNode()->checkPositionInside( _player->getPosition() ) == IGameMapNode::POSITION_OUTSIDE ) {
 		if ( _map->isEnd() ) {
-			winGame();
+			throw "Player exit last map node";
 		}
-		else {
-			int rc2 = _map->nextNode()->checkPositionInside( _player->getPosition() );
-			if ( rc2 != IGameMapNode::POSITION_INSIDE ) {
-				loseGame();
-			}
+
+		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == IGameMapNode::POSITION_OUTSIDE ) {
+			loseGame();
 		}
-	}
-		break;
 	}
 }
 }

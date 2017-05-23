@@ -12,10 +12,16 @@ public:
 	{
 		POSITION_INSIDE,
 		POSITION_OUTSIDE,
-		POSITION_EXITED
+
+		NODE_FORWARD,
+		NODE_TURN_LEFT,
+		NODE_TURN_RIGHT,
+		NODE_FLY,
 	};
 
 	virtual int checkPositionInside( const cocos2d::Vec2& worldPosition ) = 0;
+
+	virtual int getType() const = 0;
 };
 }
 

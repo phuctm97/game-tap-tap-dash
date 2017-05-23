@@ -11,7 +11,7 @@ class TurnLeftGameMapNode : public IGameMapNode
 public:
 
 	TurnLeftGameMapNode()
-		: _sprite( nullptr ) {}
+		: _sprite( nullptr ), _navigator(nullptr) {}
 
 	static TurnLeftGameMapNode* create();
 
@@ -25,6 +25,8 @@ public:
 
 private:
 	cocos2d::Sprite* _sprite;
+	cocos2d::Sprite* _navigator;
+	
 };
 }
 

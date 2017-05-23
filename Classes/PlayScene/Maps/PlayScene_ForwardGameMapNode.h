@@ -1,5 +1,5 @@
-#ifndef __PLAY_SCENE_STRAIGHT_GAME_MAP_NODE_H__
-#define __PLAY_SCENE_STRAIGHT_GAME_MAP_NODE_H__
+#ifndef __PLAY_SCENE_FORWARD_GAME_MAP_NODE_H__
+#define __PLAY_SCENE_FORWARD_GAME_MAP_NODE_H__
 
 #include <cocos2d.h>
 #include "PlayScene_IGameMapNode.h"
@@ -28,4 +28,4 @@ private:
 };
 }
 
-#endif //!__PLAY_SCENE_STRAIGHT_GAME_MAP_NODE_H__
+#endif //!__PLAY_SCENE_FORWARD_GAME_MAP_NODE_H__

@@ -6,26 +6,29 @@
 
 namespace PlayScene
 {
-class TurnRightGameMapNode : public IGameMapNode
-{
-public:
+	class TurnRightGameMapNode : public IGameMapNode
+	{
+	public:
 
-	TurnRightGameMapNode()
-		: _sprite( nullptr ) {}
+		TurnRightGameMapNode()
+			: _sprite(nullptr), _navigator(nullptr) {}
 
-	static TurnRightGameMapNode* create();
+		static TurnRightGameMapNode* create();
 
-	bool init() override;
+		bool init() override;
 
-	bool initSprite();
+		bool initSprite();
 
-	int checkPositionInside( const cocos2d::Vec2& worldPosition ) override;
+		bool initNavigator();
 
-	int getType() const override;
+		int checkPositionInside(const cocos2d::Vec2& worldPosition) override;
 
-private:
-	cocos2d::Sprite* _sprite;
-};
+		int getType() const override;
+
+	private:
+		cocos2d::Sprite* _sprite;
+		cocos2d::Sprite* _navigator;
+	};
 }
 
-#endif //!__PLAY_SCENE_TURN_LEFT_GAME_MAP_NODE_H__
+#endif //!__PLAY_SCENE_TURN_RIGHT_GAME_MAP_NODE_H__

@@ -1,10 +1,10 @@
-#include "PlayScene_TurnRightGameMapNode.h"
+#include "PlayScene_FlyingGameMapNode.h"
 
 USING_NS_CC;
 
-PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
+PlayScene::FlyGameMapNode* PlayScene::FlyGameMapNode::create()
 {
-	auto p = new TurnRightGameMapNode();
+	auto p = new FlyGameMapNode();
 	if (p && p->init())
 	{
 		p->autorelease();
@@ -15,7 +15,7 @@ PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
 	return nullptr;
 }
 
-bool PlayScene::TurnRightGameMapNode::init()
+bool PlayScene::FlyGameMapNode::init()
 {
 	if( !Node::init() )
 		return false;
@@ -29,7 +29,7 @@ bool PlayScene::TurnRightGameMapNode::init()
 	return true;
 }
 
-bool PlayScene::TurnRightGameMapNode::initSprite()
+bool PlayScene::FlyGameMapNode::initSprite()
 {
 	_sprite = Sprite::create("res/blank.png");
 
@@ -53,9 +53,9 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 	return true;
 }
 
-bool PlayScene::TurnRightGameMapNode::initNavigator()
+bool PlayScene::FlyGameMapNode::initNavigator()
 {
-	_navigator = Sprite::create("navi_right.png");
+	_navigator = Sprite::create("navi_fly.png");
 
 	if (!_navigator)
 		return false;
@@ -77,7 +77,7 @@ bool PlayScene::TurnRightGameMapNode::initNavigator()
 	return true;
 }
 
-int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
+int PlayScene::FlyGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
 	if ((worldPosition.x >= this->getPositionX() - this->getContentSize().width / 2)
 		&& (worldPosition.x <= this->getPositionX() + this->getContentSize().width / 2)
@@ -88,8 +88,8 @@ int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& wo
 	return POSITION_OUTSIDE;
 }
 
-int PlayScene::TurnRightGameMapNode::getType() const
+int PlayScene::FlyGameMapNode::getType() const
 {
-	return NODE_TURN_RIGHT;
+	return NODE_FLY;
 }	
 

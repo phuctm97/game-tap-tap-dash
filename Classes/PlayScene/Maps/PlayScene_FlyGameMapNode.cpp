@@ -1,4 +1,4 @@
-#include "PlayScene_FlyingGameMapNode.h"
+#include "PlayScene_FlyGameMapNode.h"
 
 USING_NS_CC;
 

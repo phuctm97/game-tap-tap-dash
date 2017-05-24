@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "Common/MyDirector.h"
+#include "TestScene/TestPlayerScene.h"
 
 USING_NS_CC;
 
@@ -48,11 +48,8 @@ bool AppDelegate::applicationDidFinishLaunching()
 
 	register_all_packages();
 
-	// create a scene. it's an autorelease object
-	auto myDirector = MyDirector::getInstance();
-
 	// run
-	director->runWithScene( myDirector->getPlayScene() );
+	director->runWithScene( TestScene::TestPlayerScene::createScene() );
 
 	return true;
 }

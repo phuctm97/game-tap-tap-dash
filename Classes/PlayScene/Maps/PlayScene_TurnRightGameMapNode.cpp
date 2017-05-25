@@ -11,19 +11,16 @@ PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
 		return p;
 	}
 
-	CC_SAFE_DELETE( p );
+	CC_SAFE_DELETE(p);
 	return nullptr;
 }
 
 bool PlayScene::TurnRightGameMapNode::init()
 {
-	if( !Node::init() )
+	if (!Node::init())
 		return false;
 
 	if (!initSprite())
-		return false;
-
-	if (!initNavigator())
 		return false;
 
 	return true;
@@ -49,33 +46,26 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 	_sprite->setRotation(getRotation());
 
 	setContentSize(_sprite->getContentSize());
-	
-	return true;
-}
 
-bool PlayScene::TurnRightGameMapNode::initNavigator()
-{
-	_navigator = Sprite::create("navi_right.png");
+	_navigator = Sprite::create("right.png");
 
 	if (!_navigator)
 		return false;
 
-	this->addChild(_navigator, 1);
-
-	// synchronize transformations
+	_sprite->addChild(_navigator);
 
 	_navigator->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	_navigator->setPosition(0, 0);
+	_navigator->setPosition(_sprite->getContentSize().width / 2, _sprite->getContentSize().height / 2);
 
-	_navigator->setScale(getScale());
+	_navigator->setScale(_sprite->getScale());
 
-	_navigator->setRotation(getRotation());
-
-	setContentSize(_navigator->getContentSize());
+	_navigator->setRotation(_sprite->getRotation());
 
 	return true;
 }
+
+
 
 int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
@@ -91,5 +81,5 @@ int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& wo
 int PlayScene::TurnRightGameMapNode::getType() const
 {
 	return NODE_TURN_RIGHT;
-}	
+}
 

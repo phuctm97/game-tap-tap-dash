@@ -19,8 +19,6 @@ namespace PlayScene
 
 		bool initSprite();
 
-		bool initNavigator();
-
 		int checkPositionInside(const cocos2d::Vec2& worldPosition) override;
 
 		int getType() const override;

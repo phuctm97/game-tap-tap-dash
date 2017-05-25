@@ -11,19 +11,16 @@ PlayScene::FlyGameMapNode* PlayScene::FlyGameMapNode::create()
 		return p;
 	}
 
-	CC_SAFE_DELETE( p );
+	CC_SAFE_DELETE(p);
 	return nullptr;
 }
 
 bool PlayScene::FlyGameMapNode::init()
 {
-	if( !Node::init() )
+	if (!Node::init())
 		return false;
 
 	if (!initSprite())
-		return false;
-
-	if (!initNavigator())
 		return false;
 
 	return true;
@@ -49,33 +46,27 @@ bool PlayScene::FlyGameMapNode::initSprite()
 	_sprite->setRotation(getRotation());
 
 	setContentSize(_sprite->getContentSize());
-	
-	return true;
-}
 
-bool PlayScene::FlyGameMapNode::initNavigator()
-{
-	_navigator = Sprite::create("navi_fly.png");
+	_navigator = Sprite::create("fly.png");
 
 	if (!_navigator)
 		return false;
 
-	this->addChild(_navigator, 1);
+	_sprite->addChild(_navigator, 1);
 
 	// synchronize transformations
 
 	_navigator->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	_navigator->setPosition(0, 0);
+	_navigator->setPosition(_sprite->getContentSize().width / 2, _sprite->getContentSize().height / 2);
 
 	_navigator->setScale(getScale());
 
 	_navigator->setRotation(getRotation());
 
-	setContentSize(_navigator->getContentSize());
-
 	return true;
 }
+
 
 int PlayScene::FlyGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
@@ -91,5 +82,5 @@ int PlayScene::FlyGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPos
 int PlayScene::FlyGameMapNode::getType() const
 {
 	return NODE_FLY;
-}	
+}
 

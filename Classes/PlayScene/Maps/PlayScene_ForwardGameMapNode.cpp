@@ -28,7 +28,7 @@ bool PlayScene::ForwardGameMapNode::init()
 
 bool PlayScene::ForwardGameMapNode::initSprite()
 {
-	_sprite = Sprite::create("res/blank.png");
+	_sprite = Sprite::create("res/test/blank.png");
 
 	if (!_sprite)
 		return false;

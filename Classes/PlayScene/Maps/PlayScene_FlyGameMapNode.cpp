@@ -28,7 +28,7 @@ bool PlayScene::FlyGameMapNode::init()
 
 bool PlayScene::FlyGameMapNode::initSprite()
 {
-	_sprite = Sprite::create("res/blank.png");
+	_sprite = Sprite::create("res/test/blank.png");
 
 	if (!_sprite)
 		return false;
@@ -47,12 +47,12 @@ bool PlayScene::FlyGameMapNode::initSprite()
 
 	setContentSize(_sprite->getContentSize());
 
-	_navigator = Sprite::create("fly.png");
+	_navigator = Sprite::create("res/test/fly.png");
 
 	if (!_navigator)
 		return false;
 
-	_sprite->addChild(_navigator, 1);
+	_sprite->addChild(_navigator);
 
 	// synchronize transformations
 

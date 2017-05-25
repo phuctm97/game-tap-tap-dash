@@ -28,7 +28,7 @@ bool PlayScene::TurnRightGameMapNode::init()
 
 bool PlayScene::TurnRightGameMapNode::initSprite()
 {
-	_sprite = Sprite::create("res/blank.png");
+	_sprite = Sprite::create("res/test/blank.png");
 
 	if (!_sprite)
 		return false;
@@ -47,7 +47,7 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 
 	setContentSize(_sprite->getContentSize());
 
-	_navigator = Sprite::create("right.png");
+	_navigator = Sprite::create("res/test/right.png");
 
 	if (!_navigator)
 		return false;

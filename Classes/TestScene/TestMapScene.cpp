@@ -1,8 +1,10 @@
 #include "TestMapScene.h"
+#include "PlayScene/Maps/PlayScene_GameMap.h"
+#include "PlayScene/Maps/PlayScene_RandomGameMapGenerator.h"
+#include "PlayScene/Maps/PlayScene_FlyGameMapNode.h"
 #include "PlayScene/Maps/PlayScene_ForwardGameMapNode.h"
 #include "PlayScene/Maps/PlayScene_TurnLeftGameMapNode.h"
 #include "PlayScene/Maps/PlayScene_TurnRightGameMapNode.h"
-#include "PlayScene/Maps/PlayScene_FlyGameMapNode.h"
 using namespace cocos2d;
 
 namespace TestScene
@@ -45,39 +47,50 @@ void TestMapScene::update( float dt ) { }
 
 void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e )
 {
-	// test map node
-
 	switch ( keyCode ) {
 	case EventKeyboard::KeyCode::KEY_1: {
-		auto forwardMapNode = PlayScene::ForwardGameMapNode::create();
-		forwardMapNode->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-		forwardMapNode->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                             Director::getInstance()->getVisibleSize().height * 0.5f );
-		addChild( forwardMapNode );
+		removeChildByTag( 1 );
+
+		auto node = PlayScene::ForwardGameMapNode::create();
+		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
+		
+		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		addChild( node, 0, 1 );
 	}
 		break;
 	case EventKeyboard::KeyCode::KEY_2: {
-		auto turnLeftMapNode = PlayScene::TurnLeftGameMapNode::create();
-		turnLeftMapNode->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-		turnLeftMapNode->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                              Director::getInstance()->getVisibleSize().height * 0.5f );
-		addChild( turnLeftMapNode );
+		removeChildByTag( 1 );
+
+		auto node = PlayScene::TurnLeftGameMapNode::create();
+		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
+		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		addChild( node, 0, 1 );
 	}
 		break;
 	case EventKeyboard::KeyCode::KEY_3: {
-		auto turnRightMapNode = PlayScene::TurnRightGameMapNode::create();
-		turnRightMapNode->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-		turnRightMapNode->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                               Director::getInstance()->getVisibleSize().height * 0.5f );
-		addChild( turnRightMapNode );
+		removeChildByTag( 1 );
+		
+		auto node = PlayScene::TurnRightGameMapNode::create();
+		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
+		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		addChild( node, 0, 1 );
 	}
 		break;
 	case EventKeyboard::KeyCode::KEY_4: {
-		auto flyMapNode = PlayScene::FlyGameMapNode::create();
-		flyMapNode->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-		flyMapNode->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                         Director::getInstance()->getVisibleSize().height * 0.5f );
-		addChild( flyMapNode );
+		removeChildByTag( 1 );
+		
+		auto node = PlayScene::FlyGameMapNode::create();
+		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
+		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		addChild( node, 0, 1 );
 	}
 		break;
 	default: break;

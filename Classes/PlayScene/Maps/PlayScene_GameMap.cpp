@@ -5,9 +5,16 @@ using namespace cocos2d;
 
 namespace PlayScene
 {
-GameMap* GameMap::create()
+GameMap::~GameMap()
 {
-	auto p = new GameMap();
+	CC_SAFE_RELEASE( _generator );
+
+	_activeNodes.clear();
+}
+
+GameMap* GameMap::create( IGameMapGenerator* generator )
+{
+	auto p = new GameMap( generator );
 	if ( p && p->init() ) {
 		p->autorelease();
 		return p;
@@ -46,37 +53,49 @@ void GameMap::reset( const cocos2d::Vec2& position ) { throw "Not implemented"; 
 
 void GameMap::stop() { throw "Not implemented"; }
 
-
 bool GameMap::initGraphics()
 {
+	_generator->retain();
+
 	generateInitialNodes();
 
 	return true;
 }
 
-bool GameMap::initContent() { throw "Not implemented"; }
+bool GameMap::initContent()
+{
+	return true;
+}
 
-bool GameMap::initEvents() { throw "Not implemented"; }
+bool GameMap::initEvents()
+{
+	return true;
+}
 
 void GameMap::generateInitialNodes()
 {
 	int initialNodes = INITIAL_NODES;
 	IGameMapNode* previousNode = nullptr;
 
-	while( initialNodes > 0 ) {
+	while ( initialNodes > 0 ) {
 		auto node = _generator->nextNode();
-		if( node == nullptr ) break;
+		if ( node == nullptr ) break;
 
 		_activeNodes.pushBack( node );
-		if( previousNode == nullptr ) {
+		addChild( node );
+
+		if ( previousNode == nullptr ) {
 			node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 			node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-												 Director::getInstance()->getVisibleSize().height * 0.5f );
+			                   Director::getInstance()->getVisibleSize().height * 0.5f );
 		}
 		else {
 			_generator->placeNode( previousNode, node );
 		}
+
+		previousNode = node;
+
+		initialNodes--;
 	}
 }
-
 }

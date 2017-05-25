@@ -13,10 +13,12 @@ private:
 	IGameMapGenerator* _generator;
 
 public:
-	GameMap( IGameMapGenerator* generator = nullptr )
+	GameMap( IGameMapGenerator* generator )
 		: _generator( generator ) {}
 
-	static GameMap* create();
+	~GameMap();
+
+	static GameMap* create( IGameMapGenerator* generator );
 
 	bool init() override;
 

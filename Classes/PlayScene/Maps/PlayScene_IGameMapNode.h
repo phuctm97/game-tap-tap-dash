@@ -7,6 +7,9 @@ namespace PlayScene
 {
 class IGameMapNode : public cocos2d::Node
 {
+private:
+	int _direction;
+
 public:
 	enum
 	{
@@ -19,17 +22,21 @@ public:
 		NODE_FLY,
 
 		DIRECTION_UP,
+		DIRECTION_DOWN,
 		DIRECTION_LEFT,
 		DIRECTION_RIGHT
 	};
+
+	IGameMapNode()
+		: _direction( DIRECTION_UP ) {}
 
 	virtual int checkPositionInside( const cocos2d::Vec2& worldPosition ) = 0;
 
 	virtual int getType() const = 0;
 
-	virtual int getDirection() const = 0;
+	int getDirection() const;
 
-	void setDirection( int direction ) = 0;
+	void setDirection( int direction );
 };
 }
 

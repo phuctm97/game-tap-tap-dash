@@ -11,7 +11,7 @@ class IGameMapGenerator : public cocos2d::Ref
 public:
 	virtual GameMapNode* nextNode() = 0;
 
-	virtual void placeNode( GameMapNode* previousNode, GameMapNode* node ) = 0;
+	static void placeNode( GameMapNode* previousNode, GameMapNode* node );
 };
 }
 

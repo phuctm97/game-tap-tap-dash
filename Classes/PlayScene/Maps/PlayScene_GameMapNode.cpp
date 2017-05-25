@@ -1,4 +1,5 @@
 #include "PlayScene_GameMapNode.h"
+using namespace cocos2d;
 
 namespace PlayScene
 {

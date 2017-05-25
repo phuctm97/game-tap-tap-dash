@@ -26,7 +26,7 @@ GameMap* GameMap::create( IGameMapGenerator* generator )
 
 bool GameMap::init()
 {
-	if ( !IGameMap::init() ) return false;
+	if ( !Node::init() ) return false;
 
 	if ( !initGraphics() ) return false;
 

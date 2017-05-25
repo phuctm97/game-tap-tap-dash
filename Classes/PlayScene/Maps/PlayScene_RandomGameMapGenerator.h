@@ -1,6 +1,6 @@
 #ifndef __GAME_MAP_GENERATOR_H__
 #define __GAME_MAP_GENERATOR_H__
-#include "PlayScene_IGameMapGenerator.h"
+#include "PlayScene_GameMapGenerator.h"
 
 namespace PlayScene
 {
@@ -16,8 +16,6 @@ public:
 	static RandomGameMapGenerator* create();
 
 	GameMapNode* nextNode() override;
-
-	void placeNode( GameMapNode* previousNode, GameMapNode* node ) override;
 };
 }
 

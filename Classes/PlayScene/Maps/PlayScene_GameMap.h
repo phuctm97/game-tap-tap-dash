@@ -1,11 +1,11 @@
 #ifndef __PLAY_SCENE_GAME_MAP_H__
 #define __PLAY_SCENE_GAME_MAP_H__
-#include "PlayScene_IGameMap.h"
-#include "PlayScene_IGameMapGenerator.h"
+
+#include "PlayScene_GameMapGenerator.h"
 
 namespace PlayScene
 {
-class GameMap : public IGameMap
+class GameMap : public cocos2d::Node
 {
 private:
 	cocos2d::Vector<GameMapNode*> _activeNodes;
@@ -13,6 +13,14 @@ private:
 	IGameMapGenerator* _generator;
 
 public:
+	enum
+	{
+		NONE,
+		TURN_LEFT,
+		TURN_RIGHT,
+		FLY
+	};
+
 	GameMap( IGameMapGenerator* generator )
 		: _generator( generator ) {}
 
@@ -22,21 +30,22 @@ public:
 
 	bool init() override;
 
-	void setSpeed( int speed ) override;
+	void setSpeed( int speed );
 
-	void scroll() override;
+	void scroll();
 
-	GameMapNode* getCurrentNode() const override;
+	GameMapNode* getCurrentNode() const;
 
-	GameMapNode* nextNode() override;
+	GameMapNode* nextNode();
 
-	bool isEnd() const override;
+	bool isEnd() const;
 
-	int getNextControl() const override;
+	int getNextControl() const;
 
-	void reset( const cocos2d::Vec2& position ) override;
+	void reset( const cocos2d::Vec2& position );
 
-	void stop() override;
+	void stop();
+
 private:
 	bool initGraphics();
 

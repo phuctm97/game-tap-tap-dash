@@ -4,7 +4,7 @@ using namespace cocos2d;
 
 namespace PlayScene
 {
-MainLayer* MainLayer::create( IPlayer* player, IGameMap* map )
+MainLayer* MainLayer::create( IPlayer* player, GameMap* map )
 {
 	MainLayer* p = new MainLayer( player, map );
 	if ( p && p->init() ) {
@@ -80,15 +80,15 @@ bool MainLayer::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
 		// gameplay
 	case PLAYING: {
 		switch ( _map->getNextControl() ) {
-		case IGameMap::TURN_LEFT: {
+		case GameMap::TURN_LEFT: {
 			_player->turnLeft();
 		}
 			break;
-		case IGameMap::TURN_RIGHT: {
+		case GameMap::TURN_RIGHT: {
 			_player->turnRight();
 		}
 			break;
-		case IGameMap::FLY: {
+		case GameMap::FLY: {
 			_player->fly();
 		}
 			break;

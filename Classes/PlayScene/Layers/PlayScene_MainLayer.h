@@ -3,7 +3,7 @@
 
 #include <cocos2d.h>
 #include "../Players/PlayScene_IPlayer.h"
-#include "../Maps/PlayScene_IGameMap.h"
+#include "PlayScene/Maps/PlayScene_GameMap.h"
 
 namespace PlayScene
 {
@@ -20,17 +20,17 @@ class MainLayer : public cocos2d::Layer
 private:
 	IPlayer* _player;
 
-	IGameMap* _map;
+	GameMap* _map;
 
 	int _state;
 
 	int _speed;
 
 public:
-	MainLayer( IPlayer* player, IGameMap* map )
+	MainLayer( IPlayer* player, GameMap* map )
 		: _player( player ), _map( map ), _state( WAIT_FOR_PLAY ), _speed( 2 ) {}
 
-	static MainLayer* create( IPlayer* player, IGameMap* map );
+	static MainLayer* create( IPlayer* player, GameMap* map );
 
 	bool init() override;
 

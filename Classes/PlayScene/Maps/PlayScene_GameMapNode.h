@@ -1,11 +1,11 @@
-#ifndef __PLAY_SCENE_I_GAME_MAP_NODE_H__
-#define __PLAY_SCENE_I_GAME_MAP_NODE_H__
+#ifndef __PLAY_SCENE_GAME_MAP_NODE_H__
+#define __PLAY_SCENE_GAME_MAP_NODE_H__
 
 #include <cocos2d.h>
 
 namespace PlayScene
 {
-class IGameMapNode : public cocos2d::Node
+class GameMapNode : public cocos2d::Node
 {
 private:
 	int _direction;
@@ -27,7 +27,7 @@ public:
 		DIRECTION_RIGHT
 	};
 
-	IGameMapNode()
+	GameMapNode()
 		: _direction( DIRECTION_UP ) {}
 
 	virtual int checkPositionInside( const cocos2d::Vec2& worldPosition ) = 0;
@@ -40,4 +40,4 @@ public:
 };
 }
 
-#endif //!__PLAY_SCENE_I_GAME_MAP_NODE_H__
+#endif //!__PLAY_SCENE_GAME_MAP_NODE_H__

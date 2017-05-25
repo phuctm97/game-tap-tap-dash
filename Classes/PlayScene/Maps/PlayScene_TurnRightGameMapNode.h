@@ -2,11 +2,11 @@
 #define __PLAY_SCENE_TURN_RIGHT_GAME_MAP_NODE_H__
 
 #include <cocos2d.h>
-#include "PlayScene_IGameMapNode.h"
+#include "PlayScene_GameMapNode.h"
 
 namespace PlayScene
 {
-	class TurnRightGameMapNode : public IGameMapNode
+	class TurnRightGameMapNode : public GameMapNode
 	{
 	public:
 

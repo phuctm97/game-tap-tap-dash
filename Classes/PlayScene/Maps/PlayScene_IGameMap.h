@@ -2,7 +2,7 @@
 #define __PLAY_SCENE_I_GAME_MAP_H__
 
 #include <cocos2d.h>
-#include "PlayScene_IGameMapNode.h"
+#include "PlayScene_GameMapNode.h"
 
 namespace PlayScene
 {
@@ -21,9 +21,9 @@ public:
 
 	virtual void scroll() = 0;
 
-	virtual IGameMapNode* getCurrentNode() const = 0;
+	virtual GameMapNode* getCurrentNode() const = 0;
 
-	virtual IGameMapNode* nextNode() = 0;
+	virtual GameMapNode* nextNode() = 0;
 
 	virtual bool isEnd() const = 0;
 

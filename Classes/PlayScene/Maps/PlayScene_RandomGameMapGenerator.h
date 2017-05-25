@@ -15,9 +15,9 @@ public:
 
 	static RandomGameMapGenerator* create();
 
-	IGameMapNode* nextNode() override;
+	GameMapNode* nextNode() override;
 
-	void placeNode( IGameMapNode* previousNode, IGameMapNode* node ) override;
+	void placeNode( GameMapNode* previousNode, GameMapNode* node ) override;
 };
 }
 

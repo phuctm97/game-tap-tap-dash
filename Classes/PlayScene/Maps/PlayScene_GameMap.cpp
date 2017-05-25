@@ -41,9 +41,9 @@ void GameMap::setSpeed( int speed ) { }
 
 void GameMap::scroll() {}
 
-IGameMapNode* GameMap::getCurrentNode() const { throw "Not implemented"; }
+GameMapNode* GameMap::getCurrentNode() const { throw "Not implemented"; }
 
-IGameMapNode* GameMap::nextNode() { throw "Not implemented"; }
+GameMapNode* GameMap::nextNode() { throw "Not implemented"; }
 
 bool GameMap::isEnd() const { throw "Not implemented"; }
 
@@ -75,7 +75,7 @@ bool GameMap::initEvents()
 void GameMap::generateInitialNodes()
 {
 	int initialNodes = INITIAL_NODES;
-	IGameMapNode* previousNode = nullptr;
+	GameMapNode* previousNode = nullptr;
 
 	while ( initialNodes > 0 ) {
 		auto node = _generator->nextNode();

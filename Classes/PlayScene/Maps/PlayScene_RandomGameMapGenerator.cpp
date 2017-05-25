@@ -17,7 +17,7 @@ PlayScene::RandomGameMapGenerator* PlayScene::RandomGameMapGenerator::create()
 	return nullptr;
 }
 
-PlayScene::IGameMapNode* PlayScene::RandomGameMapGenerator::nextNode()
+PlayScene::GameMapNode* PlayScene::RandomGameMapGenerator::nextNode()
 {
 	if ( !_firstNodeGenerated ) {
 		_firstNodeGenerated = true;
@@ -34,16 +34,16 @@ PlayScene::IGameMapNode* PlayScene::RandomGameMapGenerator::nextNode()
 	return nullptr;
 }
 
-void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, IGameMapNode* node )
+void PlayScene::RandomGameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node )
 {
 	switch ( previousNode->getType() ) {
-	case IGameMapNode::NODE_FORWARD:
-	case IGameMapNode::NODE_TURN_LEFT:
-	case IGameMapNode::NODE_TURN_RIGHT: {
+	case GameMapNode::NODE_FORWARD:
+	case GameMapNode::NODE_TURN_LEFT:
+	case GameMapNode::NODE_TURN_RIGHT: {
 
 		switch ( previousNode->getDirection() ) {
 
-		case IGameMapNode::DIRECTION_UP: {
+		case GameMapNode::DIRECTION_UP: {
 			// set position
 			node->setPosition( previousNode->getPositionX(),
 			                   previousNode->getPositionY()
@@ -51,18 +51,18 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   + node->getContentSize().height * 0.5f );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_UP );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_UP );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_LEFT );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_LEFT );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_RIGHT );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_RIGHT );
 				break;
 			}
 		}
 			break;
 
-		case IGameMapNode::DIRECTION_LEFT: {
+		case GameMapNode::DIRECTION_LEFT: {
 			// set position
 			node->setPosition( previousNode->getPositionX()
 			                   - previousNode->getContentSize().width * 0.5f
@@ -70,18 +70,18 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   previousNode->getPositionY() );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_LEFT );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_LEFT );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_DOWN );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_DOWN );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_UP );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_UP );
 				break;
 			}
 		}
 
 			break;
-		case IGameMapNode::DIRECTION_RIGHT: {
+		case GameMapNode::DIRECTION_RIGHT: {
 			// set position
 			node->setPosition( previousNode->getPositionX()
 			                   + previousNode->getContentSize().width * 0.5f
@@ -89,18 +89,18 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   previousNode->getPositionY() );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_RIGHT );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_RIGHT );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_UP );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_UP );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_DOWN );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_DOWN );
 				break;
 			}
 		}
 			break;
 
-		case IGameMapNode::DIRECTION_DOWN: {
+		case GameMapNode::DIRECTION_DOWN: {
 			// set position
 			node->setPosition( previousNode->getPositionX(),
 			                   previousNode->getPositionY()
@@ -108,12 +108,12 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   - node->getContentSize().height * 0.5f );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_DOWN );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_DOWN );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_RIGHT );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_RIGHT );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_LEFT );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_LEFT );
 				break;
 			}
 		}
@@ -122,11 +122,11 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 	}
 		break;
 
-	case IGameMapNode::NODE_FLY: {
+	case GameMapNode::NODE_FLY: {
 
 		switch ( previousNode->getDirection() ) {
 
-		case IGameMapNode::DIRECTION_UP: {
+		case GameMapNode::DIRECTION_UP: {
 			// set position
 			node->setPosition( previousNode->getPositionX(),
 			                   previousNode->getPositionY()
@@ -135,18 +135,18 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   + node->getContentSize().height * 0.5f );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_UP );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_UP );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_LEFT );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_LEFT );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_RIGHT );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_RIGHT );
 				break;
 			}
 		}
 			break;
 
-		case IGameMapNode::DIRECTION_LEFT: {
+		case GameMapNode::DIRECTION_LEFT: {
 			// set position
 			node->setPosition( previousNode->getPositionX()
 			                   - previousNode->getContentSize().width * 0.5f
@@ -155,18 +155,18 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   previousNode->getPositionY() );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_LEFT );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_LEFT );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_DOWN );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_DOWN );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_UP );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_UP );
 				break;
 			}
 		}
 
 			break;
-		case IGameMapNode::DIRECTION_RIGHT: {
+		case GameMapNode::DIRECTION_RIGHT: {
 			// set position
 			node->setPosition( previousNode->getPositionX()
 			                   + previousNode->getContentSize().width * 0.5f
@@ -175,18 +175,18 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   previousNode->getPositionY() );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_RIGHT );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_RIGHT );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_UP );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_UP );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_DOWN );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_DOWN );
 				break;
 			}
 		}
 			break;
 
-		case IGameMapNode::DIRECTION_DOWN: {
+		case GameMapNode::DIRECTION_DOWN: {
 			// set position
 			node->setPosition( previousNode->getPositionX(),
 			                   previousNode->getPositionY()
@@ -195,12 +195,12 @@ void PlayScene::RandomGameMapGenerator::placeNode( IGameMapNode* previousNode, I
 			                   - node->getContentSize().height * 0.5f );
 			// set direction
 			switch ( node->getType() ) {
-			case IGameMapNode::NODE_FORWARD: case IGameMapNode::NODE_FLY:
-				node->setDirection( IGameMapNode::DIRECTION_DOWN );
+			case GameMapNode::NODE_FORWARD: case GameMapNode::NODE_FLY:
+				node->setDirection( GameMapNode::DIRECTION_DOWN );
 				break;
-			case IGameMapNode::NODE_TURN_LEFT: node->setDirection( IGameMapNode::DIRECTION_RIGHT );
+			case GameMapNode::NODE_TURN_LEFT: node->setDirection( GameMapNode::DIRECTION_RIGHT );
 				break;
-			case IGameMapNode::NODE_TURN_RIGHT: node->setDirection( IGameMapNode::DIRECTION_LEFT );
+			case GameMapNode::NODE_TURN_RIGHT: node->setDirection( GameMapNode::DIRECTION_LEFT );
 				break;
 			}
 		}

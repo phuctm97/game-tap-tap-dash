@@ -2,11 +2,11 @@
 #define __PLAY_SCENE_FORWARD_GAME_MAP_NODE_H__
 
 #include <cocos2d.h>
-#include "PlayScene_IGameMapNode.h"
+#include "PlayScene_GameMapNode.h"
 
 namespace PlayScene
 {
-class ForwardGameMapNode : public IGameMapNode
+class ForwardGameMapNode : public GameMapNode
 {
 public:
 

@@ -146,12 +146,12 @@ void MainLayer::update( float dt )
 		winGame();
 	}
 
-	if ( _map->getCurrentNode()->checkPositionInside( _player->getPosition() ) == IGameMapNode::POSITION_OUTSIDE ) {
+	if ( _map->getCurrentNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
 		if ( _map->isEnd() ) {
 			throw "Player exit last map node";
 		}
 
-		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == IGameMapNode::POSITION_OUTSIDE ) {
+		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
 			loseGame();
 		}
 	}

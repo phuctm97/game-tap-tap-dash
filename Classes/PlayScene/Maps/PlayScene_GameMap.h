@@ -8,7 +8,7 @@ namespace PlayScene
 class GameMap : public IGameMap
 {
 private:
-	cocos2d::Vector<IGameMapNode*> _activeNodes;
+	cocos2d::Vector<GameMapNode*> _activeNodes;
 
 	IGameMapGenerator* _generator;
 
@@ -26,9 +26,9 @@ public:
 
 	void scroll() override;
 
-	IGameMapNode* getCurrentNode() const override;
+	GameMapNode* getCurrentNode() const override;
 
-	IGameMapNode* nextNode() override;
+	GameMapNode* nextNode() override;
 
 	bool isEnd() const override;
 

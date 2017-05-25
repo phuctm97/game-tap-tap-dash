@@ -1,6 +1,8 @@
 #include "PlayScene_GameMap.h"
 using namespace cocos2d;
 
+#define INITIAL_NODES 10
+
 namespace PlayScene
 {
 GameMap* GameMap::create()
@@ -44,9 +46,37 @@ void GameMap::reset( const cocos2d::Vec2& position ) { throw "Not implemented"; 
 
 void GameMap::stop() { throw "Not implemented"; }
 
-bool GameMap::initGraphics() { throw "Not implemented"; }
+
+bool GameMap::initGraphics()
+{
+	generateInitialNodes();
+
+	return true;
+}
 
 bool GameMap::initContent() { throw "Not implemented"; }
 
 bool GameMap::initEvents() { throw "Not implemented"; }
+
+void GameMap::generateInitialNodes()
+{
+	int initialNodes = INITIAL_NODES;
+	IGameMapNode* previousNode = nullptr;
+
+	while( initialNodes > 0 ) {
+		auto node = _generator->nextNode();
+		if( node == nullptr ) break;
+
+		_activeNodes.pushBack( node );
+		if( previousNode == nullptr ) {
+			node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+			node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
+												 Director::getInstance()->getVisibleSize().height * 0.5f );
+		}
+		else {
+			_generator->placeNode( previousNode, node );
+		}
+	}
+}
+
 }

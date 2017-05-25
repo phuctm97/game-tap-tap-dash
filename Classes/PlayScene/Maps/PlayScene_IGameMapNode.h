@@ -17,11 +17,19 @@ public:
 		NODE_TURN_LEFT,
 		NODE_TURN_RIGHT,
 		NODE_FLY,
+
+		DIRECTION_UP,
+		DIRECTION_LEFT,
+		DIRECTION_RIGHT
 	};
 
 	virtual int checkPositionInside( const cocos2d::Vec2& worldPosition ) = 0;
 
 	virtual int getType() const = 0;
+
+	virtual int getDirection() const = 0;
+
+	void setDirection( int direction ) = 0;
 };
 }
 

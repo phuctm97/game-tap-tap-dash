@@ -18,7 +18,7 @@ namespace PlayScene
 	private:
 		cocos2d::Sprite* panel;
 
-		ccos2d:o:Label* lbPause;
+		cocos2d::Label* lbPause;
 		cocos2d::ui::Button* btnResume;
 		cocos2d::ui::Button* btnToMenu;
 		

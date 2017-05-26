@@ -1,0 +1,68 @@
+#include "ToolCreateMapScene.h"
+using namespace cocos2d;
+
+namespace ToolScene
+{
+ToolCreateMapScene* ToolCreateMapScene::create( const std::string& fileToSave )
+{
+	auto p = new ToolCreateMapScene();
+	if ( p && p->init( fileToSave ) ) {
+		p->autorelease();
+		return p;
+	}
+	CC_SAFE_DELETE( p );
+	return nullptr;
+}
+
+cocos2d::Scene* ToolCreateMapScene::createScene( const std::string& fileToSave )
+{
+	auto scene = Scene::create();
+	auto layer = ToolCreateMapScene::create( fileToSave );
+	scene->addChild( layer );
+	return scene;
+}
+
+ToolCreateMapScene::~ToolCreateMapScene() {}
+
+bool ToolCreateMapScene::init( const std::string& fileToSave )
+{
+	if ( !Layer::init() ) return false;
+
+	// event
+	auto listenerKeyboard = EventListenerKeyboard::create();
+	listenerKeyboard->onKeyPressed = CC_CALLBACK_2( ToolCreateMapScene::onKeyPressed, this );
+	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerKeyboard, this );
+
+	return true;
+}
+
+void ToolCreateMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e )
+{
+	if ( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE || keyCode == EventKeyboard::KeyCode::KEY_BACK )
+		Director::getInstance()->end();
+
+	switch ( keyCode ) {
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		_currentNode = MAX( 0, _currentNode - 1 );
+		break;
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+		_currentNode = MIN( 3, _currentNode + 1 );
+		break;
+	case EventKeyboard::KeyCode::KEY_ENTER:
+		_recoredNodes.push_back( _currentNode );
+	default: break;
+	}
+}
+
+void ToolCreateMapScene::onExit()
+{
+	Layer::onExit();
+
+	save();
+}
+
+void ToolCreateMapScene::save()
+{
+	throw "not implemented";
+}
+}

@@ -3,14 +3,21 @@
 
 #include <cocos2d.h>
 
+namespace PlayScene
+{
+class GameMap;
+}
+
 namespace TestScene
 {
 class TestMapScene : public cocos2d::Layer
 {
 private:
+	PlayScene::GameMap* _gameMap;
 
 public:
-	TestMapScene() {}
+	TestMapScene()
+		: _gameMap( nullptr ) {}
 
 	static TestMapScene* create();
 
@@ -21,6 +28,8 @@ public:
 	void update( float dt ) override;
 
 	void onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e ) override;
+
+	bool onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e ) override;
 };
 }
 

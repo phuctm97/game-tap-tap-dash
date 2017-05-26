@@ -1,10 +1,6 @@
 #include "TestMapScene.h"
 #include "PlayScene/Maps/PlayScene_GameMap.h"
 #include "PlayScene/Maps/PlayScene_RandomGameMapGenerator.h"
-#include "PlayScene/Maps/PlayScene_FlyGameMapNode.h"
-#include "PlayScene/Maps/PlayScene_ForwardGameMapNode.h"
-#include "PlayScene/Maps/PlayScene_TurnLeftGameMapNode.h"
-#include "PlayScene/Maps/PlayScene_TurnRightGameMapNode.h"
 using namespace cocos2d;
 
 namespace TestScene
@@ -32,10 +28,16 @@ bool TestMapScene::init()
 {
 	if ( !Layer::init() )return false;
 
-	auto gameMap = PlayScene::GameMap::create( PlayScene::RandomGameMapGenerator::create() );
-	addChild( gameMap );
+	_gameMap = PlayScene::GameMap::create( PlayScene::RandomGameMapGenerator::create() );
+	_gameMap->setScrollSpeed( 1.0f );
+	_gameMap->scroll();
+	addChild( _gameMap );
 
 	// event
+	auto listenerTouch = EventListenerTouchOneByOne::create();
+	listenerTouch->onTouchBegan = CC_CALLBACK_2( TestMapScene::onTouchBegan, this );
+	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerTouch, this );
+
 	auto listenterKeyboard = EventListenerKeyboard::create();
 	listenterKeyboard->onKeyReleased = CC_CALLBACK_2( TestMapScene::onKeyPressed, this );
 	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenterKeyboard, this );
@@ -50,57 +52,43 @@ void TestMapScene::update( float dt ) { }
 
 void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e )
 {
-	switch ( keyCode ) {
-	case EventKeyboard::KeyCode::KEY_1: {
-		removeChildByTag( 1 );
+	if ( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE || keyCode == EventKeyboard::KeyCode::KEY_BACK )
+		Director::getInstance()->end();
+}
 
-		auto node = PlayScene::ForwardGameMapNode::create();
-		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
+bool TestMapScene::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
 
-		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
-		addChild( node, 0, 1 );
+	if ( touch->getLocation().x < visibleSize.width * 1 / 3
+		&& touch->getLocation().y > visibleSize.height * 1 / 3
+		&& touch->getLocation().y < visibleSize.height * 2 / 3 ) {
+
+		// left
+		_gameMap->setScrollDirection( PlayScene::GameMap::SCROLL_LEFT );
 	}
-		break;
-	case EventKeyboard::KeyCode::KEY_2: {
-		removeChildByTag( 1 );
+	else if ( touch->getLocation().x > visibleSize.width * 2 / 3
+		&& touch->getLocation().y > visibleSize.height * 1 / 3
+		&& touch->getLocation().y < visibleSize.height * 2 / 3 ) {
 
-		auto node = PlayScene::TurnLeftGameMapNode::create();
-		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
-		
-		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
-		addChild( node, 0, 1 );
+		// right
+		_gameMap->setScrollDirection( PlayScene::GameMap::SCROLL_RIGHT );
 	}
-		break;
-	case EventKeyboard::KeyCode::KEY_3: {
-		removeChildByTag( 1 );
+	else if ( touch->getLocation().y > visibleSize.height * 2 / 3
+		&& touch->getLocation().x > visibleSize.width * 1 / 3
+		&& touch->getLocation().x < visibleSize.width * 2 / 3 ) {
 
-		auto node = PlayScene::TurnRightGameMapNode::create();
-		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
-		
-		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
-		addChild( node, 0, 1 );
+		// up
+		_gameMap->setScrollDirection( PlayScene::GameMap::SCROLL_UP );
 	}
-		break;
-	case EventKeyboard::KeyCode::KEY_4: {
-		removeChildByTag( 1 );
+	else if ( touch->getLocation().y < visibleSize.height * 1 / 3
+		&& touch->getLocation().x > visibleSize.width * 1 / 3
+		&& touch->getLocation().x < visibleSize.width * 2 / 3 ) {
 
-		auto node = PlayScene::FlyGameMapNode::create();
-		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
-		
-		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
-		addChild( node, 0, 1 );
+		// down
+		_gameMap->setScrollDirection( PlayScene::GameMap::SCROLL_DOWN );
 	}
-		break;
-	default: break;
 
-	}
+	return true;
 }
 }

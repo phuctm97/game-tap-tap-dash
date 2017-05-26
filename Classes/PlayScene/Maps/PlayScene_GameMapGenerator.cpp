@@ -1,11 +1,11 @@
 #include "PlayScene_GameMapGenerator.h"
 using namespace cocos2d;
 
-#define FLY_DISTANCE 100
+#define FLY_DISTANCE 50
 
 namespace PlayScene
 {
-void IGameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node )
+void GameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node )
 {
 	switch ( previousNode->getDirection() ) {
 	case GameMapNode::DIRECTION_UP: {
@@ -39,6 +39,7 @@ void IGameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node 
 		                   - previousNode->getContentSize().height * 0.5f
 		                   - (previousNode->getType() == GameMapNode::NODE_FLY ? FLY_DISTANCE : 0)
 		                   - node->getContentSize().height * 0.5f );
+		node->setRotation( 180 );
 
 		// set direction
 		switch ( node->getType() ) {
@@ -63,6 +64,7 @@ void IGameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node 
 		                   - (previousNode->getType() == GameMapNode::NODE_FLY ? FLY_DISTANCE : 0)
 		                   - node->getContentSize().width * 0.5f,
 		                   previousNode->getPositionY() );
+		node->setRotation( -90 );
 
 		// set direction
 		switch ( node->getType() ) {
@@ -87,6 +89,7 @@ void IGameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node 
 		                   + (previousNode->getType() == GameMapNode::NODE_FLY ? FLY_DISTANCE : 0)
 		                   + node->getContentSize().width * 0.5f,
 		                   previousNode->getPositionY() );
+		node->setRotation( 90 );
 
 		// set direction
 		switch ( node->getType() ) {

@@ -32,6 +32,9 @@ bool TestMapScene::init()
 {
 	if ( !Layer::init() )return false;
 
+	// auto gameMap = PlayScene::GameMap::create( PlayScene::RandomGameMapGenerator::create() );
+	// addChild( gameMap );
+
 	// event
 	auto listenterKeyboard = EventListenerKeyboard::create();
 	listenterKeyboard->onKeyReleased = CC_CALLBACK_2( TestMapScene::onKeyPressed, this );
@@ -55,7 +58,7 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
 		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		
+
 		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
@@ -73,7 +76,7 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		break;
 	case EventKeyboard::KeyCode::KEY_3: {
 		removeChildByTag( 1 );
-		
+
 		auto node = PlayScene::TurnRightGameMapNode::create();
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
@@ -84,7 +87,7 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		break;
 	case EventKeyboard::KeyCode::KEY_4: {
 		removeChildByTag( 1 );
-		
+
 		auto node = PlayScene::FlyGameMapNode::create();
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,

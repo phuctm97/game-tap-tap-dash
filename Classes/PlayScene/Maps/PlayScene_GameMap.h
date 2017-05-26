@@ -13,12 +13,12 @@ private:
 
 	std::vector<GameMapNode*>::const_iterator _currentNodeIt;
 
-	int _nextControl;
+	std::vector<GameMapNode*>::const_iterator _nextControlNodeIt;
 
-	IGameMapGenerator* _generator;
+	GameMapGenerator* _generator;
 
 	bool _scrolling;
-	
+
 	float _scrollSpeed;
 
 	int _scrollDirection;
@@ -37,14 +37,13 @@ public:
 		SCROLL_RIGHT
 	};
 
-	GameMap( IGameMapGenerator* generator )
+	GameMap( GameMapGenerator* generator )
 		: _generator( generator ),
-		  _scrolling( false ), _scrollDirection( SCROLL_UP ), _scrollSpeed( 0 ),
-		  _nextControl( NONE ) {}
+		  _scrolling( false ), _scrollDirection( SCROLL_UP ), _scrollSpeed( 0 ) {}
 
 	~GameMap();
 
-	static GameMap* create( IGameMapGenerator* generator );
+	static GameMap* create( GameMapGenerator* generator );
 
 	bool init() override;
 
@@ -56,6 +55,8 @@ public:
 
 	void scroll();
 
+	void stop();
+
 	GameMapNode* getCurrentNode() const;
 
 	GameMapNode* nextNode();
@@ -66,18 +67,24 @@ public:
 
 	void reset( const cocos2d::Vec2& position );
 
-	void stop();
-
 private:
+	bool initGraphics();
+
 	bool initContent();
 
 	bool initEvents();
 
-	void generateInitialNodes();
+	void generateInitialNodes( const cocos2d::Vec2& initialPosition );
+
+	std::vector<GameMapNode*>::const_iterator findNextControlNode() const;
 
 	cocos2d::Vec2 calculateScrollVector() const;
 
+	bool checkNodeOutOfView( GameMapNode* node ) const;
+
 	void doScroll();
+
+	void doRemoveNode( cocos2d::Node* node );
 };
 }
 

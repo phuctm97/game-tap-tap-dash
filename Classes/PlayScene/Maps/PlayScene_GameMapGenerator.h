@@ -6,10 +6,12 @@
 
 namespace PlayScene
 {
-class IGameMapGenerator : public cocos2d::Ref
+class GameMapGenerator : public cocos2d::Ref
 {
 public:
 	virtual GameMapNode* nextNode() = 0;
+
+	virtual void reset() = 0;
 
 	static void placeNode( GameMapNode* previousNode, GameMapNode* node );
 };

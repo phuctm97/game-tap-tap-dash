@@ -19,16 +19,20 @@ PlayScene::GameMapNode* PlayScene::RandomGameMapGenerator::nextNode()
 {
 	if ( !_firstNodeGenerated ) {
 		_firstNodeGenerated = true;
-		return new ForwardGameMapNode();
+		return ForwardGameMapNode::create();
 	}
 
 	int type = random<int>( 1, 4 );
 	switch ( type ) {
-	case 1: return new ForwardGameMapNode();
-	case 2: return new TurnLeftGameMapNode();
-	case 3: return new TurnRightGameMapNode();
-	case 4: return new FlyGameMapNode();
+	case 1: return ForwardGameMapNode::create();
+	case 2: return TurnLeftGameMapNode::create();
+	case 3: return TurnRightGameMapNode::create();
+	case 4: return FlyGameMapNode::create();
 	}
 	return nullptr;
 }
 
+void PlayScene::RandomGameMapGenerator::reset()
+{
+	_firstNodeGenerated = false;
+}

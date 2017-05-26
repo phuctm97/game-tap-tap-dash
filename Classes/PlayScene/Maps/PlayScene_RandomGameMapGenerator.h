@@ -4,7 +4,7 @@
 
 namespace PlayScene
 {
-class RandomGameMapGenerator : public IGameMapGenerator
+class RandomGameMapGenerator : public GameMapGenerator
 {
 private:
 	bool _firstNodeGenerated;
@@ -16,6 +16,8 @@ public:
 	static RandomGameMapGenerator* create();
 
 	GameMapNode* nextNode() override;
+
+	void reset() override;
 };
 }
 

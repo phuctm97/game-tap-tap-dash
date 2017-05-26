@@ -45,7 +45,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	}
 
 	// Set the design resolution
-	glview->setDesignResolutionSize( designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::EXACT_FIT );
+	glview->setDesignResolutionSize( smallResolutionSize.width, smallResolutionSize.height, ResolutionPolicy::EXACT_FIT );
 
 	register_all_packages();
 

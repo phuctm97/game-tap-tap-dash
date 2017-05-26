@@ -37,9 +37,11 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 
 	// synchronize transformations
 
+	setContentSize(_sprite->getContentSize());
+
 	_sprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	_sprite->setPosition(0, 0);
+	_sprite->setPosition(getContentSize()*0.5f);
 
 	_sprite->setScale(getScale());
 
@@ -52,7 +54,7 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 	if (!_navigator)
 		return false;
 
-	_sprite->addChild(_navigator);
+	this->addChild(_navigator);
 
 	_navigator->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
@@ -61,6 +63,8 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 	_navigator->setScale(_sprite->getScale());
 
 	_navigator->setRotation(_sprite->getRotation());
+
+	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	return true;
 }

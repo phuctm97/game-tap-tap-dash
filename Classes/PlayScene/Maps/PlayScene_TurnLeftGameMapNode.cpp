@@ -29,31 +29,35 @@ bool PlayScene::TurnLeftGameMapNode::init()
 bool PlayScene::TurnLeftGameMapNode::initSprite()
 {
 	_sprite = Sprite::create("res/test/blank.png");
-	
+
 
 	if (!_sprite)
 		return false;
 
 	this->addChild(_sprite);
 
+	
+
 	// synchronize transformations
+
+	setContentSize(_sprite->getContentSize());
 
 	_sprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	_sprite->setPosition(0, 0);
+	_sprite->setPosition(getContentSize()*0.5f);
 
 	_sprite->setScale(getScale());
 
 	_sprite->setRotation(getRotation());
 
-	setContentSize(_sprite->getContentSize());
+	
 
 	_navigator = Sprite::create("res/test/left.png");
 
 	if (!_navigator)
 		return false;
 
-	_sprite->addChild(_navigator);
+	this->addChild(_navigator);
 
 	// synchronize transformations
 
@@ -64,6 +68,8 @@ bool PlayScene::TurnLeftGameMapNode::initSprite()
 	_navigator->setScale(getScale());
 
 	_navigator->setRotation(getRotation());
+
+	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	return true;
 }

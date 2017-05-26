@@ -11,24 +11,28 @@ PlayScene::ForwardGameMapNode* PlayScene::ForwardGameMapNode::create()
 		return p;
 	}
 
-	CC_SAFE_DELETE( p );
+	CC_SAFE_DELETE(p);
 	return nullptr;
 }
 
 bool PlayScene::ForwardGameMapNode::init()
 {
-	if( !Node::init() )
+	if (!Node::init())
 		return false;
 
 	if (!initSprite())
 		return false;
+
+	this->setAnchorPoint(Vec2(0, 0));
 
 	return true;
 }
 
 bool PlayScene::ForwardGameMapNode::initSprite()
 {
+
 	_sprite = Sprite::create("res/test/blank.png");
+
 
 	if (!_sprite)
 		return false;
@@ -36,6 +40,7 @@ bool PlayScene::ForwardGameMapNode::initSprite()
 	this->addChild(_sprite);
 
 	// synchronize transformations
+
 
 	_sprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
@@ -46,7 +51,7 @@ bool PlayScene::ForwardGameMapNode::initSprite()
 	_sprite->setRotation(getRotation());
 
 	setContentSize(_sprite->getContentSize());
-	
+
 	return true;
 }
 
@@ -64,5 +69,4 @@ int PlayScene::ForwardGameMapNode::checkPositionInside(const cocos2d::Vec2& worl
 int PlayScene::ForwardGameMapNode::getType() const
 {
 	return NODE_FORWARD;
-}	
-
+}

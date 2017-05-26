@@ -58,8 +58,9 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
 		                   Director::getInstance()->getVisibleSize().height * 0.5f );
+		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
 
-		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
 		break;
@@ -70,7 +71,9 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
 		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
+		
+		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
 		break;
@@ -81,7 +84,9 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
 		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
+		
+		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
 		break;
@@ -92,11 +97,14 @@ void TestMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2
 		node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
 		                   Director::getInstance()->getVisibleSize().height * 0.5f );
-		CCLOG( "Node size: %d, %d", node->getContentSize().width, node->getContentSize().height );
+		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
+		
+		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
 		break;
 	default: break;
+
 	}
 }
 }

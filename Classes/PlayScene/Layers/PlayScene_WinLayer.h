@@ -9,6 +9,7 @@
 #include <cocos2d.h>
 #include "ui/CocosGUI.h"
 #include "PlayScene/Layers/PlayScene_WinLayer.h"
+#include "Common/MyDirector.h"
 
 namespace PlayScene
 {

@@ -1,7 +1,7 @@
 #include "PlayScene_GameMap.h"
 using namespace cocos2d;
 
-#define INITIAL_NODES 10
+#define NUMBER_OF_ACTIVE_NODES 10
 
 namespace PlayScene
 {
@@ -28,8 +28,6 @@ bool GameMap::init()
 {
 	if ( !Node::init() ) return false;
 
-	if ( !initGraphics() ) return false;
-
 	if ( !initContent() ) return false;
 
 	if ( !initEvents() ) return false;
@@ -37,65 +35,128 @@ bool GameMap::init()
 	return true;
 }
 
-void GameMap::setSpeed( int speed ) { }
+void GameMap::update( float dt )
+{
+	if ( _scrolling ) {
+		doScroll();
+	}
+}
 
-void GameMap::scroll() {}
+void GameMap::setScrollSpeed( float speed )
+{
+	_scrollSpeed = speed;
+}
 
-GameMapNode* GameMap::getCurrentNode() const { throw "Not implemented"; }
+void GameMap::setScrollDirection( int direction )
+{
+	_scrollDirection = direction;
+}
 
-GameMapNode* GameMap::nextNode() { throw "Not implemented"; }
+void GameMap::scroll()
+{
+	_scrolling = true;
+}
 
-bool GameMap::isEnd() const { throw "Not implemented"; }
+GameMapNode* GameMap::getCurrentNode() const
+{
+	return *_currentNodeIt;
+}
 
-int GameMap::getNextControl() const { throw "Not implemented"; }
+GameMapNode* GameMap::nextNode()
+{
+	if ( isEnd() ) return nullptr;
 
-void GameMap::reset( const cocos2d::Vec2& position ) { throw "Not implemented"; }
+	return *(++_currentNodeIt);
+}
 
-void GameMap::stop() { throw "Not implemented"; }
+bool GameMap::isEnd() const
+{
+	return (_currentNodeIt + 1) == _activeNodes.cend();
+}
 
-bool GameMap::initGraphics()
+int GameMap::getNextControl() const
+{
+	return _nextControl;
+}
+
+void GameMap::reset( const cocos2d::Vec2& position ) { }
+
+void GameMap::stop()
+{
+	_scrolling = false;
+}
+
+bool GameMap::initContent()
 {
 	_generator->retain();
 
 	generateInitialNodes();
 
-	return true;
-}
+	_currentNodeIt = _activeNodes.cbegin();
 
-bool GameMap::initContent()
-{
 	return true;
 }
 
 bool GameMap::initEvents()
 {
+	scheduleUpdate();
+
 	return true;
 }
 
 void GameMap::generateInitialNodes()
 {
-	int initialNodes = INITIAL_NODES;
+	int initialNodes = NUMBER_OF_ACTIVE_NODES;
 	GameMapNode* previousNode = nullptr;
 
 	while ( initialNodes > 0 ) {
 		auto node = _generator->nextNode();
 		if ( node == nullptr ) break;
 
-		_activeNodes.pushBack( node );
+		_activeNodes.push_back( node );
 		addChild( node );
 
+		// first node
 		if ( previousNode == nullptr ) {
 			node->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 			node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
 			                   Director::getInstance()->getVisibleSize().height * 0.5f );
 		}
+		// second and later nade
 		else {
 			_generator->placeNode( previousNode, node );
 		}
 
 		previousNode = node;
-
 		initialNodes--;
 	}
 }
+
+cocos2d::Vec2 GameMap::calculateScrollVector() const
+{
+	auto scrollVector = Vec2( 0, 0 );
+	switch( _scrollDirection ) {
+	case SCROLL_UP: scrollVector.y = 1;
+		break;
+	case SCROLL_DOWN: scrollVector.y = -1;
+		break;
+	case SCROLL_LEFT: scrollVector.x = -1;
+		break;
+	case SCROLL_RIGHT: scrollVector.x = 1;
+		break;
+	}
+
+	scrollVector *= _scrollSpeed;
+	return scrollVector;
+}
+
+void GameMap::doScroll()
+{
+	auto scrollVector = calculateScrollVector();
+
+	for ( auto node : _activeNodes ) {
+		node->setPosition( node->getPosition() + scrollVector );
+	}
+}
+
 }

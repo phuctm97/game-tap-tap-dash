@@ -1,6 +1,8 @@
 #include "IntroScene_MainLayer.h"
+#include "Common/MyDirector.h"
 using namespace cocos2d;
 using namespace cocos2d::ui;
+
 namespace IntroScene
 {
 MainLayer* MainLayer::create()
@@ -16,87 +18,83 @@ MainLayer* MainLayer::create()
 
 bool MainLayer::init()
 {
-	if( !Layer::init() ) return false;
-	
-	if (!initGraphics()) return false;
+	if ( !Layer::init() ) return false;
 
-	if (!initEvents()) return false;
+	if ( !initGraphics() ) return false;
+
+	if ( !initEvents() ) return false;
 
 	return true;
 }
 
 bool MainLayer::initGraphics()
 {
+	_background = Sprite::create( "res/background.jpg" );
+	_background->setContentSize( Director::getInstance()->getVisibleSize() );
+	_background->setAnchorPoint( Vec2::ANCHOR_BOTTOM_LEFT );
+	_background->setPosition( Vec2::ZERO );
+	addChild( _background );
 
-	background = Sprite::create("res/background.jpg");
-	background->setContentSize(Director::getInstance()->getVisibleSize());
-	background->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	background->setPosition(Vec2::ZERO);
-	addChild(background);
+	_logo = Sprite::create( "res/Logo.png" );
+	_logo->setContentSize( Size( Director::getInstance()->getVisibleSize().width
+	                             , Director::getInstance()->getVisibleSize().height * 0.3f ) );
+	_logo->setAnchorPoint( Vec2::ANCHOR_BOTTOM_LEFT );
+	_logo->setPosition( Vec2( 0, Director::getInstance()->getVisibleSize().height * 0.7f ) );
+	_background->addChild( _logo );
 
-	logo = Sprite::create("res/Logo.png");
-	logo->setContentSize(Size(Director::getInstance()->getVisibleSize().width
-		, Director::getInstance()->getVisibleSize().height*0.3));
-	logo->setAnchorPoint(Vec2::ANCHOR_BOTTOM_LEFT);
-	logo->setPosition(Vec2(0, Director::getInstance()->getVisibleSize().height*0.7));
-	background->addChild(logo);
+	_btnStart = Button::create( "res/btnPlay.png", "res/btnPlay2.png" );
+	_btnStart->setAnchorPoint( Vec2::ANCHOR_MIDDLE_TOP );
+	_btnStart->setPosition( Vec2( Director::getInstance()->getVisibleSize().width / 2,
+	                              Director::getInstance()->getVisibleSize().height / 2 ) );
+	_background->addChild( _btnStart );
 
-	btnStart = Button::create("res/btnPlay.png", "res/btnPlay2.png");
-	btnStart->setAnchorPoint(Vec2::ANCHOR_MIDDLE_TOP);
-	btnStart->setPosition(Vec2(Director::getInstance()->getVisibleSize().width / 2,
-		Director::getInstance()->getVisibleSize().height/2));
-	background->addChild(btnStart);
+	_btnFb = Button::create( "res/iconfacebook.png", "res/iconfacebook2.png" );
+	_btnFb->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+	_btnFb->setPosition( Vec2( Director::getInstance()->getVisibleSize().width * 0.3f,
+	                           Director::getInstance()->getVisibleSize().height * 0.1f ) );
+	_background->addChild( _btnFb );
 
-	btnFb = Button::create("res/iconfacebook.png", "res/iconfacebook2.png");
-	btnFb->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	btnFb->setPosition(Vec2(Director::getInstance()->getVisibleSize().width*0.3,
-		Director::getInstance()->getVisibleSize().height*0.1));
-	background->addChild(btnFb);
+	_chkSound = CheckBox::create( "res/soundOff.png", "res/soundOn.png", "res/soundOn.png", "res/soundOff.png", "res/soundOff.png" );
+	_chkSound->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+	_chkSound->setPosition( Vec2( Director::getInstance()->getVisibleSize().width * 0.7f,
+	                              Director::getInstance()->getVisibleSize().height * 0.1f ) );
+	_background->addChild( _chkSound );
 
-	sound = CheckBox::create("res/soundOff.png", "res/soundOn.png", "res/soundOn.png", "res/soundOff.png", "res/soundOff.png");
-	sound->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-	sound->setPosition(Vec2(Director::getInstance()->getVisibleSize().width*0.7,
-		Director::getInstance()->getVisibleSize().height*0.1));
-	background->addChild(sound);
-
-
-	
 	return true;
 }
 
 bool MainLayer::initEvents()
 {
-	btnStart->addTouchEventListener([&](Ref* pSender, Widget::TouchEventType type) {
-		if (type == Widget::TouchEventType::ENDED)
-		{
-			Director::getInstance()->replaceScene(MyDirector::getInstance()->getLevelScene());
-			
-		}
-	});
-	btnFb->addTouchEventListener([&](Ref* pSender, Widget::TouchEventType type) {
-		if (type == Widget::TouchEventType::ENDED)
-		{
-			// do something
-		}
-	});
-	sound->addTouchEventListener([&](Ref* pSender, Widget::TouchEventType type) {
-		if (type == Widget::TouchEventType::ENDED)
-		{
-			if (sound->isSelected() == true)
-			{
+	_btnStart->addTouchEventListener( CC_CALLBACK_2(MainLayer::onBtnStartClicked, this) );
 
-			}
-			else
-			{
-			}
-			
-		}
-	});
+	_btnFb->addTouchEventListener( CC_CALLBACK_2( MainLayer::onBtnFbClicked, this ) );
+
+	_chkSound->addTouchEventListener( CC_CALLBACK_2( MainLayer::onChkSoundClicked, this ) );
+
 	return true;
 }
 
-void MainLayer::reset()
+void MainLayer::onBtnStartClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type )
 {
-	
+	if ( type == Widget::TouchEventType::ENDED ) {
+		Director::getInstance()->replaceScene( MyDirector::getInstance()->getLevelScene() );
+	}
 }
+
+void MainLayer::onBtnFbClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type )
+{
+	if ( type == Widget::TouchEventType::ENDED ) {
+		// do something
+	}
+}
+
+void MainLayer::onChkSoundClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type )
+{
+	if ( type == Widget::TouchEventType::ENDED ) {
+		if ( _chkSound->isSelected() == true ) {}
+		else {}
+	}
+}
+
+void MainLayer::reset() { }
 }

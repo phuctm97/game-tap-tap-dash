@@ -1,34 +1,36 @@
-#pragma once
-
-#ifndef  __PLAY_SCENE_WIN_LAYER_H__
-
+#ifndef __PLAY_SCENE_WIN_LAYER_H__
 #define __PLAY_SCENE_WIN_LAYER_H__
-
-
 
 #include <cocos2d.h>
 #include "ui/CocosGUI.h"
-#include "PlayScene/Layers/PlayScene_WinLayer.h"
-#include "Common/MyDirector.h"
 
 namespace PlayScene
 {
-	class WinLayer : public cocos2d::Layer
-	{
-	private:
-		cocos2d::Sprite* spriteWin;
+class WinLayer : public cocos2d::Layer
+{
+private:
+	cocos2d::Sprite* _spriteWin;
+	cocos2d::ui::Button* _btnContinue;
+	cocos2d::ui::Button* _btnToMenu;
 
-		cocos2d::ui::Button* btnContinue;
-		cocos2d::ui::Button* btnToMenu;
+public:
+	WinLayer()
+		: _spriteWin( nullptr ),
+		  _btnContinue( nullptr ),
+		  _btnToMenu( nullptr ) {}
 
-	public:
+	static WinLayer* create();
 
-		static WinLayer* create();
-		
-		bool init() override;
-		bool initGraphics();
-		bool initEvents();
-	};
+	bool init() override;
 
+private:
+	bool initGraphics();
+
+	bool initEvents();
+
+	void onBtnContinueClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
+
+	void onBtnToMenuClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
+};
 }
 #endif

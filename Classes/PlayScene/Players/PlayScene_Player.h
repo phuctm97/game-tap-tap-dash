@@ -32,6 +32,14 @@ public:
 
 	bool init() override;
 
+	void createAnimationRun();
+
+	void createAnimationTurnLeft();
+
+	void createAnimationTurnRight();
+
+	void createAnimationFly();
+
 	int getState() const override;
 
 	void reset( const cocos2d::Vec2& position ) override;
@@ -52,6 +60,8 @@ public:
 
 private:
 	bool initSprite();
+
+	bool initActions();
 
 	bool initEvents();
 

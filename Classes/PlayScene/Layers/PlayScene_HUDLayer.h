@@ -1,10 +1,5 @@
-#pragma once
-
-#ifndef  __PLAY_SCENE_HUD_LAYER_H__
-
+#ifndef __PLAY_SCENE_HUD_LAYER_H__
 #define __PLAY_SCENE_HUD_LAYER_H__
-
-
 
 #include <cocos2d.h>
 #include "ui/CocosGUI.h"
@@ -12,24 +7,36 @@
 
 namespace PlayScene
 {
-	class HudLayer : public cocos2d::Layer
-	{
-	private:
-		cocos2d::Sprite* panelScore;
-		cocos2d::ui::Button* btnPause;
-		cocos2d::Label* lbScore;
-		PauseLayer* pauselayer;
-		int _score = 0;
-	
-	
-	public:
+class HudLayer : public cocos2d::Layer
+{
+private:
+	cocos2d::Sprite* _panelScore;
+	cocos2d::ui::Button* _btnPause;
+	cocos2d::Label* _lblScore;
+	PauseLayer* _pauselayer;
+	int _score;
 
-		static HudLayer* create();
-		void setScore(int score);
-		bool init() override;
-		bool initGraphics();
-		bool initEvents();
-	};
+public:
+	HudLayer()
+		: _panelScore( nullptr ),
+		  _btnPause( nullptr ),
+		  _lblScore( nullptr ),
+		  _pauselayer( nullptr ),
+		  _score( 0 ) {}
 
+	static HudLayer* create();
+
+	void setScore( int score );
+
+	bool init() override;
+
+private:
+	bool initGraphics();
+
+	bool initEvents();
+	
+	void onBtnPauseClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
+
+};
 }
-#endif
+#endif //!__PLAY_SCENE_HUD_LAYER_H__

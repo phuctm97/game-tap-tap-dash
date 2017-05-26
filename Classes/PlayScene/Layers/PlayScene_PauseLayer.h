@@ -1,40 +1,39 @@
-#pragma once
-
-#ifndef  __PLAY_SCENE_PAUSE_LAYER_H__
-
+#ifndef __PLAY_SCENE_PAUSE_LAYER_H__
 #define __PLAY_SCENE_PAUSE_LAYER_H__
-
-
 
 #include <cocos2d.h>
 #include "ui/CocosGUI.h"
-#include "Common/MyDirector.h"
-
 
 namespace PlayScene
 {
-	class PauseLayer : public cocos2d::Layer
-	{
-	private:
-		cocos2d::Sprite* panel;
+class PauseLayer : public cocos2d::Layer
+{
+private:
+	cocos2d::Sprite* _panel;
+	cocos2d::Label* _lblPause;
+	cocos2d::ui::Button* _btnResume;
+	cocos2d::ui::Button* _btnToMenu;
 
-		cocos2d::Label* lbPause;
-		cocos2d::ui::Button* btnResume;
-		cocos2d::ui::Button* btnToMenu;
-		
+public:
+	PauseLayer()
+		: _panel( nullptr ),
+		  _lblPause( nullptr ),
+		  _btnResume( nullptr ),
+		  _btnToMenu( nullptr ) {}
 
+	static PauseLayer* create();
 
+	bool init() override;
 
-	public:
+private:
+	bool initGraphics();
 
-		static PauseLayer* create();
-		bool init() override;
-		bool initGraphics();
-		bool initEvents();
-	};
+	bool initEvents();
 
-	
+	void onBtnResumeClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
 
-
+	void onBtnToMenuClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
+};
 }
-#endif#pragma once
+
+#endif //!__PLAY_SCENE_PAUSE_LAYER_H__

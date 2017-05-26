@@ -11,10 +11,10 @@ class ToolCreateMapScene : public cocos2d::Layer
 private:
 	enum
 	{
-		NODE_FORWARD = 0,
-		NODE_TURN_LEFT = 1,
-		NODE_TURN_RIGHT = 2,
-		NODE_FLY = 3
+		NODE_TURN_LEFT = 0,
+		NODE_FORWARD = 1,
+		NODE_FLY = 2,
+		NODE_TURN_RIGHT = 3
 	};
 
 	int _currentNodeCode;

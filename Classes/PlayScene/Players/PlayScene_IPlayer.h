@@ -12,6 +12,7 @@ public:
 	{
 		IDLE,
 		RUNNING,
+		FLYING,
 		DEAD
 	};
 

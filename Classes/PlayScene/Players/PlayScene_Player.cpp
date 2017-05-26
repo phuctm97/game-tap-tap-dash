@@ -29,6 +29,8 @@ bool Player::init()
 
 	if ( !initSprite() ) return false;
 
+	if ( !initActions() ) return false;
+
 	if ( !initEvents() ) return false;
 
 	if ( !initContent() ) return false;
@@ -47,41 +49,30 @@ bool Player::initSprite()
 	_sprite->setPosition( 100, 300 );
 	setContentSize( _sprite->getContentSize() );
 
-	// actions
+	return true;
+}
 
+bool Player::initActions()
+{
 	// run
-	{
-		Vector<SpriteFrame*> frames;
-		frames.reserve( 3 );
-		frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 0, 0, 130, 125 ) ) );
-		frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 130, 0, 130, 125 ) ) );
-		frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 260, 0, 130, 125 ) ) );
-		_actionRun = Animate::create( Animation::createWithSpriteFrames( frames, 0.5f ) );
-	}
-	_actionRun->retain();
+	createAnimationRun();
 
 	// turn left
-	_actionTurnLeft = RotateBy::create( 0.1f, -90.0f );
-	_actionTurnLeft->retain();
+	createAnimationTurnLeft();
 
 	// turn right
-	_actionTurnRight = RotateBy::create( 0.1f, 90.0f );
-	_actionTurnRight->retain();
+	createAnimationTurnRight();
 
 	// fly
-	{
-		DelayTime* delay = DelayTime::create( 0.5f );
-		ScaleBy* zoomin = ScaleBy::create( 0.5f, 2.0f );
-		ScaleBy* zoomout = ScaleBy::create( 0.5f, 0.5f );
-		_actionFly = Sequence::create( zoomin, delay, zoomout, delay, nullptr );
-	}
-	_actionFly->retain();
+	createAnimationFly();
 
 	return true;
 }
 
 bool Player::initEvents()
 {
+	scheduleUpdate();
+
 	return true;
 }
 
@@ -90,6 +81,38 @@ bool Player::initContent()
 	_state = IDLE;
 
 	return true;
+}
+
+void Player::createAnimationRun()
+{
+	Vector<SpriteFrame*> frames;
+	frames.reserve( 3 );
+	frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 0, 0, 130, 125 ) ) );
+	frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 130, 0, 130, 125 ) ) );
+	frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 260, 0, 130, 125 ) ) );
+	_actionRun = Animate::create( Animation::createWithSpriteFrames( frames, 0.5f ) );
+	_actionRun->retain();
+}
+
+void Player::createAnimationTurnLeft()
+{
+	_actionTurnLeft = RotateBy::create( 0.1f, -90.0f );
+	_actionTurnLeft->retain();
+}
+
+void Player::createAnimationTurnRight()
+{
+	_actionTurnRight = RotateBy::create( 0.1f, 90.0f );
+	_actionTurnRight->retain();
+}
+
+void Player::createAnimationFly()
+{
+	DelayTime* delay = DelayTime::create( 0.5f );
+	ScaleBy* zoomin = ScaleBy::create( 0.5f, 2.0f );
+	ScaleBy* zoomout = ScaleBy::create( 0.5f, 0.5f );
+	_actionFly = Sequence::create( zoomin, delay, zoomout, delay, nullptr );
+	_actionFly->retain();
 }
 
 int Player::getState() const

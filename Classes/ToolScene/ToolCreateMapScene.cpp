@@ -39,6 +39,7 @@ bool ToolCreateMapScene::init( const std::string& fileToSave )
 	_previousNode->setPosition( Director::getInstance()->getVisibleSize().width / 2,
 	                            Director::getInstance()->getVisibleSize().height / 2 );
 	addChild( _previousNode, 0 );
+	_recoredCodes.push_back( NODE_FORWARD );
 
 	// display new node
 	_currentNodeCode = NODE_FORWARD;
@@ -87,10 +88,7 @@ void ToolCreateMapScene::onExit()
 	save();
 }
 
-void ToolCreateMapScene::save()
-{
-	throw "not implemented";
-}
+void ToolCreateMapScene::save() {}
 
 PlayScene::GameMapNode* ToolCreateMapScene::createNode( int code )
 {

@@ -25,7 +25,7 @@ public:
 
 	void onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e ) override;
 
-
+	bool onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e ) override;
 };
 }
 

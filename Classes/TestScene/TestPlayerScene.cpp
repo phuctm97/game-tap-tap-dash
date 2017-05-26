@@ -35,6 +35,10 @@ bool TestPlayerScene::init()
 	addChild( _player );
 
 	// event
+	auto listenerTouch = EventListenerTouchOneByOne::create();
+	listenerTouch->onTouchBegan = CC_CALLBACK_2( TestPlayerScene::onTouchBegan, this );
+	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerTouch, this );
+	
 	auto listenerKeyboard = EventListenerKeyboard::create();
 	listenerKeyboard->onKeyReleased = CC_CALLBACK_2( TestPlayerScene::onKeyPressed, this );
 	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerKeyboard, this );
@@ -52,20 +56,43 @@ void TestPlayerScene::update( float dt )
 
 void TestPlayerScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e )
 {
-	switch( keyCode ) {
-	case EventKeyboard::KeyCode::KEY_LEFT_ARROW : {
-		_player->turnLeft();
-	} break;
-	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW: {
-		_player->turnRight();
-	} break;
-	case EventKeyboard::KeyCode::KEY_UP_ARROW: {
-		_player->fly();
-	} break;
-	case EventKeyboard::KeyCode::KEY_ESCAPE: {
+	if( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE || keyCode == EventKeyboard::KeyCode::KEY_BACK )
 		Director::getInstance()->end();
-	} break;
-	default: break;
+}
+
+bool TestPlayerScene::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+
+	if( touch->getLocation().x < visibleSize.width * 1 / 3
+			&& touch->getLocation().y > visibleSize.height * 1 / 3
+			&& touch->getLocation().y < visibleSize.height * 2 / 3 ) {
+
+		// left
+		_player->turnLeft();
 	}
+	else if( touch->getLocation().x > visibleSize.width * 2 / 3
+					 && touch->getLocation().y > visibleSize.height * 1 / 3
+					 && touch->getLocation().y < visibleSize.height * 2 / 3 ) {
+
+		// right
+		_player->turnRight();
+	}
+	else if( touch->getLocation().y > visibleSize.height * 2 / 3
+					 && touch->getLocation().x > visibleSize.width * 1 / 3
+					 && touch->getLocation().x < visibleSize.width * 2 / 3 ) {
+
+		// up
+		_player->fly();
+	}
+	else if( touch->getLocation().y < visibleSize.height * 1 / 3
+					 && touch->getLocation().x > visibleSize.width * 1 / 3
+					 && touch->getLocation().x < visibleSize.width * 2 / 3 ) {
+
+		// down
+	}
+
+	return true;
+
 }
 }

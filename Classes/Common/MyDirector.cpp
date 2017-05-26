@@ -23,7 +23,7 @@ MyDirector::~MyDirector()
 
 MyDirector* MyDirector::getInstance()
 {
-	if( _instance == nullptr ) {
+	if ( _instance == nullptr ) {
 		_instance = new MyDirector();
 	}
 	return _instance;
@@ -41,6 +41,10 @@ cocos2d::Scene* MyDirector::resetIntroScene() const
 
 	return _introScene;
 }
+
+cocos2d::Scene* MyDirector::getLevelScene() const { throw "not implemented"; }
+
+cocos2d::Scene* MyDirector::resetLevelScene() const { throw "not implemented"; }
 
 cocos2d::Scene* MyDirector::getPlayScene() const
 {
@@ -71,6 +75,8 @@ void MyDirector::createIntroScene()
 	_introScene->addChild( mainLayer, 0, "a" );
 }
 
+void MyDirector::createLevelScene() { throw "not implemented"; }
+
 void MyDirector::createPlayScene()
 {
 	_playScene = Scene::create();
@@ -79,4 +85,3 @@ void MyDirector::createPlayScene()
 	auto mainLayer = PlayScene::MainLayer::create( PlayScene::Player::create(), nullptr );
 	_playScene->addChild( mainLayer, 0, "a" );
 }
-

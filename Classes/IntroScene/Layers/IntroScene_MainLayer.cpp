@@ -82,7 +82,7 @@ bool MainLayer::initEvents()
 	sound->addTouchEventListener([&](Ref* pSender, Widget::TouchEventType type) {
 		if (type == Widget::TouchEventType::ENDED)
 		{
-			if (sound->getSelectedState() == true)
+			if (sound->isSelected() == true)
 			{
 
 			}

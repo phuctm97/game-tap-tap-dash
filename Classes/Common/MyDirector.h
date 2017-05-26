@@ -13,6 +13,7 @@ public:
 
 private:
 	cocos2d::Scene* _introScene;
+	cocos2d::Scene* _levelScene;
 	cocos2d::Scene* _playScene;
 
 public:
@@ -24,6 +25,10 @@ public:
 
 	cocos2d::Scene* resetIntroScene() const;
 
+	cocos2d::Scene* getLevelScene() const;
+
+	cocos2d::Scene* resetLevelScene() const;
+
 	cocos2d::Scene* getPlayScene() const;
 
 	cocos2d::Scene* resetPlayScene() const;
@@ -33,6 +38,8 @@ public:
 private:
 	void createIntroScene();
 	
+	void createLevelScene();
+
 	void createPlayScene();
 };
 

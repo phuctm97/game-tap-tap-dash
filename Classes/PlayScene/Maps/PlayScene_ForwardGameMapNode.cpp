@@ -23,8 +23,6 @@ bool PlayScene::ForwardGameMapNode::init()
 	if (!initSprite())
 		return false;
 
-	this->setAnchorPoint(Vec2(0, 0));
-
 	return true;
 }
 

@@ -36,7 +36,6 @@ void MainLayer::initGraphics()
 
 	// player
 	addChild( _player, 20 );
-	_player->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 }
 
 void MainLayer::initGame()
@@ -79,6 +78,7 @@ bool MainLayer::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
 
 		// gameplay
 	case PLAYING: {
+
 		switch ( _map->getNextControl() ) {
 		case GameMap::TURN_LEFT: {
 			_player->turnLeft();
@@ -93,11 +93,27 @@ bool MainLayer::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
 		}
 			break;
 		}
-		break;
+
+		updateMapScrollDirection();
 	}
+		break;
 	}
 
 	return true;
+}
+
+void MainLayer::updateMapScrollDirection()
+{
+	switch ( _player->getDirection() ) {
+	case IPlayer::DIRECTION_UP: _map->setScrollDirection( GameMap::SCROLL_DOWN );
+		break;
+	case IPlayer::DIRECTION_DOWN: _map->setScrollDirection( GameMap::SCROLL_UP );
+		break;
+	case IPlayer::DIRECTION_LEFT: _map->setScrollDirection( GameMap::SCROLL_RIGHT );
+		break;
+	case IPlayer::DIRECTION_RIGHT: _map->setScrollDirection( GameMap::SCROLL_LEFT );
+		break;
+	}
 }
 
 void MainLayer::reset()

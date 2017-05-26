@@ -42,6 +42,8 @@ public:
 
 	int getState() const override;
 
+	int getDirection() const override;
+	
 	void reset( const cocos2d::Vec2& position ) override;
 
 	void idle() override;
@@ -66,6 +68,7 @@ private:
 	bool initEvents();
 
 	bool initContent();
+
 };
 }
 

@@ -37,10 +37,12 @@ public:
 	void initGraphics();
 
 	void initGame();
-	
+
 	void initEvents();
 
 	bool onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e ) override;
+
+	void updateMapScrollDirection();
 
 	void onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Event* e ) override;
 

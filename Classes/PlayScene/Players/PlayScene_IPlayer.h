@@ -13,10 +13,17 @@ public:
 		IDLE,
 		RUNNING,
 		FLYING,
-		DEAD
+		DEAD,
+
+		DIRECTION_UP,
+		DIRECTION_DOWN,
+		DIRECTION_LEFT,
+		DIRECTION_RIGHT
 	};
 
 	virtual int getState() const = 0;
+
+	virtual int getDirection() const = 0;
 
 	virtual void reset( const cocos2d::Vec2& position ) = 0;
 

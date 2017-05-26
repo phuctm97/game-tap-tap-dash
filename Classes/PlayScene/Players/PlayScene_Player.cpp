@@ -120,6 +120,11 @@ int Player::getState() const
 	return _state;
 }
 
+int Player::getDirection() const
+{
+	throw "not implemented";
+}
+
 void Player::reset( const cocos2d::Vec2& position )
 {
 	setPosition( position );

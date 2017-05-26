@@ -41,16 +41,17 @@ bool PlayScene::ForwardGameMapNode::initSprite()
 
 	// synchronize transformations
 
+	setContentSize(_sprite->getContentSize());
 
 	_sprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
-	_sprite->setPosition(0, 0);
+	_sprite->setPosition(getContentSize()*0.5f);
 
 	_sprite->setScale(getScale());
 
 	_sprite->setRotation(getRotation());
 
-	setContentSize(_sprite->getContentSize());
+	setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	return true;
 }

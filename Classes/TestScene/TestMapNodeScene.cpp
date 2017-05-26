@@ -10,7 +10,7 @@ namespace TestScene
 TestMapNodeScene* TestMapNodeScene::create()
 {
 	auto p = new TestMapNodeScene();
-	if( p && p->init() ) {
+	if ( p && p->init() ) {
 		p->autorelease();
 		return p;
 	}
@@ -28,9 +28,13 @@ cocos2d::Scene* TestMapNodeScene::createScene()
 
 bool TestMapNodeScene::init()
 {
-	if( !Layer::init() )return false;
+	if ( !Layer::init() )return false;
 
 	// event
+	auto listenerTouch = EventListenerTouchOneByOne::create();
+	listenerTouch->onTouchBegan = CC_CALLBACK_2( TestMapNodeScene::onTouchBegan, this );
+	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerTouch, this );
+
 	auto listenterKeyboard = EventListenerKeyboard::create();
 	listenterKeyboard->onKeyReleased = CC_CALLBACK_2( TestMapNodeScene::onKeyPressed, this );
 	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenterKeyboard, this );
@@ -45,61 +49,66 @@ void TestMapNodeScene::update( float dt ) {}
 
 void TestMapNodeScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e )
 {
-	switch( keyCode ) {
-	case EventKeyboard::KeyCode::KEY_1:
-	{
+	if ( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE || keyCode == EventKeyboard::KeyCode::KEY_BACK )
+		Director::getInstance()->end();
+}
+
+bool TestMapNodeScene::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
+{
+	switch ( _touchTimes ) {
+	case 0: {
 		removeChildByTag( 1 );
 
 		auto node = PlayScene::ForwardGameMapNode::create();
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-											 Director::getInstance()->getVisibleSize().height * 0.5f );
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
 		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
 
 		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
-	break;
-	case EventKeyboard::KeyCode::KEY_2:
-	{
+		break;
+	case 1: {
 		removeChildByTag( 1 );
 
 		auto node = PlayScene::TurnLeftGameMapNode::create();
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-											 Director::getInstance()->getVisibleSize().height * 0.5f );
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
 		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
 
 		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
-	break;
-	case EventKeyboard::KeyCode::KEY_3:
-	{
+		break;
+	case 2: {
 		removeChildByTag( 1 );
 
 		auto node = PlayScene::TurnRightGameMapNode::create();
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-											 Director::getInstance()->getVisibleSize().height * 0.5f );
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
 		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
 
 		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
-	break;
-	case EventKeyboard::KeyCode::KEY_4:
-	{
+		break;
+	case 3: {
 		removeChildByTag( 1 );
 
 		auto node = PlayScene::FlyGameMapNode::create();
 		node->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
-											 Director::getInstance()->getVisibleSize().height * 0.5f );
+		                   Director::getInstance()->getVisibleSize().height * 0.5f );
 		node->runAction( RepeatForever::create( RotateBy::create( 1.0f, 360 ) ) );
 
 		CCLOG( "Node size: %f, %f", node->getContentSize().width, node->getContentSize().height );
 		addChild( node, 0, 1 );
 	}
-	break;
+		break;
 	default: break;
-
 	}
+
+	_touchTimes = (_touchTimes + 1) % 4;
+
+	return true;
 }
 }

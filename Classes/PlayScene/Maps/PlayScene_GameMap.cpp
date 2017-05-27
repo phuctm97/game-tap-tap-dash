@@ -85,6 +85,7 @@ void GameMap::reset( const cocos2d::Vec2& position )
 	_currentNodeIndex = 0;
 
 	// find first control node
+	_nextControlNodeIndex = 0;
 	_nextControlNodeIndex = findNextControlNode();
 }
 
@@ -142,17 +143,17 @@ GameMapNode* GameMap::nextNode()
 	}
 	for ( auto node: nodesToRemove ) {
 		auto nodeIt = std::find( _activeNodes.cbegin(), _activeNodes.cend(), node );
-		if( nodeIt == _activeNodes.cend() ) continue;
+		if ( nodeIt == _activeNodes.cend() ) continue;
 
 		_activeNodes.erase( nodeIt );
 		removeChild( node );
 
 		pushNewNode();
 
-		if( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() ) {
+		if ( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() ) {
 			_currentNodeIndex--;
 		}
-		if( _nextControlNodeIndex >= 0 && _nextControlNodeIndex < _activeNodes.size() ) {
+		if ( _nextControlNodeIndex >= 0 && _nextControlNodeIndex < _activeNodes.size() ) {
 			_nextControlNodeIndex--;
 		}
 	}
@@ -172,11 +173,16 @@ bool GameMap::isEnd() const
 	return _currentNodeIndex == _activeNodes.size() - 1;
 }
 
-int GameMap::getNextControl() const
+int GameMap::nextControl()
 {
 	if ( _nextControlNodeIndex < 0 || _nextControlNodeIndex >= _activeNodes.size() ) return NONE;
 
-	auto node = _activeNodes[_nextControlNodeIndex];
+	// next control
+	int controlNodeIndex = _nextControlNodeIndex;
+	_nextControlNodeIndex = findNextControlNode();
+
+	// return current control node
+	auto node = _activeNodes[controlNodeIndex];
 	switch ( node->getType() ) {
 	case GameMapNode::NODE_TURN_LEFT: return TURN_LEFT;
 	case GameMapNode::NODE_TURN_RIGHT: return TURN_RIGHT;
@@ -189,6 +195,14 @@ int GameMap::getNextControl() const
 int GameMap::getCurrentNodeIndex() const
 {
 	return _currentNodeIndex;
+}
+
+GameMapNode* GameMap::getNode( int index ) const
+{
+	if ( index >= 0 && index < _activeNodes.size() )
+		return _activeNodes[index];
+
+	return nullptr;
 }
 
 void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
@@ -229,7 +243,7 @@ void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
 void GameMap::pushNewNode()
 {
 	auto node = _generator->nextNode();
-	if( node == nullptr ) return;
+	if ( node == nullptr ) return;
 
 	_activeNodes.push_back( node );
 	addChild( node );
@@ -239,7 +253,7 @@ void GameMap::pushNewNode()
 
 int GameMap::findNextControlNode() const
 {
-	for ( int i = _currentNodeIndex + 1; i < _activeNodes.size(); i++ ) {
+	for ( int i = _nextControlNodeIndex + 1; i < _activeNodes.size(); i++ ) {
 		auto node = _activeNodes[i];
 		if ( node->getType() == GameMapNode::NODE_FORWARD ) continue;
 

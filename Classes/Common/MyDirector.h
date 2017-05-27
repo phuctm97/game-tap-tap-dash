@@ -2,6 +2,10 @@
 #define __MY_DIRECTOR_H__
 
 #include <cocos2d.h>
+#include "PlayScene/Players/PlayScene_Player.h"
+#include "PlayScene/Layers/PlayScene_MainLayer.h"
+#include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
+#include "IntroScene/Layers/IntroScene_MainLayer.h"
 
 class MyDirector : cocos2d::Ref
 {
@@ -30,6 +34,8 @@ public:
 	cocos2d::Scene* resetLevelScene() const;
 
 	cocos2d::Scene* getPlayScene() const;
+
+	PlayScene::MainLayer* getPlaySceneMainLayer() const;
 
 	cocos2d::Scene* resetPlayScene() const;
 

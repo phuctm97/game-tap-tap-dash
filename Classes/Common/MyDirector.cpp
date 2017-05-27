@@ -1,8 +1,5 @@
 #include "MyDirector.h"
-#include "PlayScene/Players/PlayScene_Player.h"
-#include "PlayScene/Layers/PlayScene_MainLayer.h"
-#include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
-#include "IntroScene/Layers/IntroScene_MainLayer.h"
+
 using namespace cocos2d;
 
 MyDirector* MyDirector::_instance = nullptr;
@@ -50,6 +47,11 @@ cocos2d::Scene* MyDirector::resetLevelScene() const { throw "not implemented"; }
 cocos2d::Scene* MyDirector::getPlayScene() const
 {
 	return _playScene;
+}
+
+PlayScene::MainLayer* MyDirector::getPlaySceneMainLayer() const
+{
+	return static_cast<PlayScene::MainLayer*>(_playScene->getChildByName( "a" ));
 }
 
 cocos2d::Scene* MyDirector::resetPlayScene() const

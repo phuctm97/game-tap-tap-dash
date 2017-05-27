@@ -145,7 +145,7 @@ void MainLayer::interactGame() const
 	}
 	// normal node
 	else {
-		switch ( _map->getNextControl() ) {
+		switch ( _map->nextControl() ) {
 		case GameMap::TURN_LEFT: {
 			_player->turnLeft();
 		}
@@ -197,7 +197,7 @@ void MainLayer::update( float dt )
 
 	// update house position
 	if ( _house->isVisible() ) {
-		_house->setPositionY( _house->getPositionY() - _gameSpeed );
+		_house->setPosition( _houseAnchor->getPosition() - _houseOffset );
 
 		if ( _house->getPositionY() < -_house->getContentSize().height * 0.5f ) {
 			_house->setVisible( false );
@@ -326,6 +326,9 @@ void MainLayer::postIntroCut2()
 	// update map current node
 	while ( _map->getCurrentNode()->checkPositionInside( _player->getPosition() ) != GameMapNode::POSITION_INSIDE )
 		_map->nextNode();
+
+	_houseAnchor = _map->getNode( _map->getCurrentNodeIndex() + 2 );
+	_houseOffset = _houseAnchor->getPosition() - _house->getPosition();
 
 	startGame();
 }

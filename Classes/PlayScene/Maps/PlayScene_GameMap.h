@@ -62,9 +62,11 @@ public:
 
 	GameMapNode* nextNode();
 
-	int getNextControl() const;
+	int nextControl();
 
 	int getCurrentNodeIndex() const;
+
+	GameMapNode* getNode( int index ) const;
 
 	bool isEnd() const;
 

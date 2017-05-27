@@ -27,12 +27,15 @@ private:
 	float _gameSpeed;
 
 	cocos2d::Sprite* _house;
+	cocos2d::Node* _houseAnchor;
+	cocos2d::Vec2 _houseOffset;
+
 	cocos2d::Sprite* _bus;
 
 public:
 	MainLayer( IPlayer* player, GameMap* map )
 		: _player( player ), _map( map ),
-		  _house( nullptr ),
+		  _house( nullptr ), _bus( nullptr ),
 		  _state( WAIT_FOR_PLAY ), _gameSpeed( 0 ) {}
 
 	~MainLayer();

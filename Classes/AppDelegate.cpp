@@ -49,7 +49,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	register_all_packages();
 
 	// run
-	director->runWithScene( MyDirector::getInstance()->getPlayScene() );
+	director->runWithScene( MyDirector::getInstance()->getIntroScene() );
 
 	return true;
 }

@@ -29,13 +29,13 @@ bool MainLayer::init()
 
 bool MainLayer::initGraphics()
 {
-	_background = Sprite::create( "res/ui/intro-scene/background.png" );
+	_background = Sprite::create( "res/intro-scene/background.png" );
 	_background->setContentSize( Director::getInstance()->getVisibleSize() );
 	_background->setAnchorPoint( Vec2::ANCHOR_BOTTOM_LEFT );
 	_background->setPosition( Vec2::ZERO );
 	addChild( _background );
 
-	_logo = Sprite::create( "res/ui/intro-scene/logo-on.png" );
+	_logo = Sprite::create( "res/intro-scene/logo-on.png" );
 
 	_logo->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 	_logo->setPosition( Vec2( Director::getInstance()->getVisibleSize().width*0.5f, Director::getInstance()->getVisibleSize().height * 0.6 ) );
@@ -51,20 +51,20 @@ bool MainLayer::initGraphics()
 	_layer->setPosition( Vec2::ZERO );
 	_background->addChild( _layer );
 
-	_btnStart = Button::create( "res/ui/intro-scene/btn-play.png", "res/ui/intro-scene/btn-play-clicked.png" );
+	_btnStart = Button::create( "res/intro-scene/ui/btn-play.png", "res/intro-scene/ui/btn-play-clicked.png" );
 	_btnStart->setAnchorPoint( Vec2::ANCHOR_MIDDLE_TOP );
 	_btnStart->setPosition( Vec2( Director::getInstance()->getVisibleSize().width*0.5f,
 																Director::getInstance()->getVisibleSize().height*0.3f ) );
 	_background->addChild( _btnStart );
 
-	_btnFb = Button::create( "res/ui/intro-scene/fb.png", "res/ui/intro-scene/fb-clicked.png" );
+	_btnFb = Button::create( "res/intro-scene/ui/fb.png", "res/intro-scene/ui/fb-clicked.png" );
 	_btnFb->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 	_btnFb->setPosition( Vec2( Director::getInstance()->getVisibleSize().width * 0.2f,
 														 Director::getInstance()->getVisibleSize().height * 0.1f ) );
 	_background->addChild( _btnFb );
 
-	_chkSound = CheckBox::create( "res/ui/intro-scene/speaker-off.png", "res/ui/intro-scene/speaker-on.png",
-																"res/ui/intro-scene/speaker-on.png", "res/ui/intro-scene/speaker-off.png", "res/UI/IntroScene/speaker-off.png" );
+	_chkSound = CheckBox::create( "res/intro-scene/ui/speaker-off.png", "res/intro-scene/ui/speaker-on.png",
+																"res/intro-scene/ui/speaker-on.png", "res/intro-scene/ui/speaker-off.png", "res/intro-scene/ui/speaker-off.png" );
 	_chkSound->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
 	_chkSound->setPosition( Vec2( Director::getInstance()->getVisibleSize().width * 0.8f,
 																Director::getInstance()->getVisibleSize().height * 0.1f ) );
@@ -112,8 +112,8 @@ void MainLayer::createLogoAnimation()
 {
 	Vector<SpriteFrame*> frames;
 
-	frames.pushBack( SpriteFrame::create( "res/ui/intro-scene/logo-on.png", Rect( 0, 0, 1620, 2880 ) ) );
-	frames.pushBack( SpriteFrame::create( "res/ui/intro-scene/logo-off.png", Rect( 0, 0, 1620, 2880 ) ) );
+	frames.pushBack( SpriteFrame::create( "res/intro-scene/logo-on.png", Rect( 0, 0, 1620, 2880 ) ) );
+	frames.pushBack( SpriteFrame::create( "res/intro-scene/logo-off.png", Rect( 0, 0, 1620, 2880 ) ) );
 	
 	auto animation = Animation::createWithSpriteFrames( frames, 0.3f );
 	animation->setLoops( -1 );

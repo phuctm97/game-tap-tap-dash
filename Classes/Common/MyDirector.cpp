@@ -1,6 +1,7 @@
 #include "MyDirector.h"
 #include "PlayScene/Players/PlayScene_Player.h"
 #include "PlayScene/Layers/PlayScene_MainLayer.h"
+#include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
 #include "IntroScene/Layers/IntroScene_MainLayer.h"
 using namespace cocos2d;
 
@@ -82,6 +83,10 @@ void MyDirector::createPlayScene()
 	_playScene = Scene::create();
 	_playScene->retain();
 
-	auto mainLayer = PlayScene::MainLayer::create( nullptr, nullptr );
+	auto player = PlayScene::Player::create();
+	auto generator = PlayScene::TxtGameMapGenerator::create( "res/data/test.txt" );
+	auto gameMap = PlayScene::GameMap::create( generator );
+
+	auto mainLayer = PlayScene::MainLayer::create( player, gameMap );
 	_playScene->addChild( mainLayer, 0, "a" );
 }

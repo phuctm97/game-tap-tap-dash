@@ -136,7 +136,7 @@ int Player::getState() const
 
 int Player::getDirection() const
 {
-	throw "not implemented";
+	return _direction;
 }
 
 float Player::getEnergy() const

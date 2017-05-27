@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "TestScene/TestMapScene.h"
+#include "Common/MyDirector.h"
 
 USING_NS_CC;
 
@@ -49,7 +49,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	register_all_packages();
 
 	// run
-	director->runWithScene( TestScene::TestMapScene::createScene() );
+	director->runWithScene( MyDirector::getInstance()->getPlayScene() );
 
 	return true;
 }

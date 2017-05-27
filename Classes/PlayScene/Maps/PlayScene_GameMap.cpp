@@ -37,6 +37,57 @@ bool GameMap::init()
 	return true;
 }
 
+bool GameMap::initGraphics()
+{
+	setAnchorPoint( Vec2::ANCHOR_MIDDLE );
+
+	return true;
+}
+
+bool GameMap::initContent()
+{
+	// retain reference to generator
+	_generator->retain();
+
+	reset( Vec2( Director::getInstance()->getVisibleSize().width * 0.5f,
+	             Director::getInstance()->getVisibleSize().height * 0.5f ) );
+
+	return true;
+}
+
+bool GameMap::initEvents()
+{
+	scheduleUpdate();
+
+	return true;
+}
+
+void GameMap::reset( const cocos2d::Vec2& position )
+{
+	// reset scrolling values
+	_scrolling = false;
+	_scrollSpeed = 0;
+	_scrollDirection = SCROLL_UP;
+
+	// release current active nodes
+	for ( auto activeNode : _activeNodes ) {
+		removeChild( activeNode );
+	}
+	_activeNodes.clear();
+
+	// reset generator
+	_generator->reset();
+
+	// regenerate initial nodes
+	generateInitialNodes( position );
+
+	// begin node iterator
+	_currentNodeIndex = 0;
+
+	// find first control node
+	_nextControlNodeIndex = findNextControlNode();
+}
+
 void GameMap::update( float dt )
 {
 	if ( _scrolling ) {
@@ -66,7 +117,10 @@ void GameMap::stop()
 
 GameMapNode* GameMap::getCurrentNode() const
 {
-	return *_currentNodeIt;
+	if ( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() )
+		return _activeNodes[_currentNodeIndex];
+
+	return nullptr;
 }
 
 GameMapNode* GameMap::nextNode()
@@ -74,34 +128,46 @@ GameMapNode* GameMap::nextNode()
 	if ( isEnd() ) return nullptr;
 
 	// player pass current control node, find next control node
-	if ( *_currentNodeIt == *_nextControlNodeIt ) {
-		_nextControlNodeIt = findNextControlNode();
+	if ( _currentNodeIndex == _nextControlNodeIndex ) {
+		_nextControlNodeIndex = findNextControlNode();
 	}
 
 	// remove node out of view
 	for ( auto node: _activeNodes ) {
 		if ( checkNodeOutOfView( node ) ) {
 			node->runAction( CallFuncN::create( CC_CALLBACK_1( GameMap::doRemoveNode, this ) ) );
+
+			if ( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() ) {
+				_currentNodeIndex--;
+			}
+			if ( _nextControlNodeIndex >= 0 && _nextControlNodeIndex < _activeNodes.size() ) {
+				_nextControlNodeIndex--;
+			}
 		}
 		else break;
 	}
 
 	// next node
-	++_currentNodeIt;
+	++_currentNodeIndex;
 
-	return *_currentNodeIt;
+	CCLOG( "Current map node index: %d", _currentNodeIndex );
+
+	if ( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() )
+		return _activeNodes[_currentNodeIndex];
+
+	return nullptr;
 }
 
 bool GameMap::isEnd() const
 {
-	return (_currentNodeIt + 1) == _activeNodes.cend();
+	return _currentNodeIndex == _activeNodes.size() - 1;
 }
 
 int GameMap::getNextControl() const
 {
-	if ( _nextControlNodeIt == _activeNodes.cend() ) return NONE;
+	if ( _nextControlNodeIndex < 0 || _nextControlNodeIndex >= _activeNodes.size() ) return NONE;
 
-	auto node = *_nextControlNodeIt;
+	auto node = _activeNodes[_nextControlNodeIndex];
 	switch ( node->getType() ) {
 	case GameMapNode::NODE_TURN_LEFT: return TURN_LEFT;
 	case GameMapNode::NODE_TURN_RIGHT: return TURN_RIGHT;
@@ -109,57 +175,6 @@ int GameMap::getNextControl() const
 	}
 
 	return NONE;
-}
-
-void GameMap::reset( const cocos2d::Vec2& position )
-{
-	// reset scrolling values
-	_scrolling = false;
-	_scrollSpeed = 0;
-	_scrollDirection = SCROLL_UP;
-
-	// release current active nodes
-	for ( auto activeNode : _activeNodes ) {
-		removeChild( activeNode );
-	}
-	_activeNodes.clear();
-
-	// reset generator
-	_generator->reset();
-
-	// regenerate initial nodes
-	generateInitialNodes( position );
-
-	// begin node iterator
-	_currentNodeIt = _activeNodes.cbegin();
-
-	// find first control node
-	_nextControlNodeIt = findNextControlNode();
-}
-
-bool GameMap::initGraphics()
-{
-	setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-
-	return true;
-}
-
-bool GameMap::initContent()
-{
-	// retain reference to generator
-	_generator->retain();
-
-	reset( Vec2( Director::getInstance()->getVisibleSize().width * 0.5f,
-	             Director::getInstance()->getVisibleSize().height * 0.5f ) );
-
-	return true;
-}
-
-bool GameMap::initEvents()
-{
-	scheduleUpdate();
-
-	return true;
 }
 
 void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
@@ -197,15 +212,15 @@ void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
 	}
 }
 
-std::vector<GameMapNode*>::const_iterator GameMap::findNextControlNode() const
+int GameMap::findNextControlNode() const
 {
-	for ( auto it = _currentNodeIt + 1; it != _activeNodes.cend(); ++it ) {
-		auto node = *it;
+	for ( int i = _currentNodeIndex + 1; i < _activeNodes.size(); i++ ) {
+		auto node = _activeNodes[i];
 		if ( node->getType() == GameMapNode::NODE_FORWARD ) continue;
 
-		return it;
+		return i;
 	}
-	return _activeNodes.cend();
+	return -1;
 }
 
 cocos2d::Vec2 GameMap::calculateScrollVector() const

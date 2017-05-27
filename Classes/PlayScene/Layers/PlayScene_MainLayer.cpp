@@ -2,7 +2,7 @@
 #include "Common/MyDirector.h"
 using namespace cocos2d;
 
-#define TIME_TO_START 3
+#define TIME_TO_START 1
 
 namespace PlayScene
 {
@@ -26,7 +26,7 @@ bool MainLayer::init()
 
 	initGame();
 
-	// initEvents();
+	initEvents();
 
 	return true;
 }
@@ -43,10 +43,10 @@ void MainLayer::initGraphics()
 	addChild( _labelTimeToStart, 30 );
 
 	// map
-	// addChild( _map, 10 );
+	addChild( _map, 10 );
 
 	// player
-	// addChild( _player, 20 );
+	addChild( _player, 20 );
 }
 
 void MainLayer::initGame()
@@ -103,10 +103,12 @@ void MainLayer::updateMapScrollDirection() const
 void MainLayer::reset()
 {
 	// reset map and player
-	// auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width / 2,
-	//                           Director::getInstance()->getVisibleSize().height * 0.1f );
-	// _map->reset( startPosition );
-	// _player->reset( startPosition );
+	auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width / 2,
+	                           Director::getInstance()->getVisibleSize().height * 0.1f );
+	_map->reset( startPosition );
+	_player->reset( startPosition );
+	_map->setScrollSpeed( 5.0f );
+	updateMapScrollDirection();
 
 	// reset game state
 	_state = WAIT_FOR_PLAY;
@@ -119,11 +121,11 @@ void MainLayer::startGame()
 {
 	stopCountdownTimeToStart();
 
-	// _state = PLAYING;
+	_state = PLAYING;
 
-	// _map->scroll();
+	_map->scroll();
 
-	// _player->run();
+	_player->run();
 }
 
 void MainLayer::interactGame() const

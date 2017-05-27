@@ -11,9 +11,9 @@ class GameMap : public cocos2d::Node
 private:
 	std::vector<GameMapNode*> _activeNodes;
 
-	std::vector<GameMapNode*>::const_iterator _currentNodeIt;
+	int _currentNodeIndex;
 
-	std::vector<GameMapNode*>::const_iterator _nextControlNodeIt;
+	int _nextControlNodeIndex;
 
 	GameMapGenerator* _generator;
 
@@ -39,7 +39,8 @@ public:
 
 	GameMap( GameMapGenerator* generator )
 		: _generator( generator ),
-		  _scrolling( false ), _scrollDirection( SCROLL_UP ), _scrollSpeed( 0 ) {}
+		  _scrolling( false ), _scrollDirection( SCROLL_UP ), _scrollSpeed( 0 ),
+		  _currentNodeIndex( 0 ) {}
 
 	~GameMap();
 
@@ -76,7 +77,7 @@ private:
 
 	void generateInitialNodes( const cocos2d::Vec2& initialPosition );
 
-	std::vector<GameMapNode*>::const_iterator findNextControlNode() const;
+	int findNextControlNode() const;
 
 	cocos2d::Vec2 calculateScrollVector() const;
 

@@ -1,19 +1,19 @@
-#ifndef __PLAY_SCENE_FLY_GAME_MAP_NODE_H__
-#define __PLAY_SCENE_FLY_GAME_MAP_NODE_H__
+#ifndef __PLAY_SCENE_FLY_GAME_MAP_NODE_H_2__
+#define __PLAY_SCENE_FLY_GAME_MAP_NODE_H_2__
 
 #include <cocos2d.h>
 #include "PlayScene_GameMapNode.h"
 
 namespace PlayScene
 {
-class FlyGameMapNode : public GameMapNode
+class FlyGameMapNode2 : public GameMapNode
 {
 public:
 
-	FlyGameMapNode()
+	FlyGameMapNode2()
 		: _sprite( nullptr ), _navigator( nullptr ) {}
 
-	static FlyGameMapNode* create();
+	static FlyGameMapNode2* create();
 
 	bool init() override;
 

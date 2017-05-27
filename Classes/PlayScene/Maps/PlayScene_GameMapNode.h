@@ -33,8 +33,8 @@ public:
 		DIRECTION_RIGHT
 	};
 
-	GameMapNode()
-		: _direction( DIRECTION_UP ), _isRestNode( false ), _restCode( -1 ), _restEnergy( 0 ) {}
+	GameMapNode( bool isRestNode = false, int restCode = -1, float restEnergy = 0 )
+		: _direction( DIRECTION_UP ), _isRestNode( isRestNode ), _restCode( restCode ), _restEnergy( restEnergy ) {}
 
 	virtual int checkPositionInside( const cocos2d::Vec2& worldPosition ) = 0;
 

@@ -9,16 +9,11 @@ namespace PlayScene
 class ForwardGameMapNodeWithRest : public GameMapNode
 {
 public:
+	ForwardGameMapNodeWithRest( int restCode = -1, float restEnergy = 0.0f )
+		: GameMapNode( true, restCode, restEnergy ),
+		  _sprite( nullptr ), _restSprite( nullptr ), _restCodeLabel( nullptr ) {}
 
-	ForwardGameMapNodeWithRest(int code = -1, float energy = 0.0f)
-		: _sprite(nullptr), _restSprite(nullptr), _restCodeLabel(nullptr)
-	{
-		_restCode = code;
-		_energy = energy;
-		_isRestNode = true;
-	}
-
-	static ForwardGameMapNodeWithRest* create(int code, float energy);
+	static ForwardGameMapNodeWithRest* create( int code, float energy );
 
 	bool init() override;
 
@@ -26,7 +21,7 @@ public:
 
 	bool initRestSprite();
 
-	bool  initLabel();
+	bool initLabel();
 
 	int checkPositionInside( const cocos2d::Vec2& worldPosition ) override;
 

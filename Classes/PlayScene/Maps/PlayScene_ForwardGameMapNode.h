@@ -9,7 +9,6 @@ namespace PlayScene
 class ForwardGameMapNode : public GameMapNode
 {
 public:
-
 	ForwardGameMapNode()
 		: _sprite( nullptr ) {}
 

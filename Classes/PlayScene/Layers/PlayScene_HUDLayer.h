@@ -5,6 +5,7 @@
 #include <ui/CocosGUI.h>
 #include <AudioEngine.h>
 #include "PlayScene/Layers/PlayScene_PauseLayer.h"
+#include "PlayScene/Layers/PlayScene_ReTryLayer.h"
 
 namespace PlayScene
 {
@@ -15,6 +16,7 @@ private:
 	cocos2d::ui::Button* _btnPause;
 	cocos2d::Label* _lblScore;
 	PauseLayer* _pauselayer;
+	RetryLayer* _retrylayer;
 
 	cocos2d::Sprite* _energybarHud;
 	cocos2d::ui::LoadingBar* _energybar;
@@ -26,26 +28,31 @@ public:
 		  _btnPause( nullptr ),
 		  _lblScore( nullptr ),
 		  _pauselayer( nullptr ),
-		  _energybarHud( nullptr ),
-		  _energybar( nullptr ),
+		  _retrylayer( nullptr),
 		  _score( 0 ) {}
 
 	static HudLayer* create();
 
 	void setScore( int score );
 
-	void setEnergy( float energy );
+	void setEnergy(float energy);
 
 	bool init() override;
 
+	void showRetryLayer();
 private:
 	bool initGraphics();
 
 	bool initEvents();
 
 	void createEnergyBar();
-
+	
 	void onBtnPauseClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
+
+
+
+	
+
 };
 }
 #endif //!__PLAY_SCENE_HUD_LAYER_H__

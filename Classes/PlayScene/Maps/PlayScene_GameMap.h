@@ -79,6 +79,8 @@ private:
 
 	void generateInitialNodes( const cocos2d::Vec2& initialPosition );
 
+	void pushNewNode();
+
 	int findNextControlNode() const;
 
 	cocos2d::Vec2 calculateScrollVector() const;

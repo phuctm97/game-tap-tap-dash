@@ -41,6 +41,8 @@ public:
 
 	virtual void win() = 0;
 
+	virtual void setSpeed( float speed ) = 0;
+
 	virtual float getEnergy() const = 0;
 
 	virtual void increaseEnergy( float energy ) = 0;

@@ -109,7 +109,7 @@ void Player::createAnimationRun()
 {
 	// get frames
 	Vector<SpriteFrame*> frames;
-	for( int i = 0; i <= 20; i++ ) {
+	for ( int i = 0; i <= 20; i++ ) {
 		std::stringstream frameNameStringBuilder;
 		frameNameStringBuilder << "boy_" << i << ".png";
 
@@ -118,13 +118,13 @@ void Player::createAnimationRun()
 
 	// create animation
 
-	auto animation = Animation::createWithSpriteFrames( frames );
-	animation->setDelayPerUnit( 0.05f );
-	animation->setLoops( -1 );
-	animation->setRestoreOriginalFrame( true );
+	_animationRun = Animation::createWithSpriteFrames( frames );
+	_animationRun->setDelayPerUnit( 0.05f );
+	_animationRun->setLoops( -1 );
+	_animationRun->setRestoreOriginalFrame( true );
 
 	// create action
-	_actionRun = Animate::create( animation );
+	_actionRun = Animate::create( _animationRun );
 	_actionRun->setTag( ACTION_RUN );
 	_actionRun->retain();
 }
@@ -156,6 +156,11 @@ void Player::reset( const cocos2d::Vec2& position )
 	idle();
 
 	_energy = 1.0f;
+}
+
+void Player::setSpeed( float speed )
+{
+	_animationRun->setDelayPerUnit( 0.25f / speed );
 }
 
 void Player::idle()

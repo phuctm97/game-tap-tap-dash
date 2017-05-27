@@ -22,6 +22,8 @@ private:
 
 	GameMap* _map;
 
+	cocos2d::Sprite* _background;
+
 	int _state;
 
 	int _speed;
@@ -31,7 +33,7 @@ private:
 
 public:
 	MainLayer( IPlayer* player, GameMap* map )
-		: _player( player ), _map( map ), _labelTimeToStart( nullptr ),
+		: _player( player ), _map( map ), _labelTimeToStart( nullptr ), _background( nullptr ),
 		  _state( WAIT_FOR_PLAY ), _speed( 2 ), _timeToStart( 0 ) {}
 
 	static MainLayer* create( IPlayer* player, GameMap* map );
@@ -63,6 +65,8 @@ public:
 	void onPassedNode( GameMapNode* node ) const;
 
 	void update( float dt ) override;
+
+	void setSpeed( float speed ) const;
 
 	void startCountdownTimeToStart();
 

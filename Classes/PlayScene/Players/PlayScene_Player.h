@@ -23,6 +23,8 @@ private:
 
 	cocos2d::Sprite* _sprite;
 
+	cocos2d::Animation* _animationRun;
+
 	cocos2d::Action* _actionRun;
 
 	int _state;
@@ -33,7 +35,7 @@ private:
 
 public:
 	Player()
-		: _sprite( nullptr ),
+		: _sprite( nullptr ), _animationRun( nullptr ),
 		  _actionRun( nullptr ),
 		  _state( IDLE ),
 		  _direction( DIRECTION_UP ),
@@ -56,6 +58,8 @@ public:
 	void increaseEnergy( float energy ) override;
 
 	void reset( const cocos2d::Vec2& position ) override;
+
+	void setSpeed( float speed ) override;
 
 	void idle() override;
 

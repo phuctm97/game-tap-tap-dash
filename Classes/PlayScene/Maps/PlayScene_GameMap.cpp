@@ -1,7 +1,7 @@
 #include "PlayScene_GameMap.h"
 using namespace cocos2d;
 
-#define NUMBER_OF_ACTIVE_NODES 15
+#define NUMBER_OF_ACTIVE_NODES 25
 
 namespace PlayScene
 {
@@ -147,6 +147,8 @@ GameMapNode* GameMap::nextNode()
 		_activeNodes.erase( nodeIt );
 		removeChild( node );
 
+		pushNewNode();
+
 		if( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() ) {
 			_currentNodeIndex--;
 		}
@@ -222,6 +224,17 @@ void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
 		previousNode = node;
 		initialNodes--;
 	}
+}
+
+void GameMap::pushNewNode()
+{
+	auto node = _generator->nextNode();
+	if( node == nullptr ) return;
+
+	_activeNodes.push_back( node );
+	addChild( node );
+
+	_generator->placeNode( _activeNodes[_activeNodes.size() - 2], node );
 }
 
 int GameMap::findNextControlNode() const

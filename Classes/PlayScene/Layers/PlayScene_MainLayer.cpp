@@ -33,6 +33,11 @@ bool MainLayer::init()
 
 void MainLayer::initGraphics()
 {
+	// background
+	_background = Sprite::create( "res/test/background.png" );
+	_background->setPosition( _background->getContentSize() * 0.5f );
+	addChild( _background, 0 );
+
 	// label time to start
 	_labelTimeToStart = Label::createWithTTF( "0", "res/font/Bungee-Regular.ttf", 150 );
 	_labelTimeToStart->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
@@ -107,8 +112,8 @@ void MainLayer::reset()
 	                           Director::getInstance()->getVisibleSize().height * 0.5f );
 	_map->reset( startPosition );
 	_player->reset( startPosition );
-	_map->setScrollSpeed( 5.0f );
 	updateMapScrollDirection();
+	setSpeed( 6.0f );
 
 	// reset game state
 	_state = WAIT_FOR_PLAY;
@@ -216,6 +221,13 @@ void MainLayer::update( float dt )
 			loseGame();
 		}
 	}
+}
+
+void MainLayer::setSpeed( float speed ) const
+{
+	_map->setScrollSpeed( speed );
+
+	_player->setSpeed( speed );
 }
 
 void MainLayer::startCountdownTimeToStart()

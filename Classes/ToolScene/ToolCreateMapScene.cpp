@@ -1,11 +1,14 @@
 #include "ToolCreateMapScene.h"
 #include "PlayScene/Maps/PlayScene_ForwardGameMapNode.h"
+#include "PlayScene/Maps/PlayScene_ForwardGameMapNode2.h"
 #include "PlayScene/Maps/PlayScene_TurnLeftGameMapNode.h"
+#include "PlayScene/Maps/PlayScene_TurnLeftGameMapNode2.h"
 #include "PlayScene/Maps/PlayScene_TurnRightGameMapNode.h"
+#include "PlayScene/Maps/PlayScene_TurnRightGameMapNode2.h"
 #include "PlayScene/Maps/PlayScene_FlyGameMapNode.h"
-#include "PlayScene/Maps/PlayScene_GameMapGenerator.h"
-#include "PlayScene/Maps/PlayScene_ForwardGameMapNodeWithRest.h"
 #include "PlayScene/Maps/PlayScene_FlyGameMapNode2.h"
+#include "PlayScene/Maps/PlayScene_ForwardGameMapNodeWithRest.h"
+#include "PlayScene/Maps/PlayScene_GameMapGenerator.h"
 #include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
 using namespace cocos2d;
 
@@ -69,7 +72,7 @@ void ToolCreateMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, 
 	}
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW: {
-		if ( _currentNodeCode < 5 ) {
+		if ( _currentNodeCode < 8 ) {
 			_currentNodeCode++;
 			updateCurrentNode();
 		}
@@ -100,9 +103,15 @@ void ToolCreateMapScene::save()
 		switch ( code ) {
 		case NODE_FORWARD: saveCode = PlayScene::TxtGameMapGenerator::NODE_FORWARD;
 			break;
+		case NODE_FORWARD2: saveCode = PlayScene::TxtGameMapGenerator::NODE_FORWARD2;
+			break;
 		case NODE_TURN_LEFT: saveCode = PlayScene::TxtGameMapGenerator::NODE_TURN_LEFT;
 			break;
+		case NODE_TURN_LEFT2: saveCode = PlayScene::TxtGameMapGenerator::NODE_TURN_LEFT2;
+			break;
 		case NODE_TURN_RIGHT: saveCode = PlayScene::TxtGameMapGenerator::NODE_TURN_RIGHT;
+			break;
+		case NODE_TURN_RIGHT2: saveCode = PlayScene::TxtGameMapGenerator::NODE_TURN_RIGHT2;
 			break;
 		case NODE_FLY: saveCode = PlayScene::TxtGameMapGenerator::NODE_FLY;
 			break;
@@ -122,9 +131,12 @@ PlayScene::GameMapNode* ToolCreateMapScene::createNode( int code )
 {
 	switch ( code ) {
 	case NODE_FORWARD: return PlayScene::ForwardGameMapNode::create();
+	case NODE_FORWARD2: return PlayScene::ForwardGameMapNode2::create();
 	case NODE_FORWARD_WITH_REST: return PlayScene::ForwardGameMapNodeWithRest::create( 10, 0.2f );
 	case NODE_TURN_LEFT: return PlayScene::TurnLeftGameMapNode::create();
+	case NODE_TURN_LEFT2: return PlayScene::TurnLeftGameMapNode2::create();
 	case NODE_TURN_RIGHT: return PlayScene::TurnRightGameMapNode::create();
+	case NODE_TURN_RIGHT2: return PlayScene::TurnRightGameMapNode2::create();
 	case NODE_FLY: return PlayScene::FlyGameMapNode::create();
 	case NODE_FLY2: return PlayScene::FlyGameMapNode2::create();
 	}

@@ -12,11 +12,14 @@ private:
 	enum
 	{
 		NODE_TURN_LEFT = 0,
-		NODE_FORWARD = 1,
-		NODE_FORWARD_WITH_REST = 2,
-		NODE_FLY = 3,
-		NODE_FLY2 = 4,
-		NODE_TURN_RIGHT = 5
+		NODE_TURN_LEFT2 = 1,
+		NODE_FORWARD = 2,
+		NODE_FORWARD2 = 3,
+		NODE_FORWARD_WITH_REST = 4,
+		NODE_FLY = 5,
+		NODE_FLY2 = 6,
+		NODE_TURN_RIGHT = 7,
+		NODE_TURN_RIGHT2 = 8
 	};
 
 	int _currentNodeCode;

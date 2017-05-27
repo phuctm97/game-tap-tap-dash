@@ -62,8 +62,11 @@ void TxtGameMapGenerator::load( const std::string& fileName )
 		stream >> code;
 
 		if ( code == "n" ) _codes.push_back( NODE_FORWARD );
+		else if ( code == "n2" ) _codes.push_back( NODE_FORWARD2 );
 		else if ( code == "l" ) _codes.push_back( NODE_TURN_LEFT );
+		else if ( code == "l2" ) _codes.push_back( NODE_TURN_LEFT2 );
 		else if ( code == "r" ) _codes.push_back( NODE_TURN_RIGHT );
+		else if ( code == "r2" ) _codes.push_back( NODE_TURN_RIGHT2 );
 		else if ( code == "f" ) _codes.push_back( NODE_FLY );
 		else if ( code == "f2" ) _codes.push_back( NODE_FLY2 );
 		else if ( code == "nr" ) _codes.push_back( NODE_FORWARD_WITH_REST );
@@ -86,9 +89,15 @@ void TxtGameMapGenerator::save( const std::string& fileName, const std::vector<i
 		switch ( code ) {
 		case NODE_FORWARD: fstream << "n";
 			break;
+		case NODE_FORWARD2: fstream << "n2";
+			break;
 		case NODE_TURN_LEFT: fstream << "l";
 			break;
+		case NODE_TURN_LEFT2: fstream << "l2";
+			break;
 		case NODE_TURN_RIGHT: fstream << "r";
+			break;
+		case NODE_TURN_RIGHT2: fstream << "r2";
 			break;
 		case NODE_FLY: fstream << "f";
 			break;

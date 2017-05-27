@@ -2,7 +2,7 @@
 #define __INTRO_SCENE_MAIN_LAYER_H__
 
 #include <cocos2d.h>
-#include "ui/CocosGUI.h"
+#include <ui/CocosGUI.h>
 
 namespace IntroScene
 {
@@ -14,6 +14,7 @@ private:
 	cocos2d::Sprite* _background;
 	cocos2d::ui::CheckBox* _chkSound;
 	cocos2d::ui::Button* _btnFb;
+	cocos2d::LayerColor* _layer;
 
 public:
 	MainLayer()
@@ -21,7 +22,8 @@ public:
 		  _btnStart( nullptr ),
 		  _background( nullptr ),
 		  _chkSound( nullptr ),
-		  _btnFb( nullptr ) {}
+		  _btnFb( nullptr ),
+		  _layer( nullptr ) {}
 
 	static MainLayer* create();
 
@@ -39,6 +41,8 @@ private:
 	void onBtnFbClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
 
 	void onChkSoundClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::TouchEventType type );
+
+	void createLogoAnimation();
 };
 }
 

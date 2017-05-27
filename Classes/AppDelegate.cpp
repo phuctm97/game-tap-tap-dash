@@ -3,6 +3,7 @@
 #include "TestScene/TestMapScene.h"
 #include "TestScene/TestMapNodeScene.h"
 #include "ToolScene/ToolCreateMapScene.h"
+#include "Common/MyDirector.h"
 
 USING_NS_CC;
 
@@ -52,7 +53,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	register_all_packages();
 
 	// run
-	director->runWithScene( ToolScene::ToolCreateMapScene::createScene("") );
+	director->runWithScene( MyDirector::getInstance()->getPlayScene() );
 
 	return true;
 }

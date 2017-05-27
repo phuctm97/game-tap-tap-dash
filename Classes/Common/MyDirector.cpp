@@ -9,7 +9,7 @@ MyDirector* MyDirector::_instance = nullptr;
 MyDirector::MyDirector()
 	: _introScene( nullptr ), _playScene( nullptr )
 {
-	createIntroScene();
+	// createIntroScene();
 
 	createPlayScene();
 }
@@ -82,6 +82,6 @@ void MyDirector::createPlayScene()
 	_playScene = Scene::create();
 	_playScene->retain();
 
-	auto mainLayer = PlayScene::MainLayer::create( PlayScene::Player::create(), nullptr );
+	auto mainLayer = PlayScene::MainLayer::create( nullptr, nullptr );
 	_playScene->addChild( mainLayer, 0, "a" );
 }

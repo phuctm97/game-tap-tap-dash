@@ -27,10 +27,12 @@ private:
 	int _speed;
 
 	int _timeToStart;
+	cocos2d::Label* _labelTimeToStart;
 
 public:
 	MainLayer( IPlayer* player, GameMap* map )
-		: _player( player ), _map( map ), _state( WAIT_FOR_PLAY ), _speed( 2 ), _timeToStart( 0 ) {}
+		: _player( player ), _map( map ), _labelTimeToStart( nullptr ),
+		  _state( WAIT_FOR_PLAY ), _speed( 2 ), _timeToStart( 0 ) {}
 
 	static MainLayer* create( IPlayer* player, GameMap* map );
 

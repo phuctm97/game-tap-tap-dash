@@ -20,24 +20,33 @@ MainLayer* MainLayer::create( IPlayer* player, GameMap* map )
 
 bool MainLayer::init()
 {
-	if ( !Layer::init() ) return false;
+	if ( !LayerColor::initWithColor( Color4B::WHITE ) ) return false;
 
 	initGraphics();
 
 	initGame();
 
-	initEvents();
+	// initEvents();
 
 	return true;
 }
 
 void MainLayer::initGraphics()
 {
+	// label time to start
+	_labelTimeToStart = Label::createWithTTF( "0", "res/font/Bungee-Regular.ttf", 150 );
+	_labelTimeToStart->setPosition( Director::getInstance()->getVisibleSize().width * 0.5f,
+	                                Director::getInstance()->getVisibleSize().height * 0.5f );
+	_labelTimeToStart->setTextColor( Color4B::WHITE );
+	_labelTimeToStart->enableOutline( Color4B::BLACK, 7 );
+	_labelTimeToStart->enableShadow( Color4B::BLACK, Size( 7, -7 ) );
+	addChild( _labelTimeToStart, 30 );
+
 	// map
-	addChild( _map, 10 );
+	// addChild( _map, 10 );
 
 	// player
-	addChild( _player, 20 );
+	// addChild( _player, 20 );
 }
 
 void MainLayer::initGame()
@@ -94,10 +103,10 @@ void MainLayer::updateMapScrollDirection() const
 void MainLayer::reset()
 {
 	// reset map and player
-	auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width / 2,
-	                           Director::getInstance()->getVisibleSize().height * 0.1f );
-	_map->reset( startPosition );
-	_player->reset( startPosition );
+	// auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width / 2,
+	//                           Director::getInstance()->getVisibleSize().height * 0.1f );
+	// _map->reset( startPosition );
+	// _player->reset( startPosition );
 
 	// reset game state
 	_state = WAIT_FOR_PLAY;
@@ -110,11 +119,11 @@ void MainLayer::startGame()
 {
 	stopCountdownTimeToStart();
 
-	_state = PLAYING;
+	// _state = PLAYING;
 
-	_map->scroll();
+	// _map->scroll();
 
-	_player->run();
+	// _player->run();
 }
 
 void MainLayer::interactGame() const
@@ -209,12 +218,23 @@ void MainLayer::update( float dt )
 void MainLayer::startCountdownTimeToStart()
 {
 	_timeToStart = TIME_TO_START;
+	_labelTimeToStart->setVisible( true );
+
+	// show label
+	std::stringstream stringBuilder;
+	stringBuilder << _timeToStart;
+
+	_labelTimeToStart->setString( stringBuilder.str() );
+	_labelTimeToStart->setVisible( true );
+
 	schedule( CC_CALLBACK_1( MainLayer::countdownTimeToStart, this ), 1.0f, "updateTimeToStart" );
 }
 
 void MainLayer::stopCountdownTimeToStart()
 {
 	_timeToStart = TIME_TO_START;
+	_labelTimeToStart->setVisible( false );
+
 	unschedule( "updateTimeToStart" );
 }
 
@@ -222,7 +242,15 @@ void MainLayer::countdownTimeToStart( float dt )
 {
 	if ( _state != WAIT_FOR_PLAY ) return;
 
+	// update time
 	_timeToStart -= 1;
+
+	// update label
+	std::stringstream stringBuilder;
+	stringBuilder << _timeToStart;
+
+	_labelTimeToStart->setString( stringBuilder.str() );
+
 	if ( _timeToStart <= 0 ) {
 		startGame();
 	}

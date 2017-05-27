@@ -85,7 +85,7 @@ bool PlayScene::ForwardGameMapNodeWithRest::initRestSprite()
 
 bool PlayScene::ForwardGameMapNodeWithRest::initLabel()
 {
-	_restCodeLabel = Label::createWithTTF("test", "fonts/Marker Felt.ttf", 50);
+	_restCodeLabel = Label::createWithTTF("Test Label", "fonts/Bungee-Regular.ttf", 80);
 	if (!_restCodeLabel)
 		return false;
 

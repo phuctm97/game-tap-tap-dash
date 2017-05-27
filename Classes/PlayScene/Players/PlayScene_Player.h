@@ -12,11 +12,22 @@ private:
 
 	int _state;
 
-	cocos2d::Action* _actionRun;
+	cocos2d::Animate* _actionRun;
 	cocos2d::Action* _actionTurnLeft;
 	cocos2d::Action* _actionTurnRight;
 	cocos2d::Action* _actionFly;
 
+
+	float _energy;
+
+	float _timer = 1.0f;
+	float _flyingtime = 1.0f;
+
+	bool _isturning = false;
+	bool _keepflying = false;
+
+
+	
 public:
 	Player()
 		: _state( -1 ),
@@ -40,12 +51,12 @@ public:
 
 	void createAnimationFly();
 
+
+
 	int getState() const override;
 
 	int getDirection() const override;
 	
-	float getEnergy() const override;
-
 	void reset( const cocos2d::Vec2& position ) override;
 
 	void idle() override;
@@ -62,8 +73,6 @@ public:
 
 	void win() override;
 
-	void increaseEnergy( float energy ) override;
-
 private:
 	bool initSprite();
 
@@ -72,6 +81,28 @@ private:
 	bool initEvents();
 
 	bool initContent();
+
+	void update(float dt);
+
+	float setDelay(float _energy) ;
+
+	void setEnergy(float _energy) override;
+
+	float getEnergy() override ;
+
+	void setStateToRunning();
+
+	void resetTurning();
+
+	void setStateFalling();
+
+	float getFlyingTime();
+
+	void setFlyingTime(float time);
+
+
+
+	
 
 };
 }

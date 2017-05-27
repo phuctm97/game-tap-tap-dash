@@ -24,7 +24,6 @@ private:
 	cocos2d::Sprite* _sprite;
 
 	cocos2d::Action* _actionRun;
-	cocos2d::Action* _actionFly;
 
 	int _state;
 
@@ -36,7 +35,6 @@ public:
 	Player()
 		: _sprite( nullptr ),
 		  _actionRun( nullptr ),
-		  _actionFly( nullptr ),
 		  _state( IDLE ),
 		  _direction( DIRECTION_UP ),
 		  _energy( 1.0f ) {}
@@ -48,8 +46,6 @@ public:
 	bool init() override;
 
 	void createAnimationRun();
-
-	void createAnimationFly();
 
 	int getState() const override;
 

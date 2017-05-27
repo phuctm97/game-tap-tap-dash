@@ -7,7 +7,6 @@ namespace PlayScene
 Player::~Player()
 {
 	CC_SAFE_RELEASE(_actionRun);
-	CC_SAFE_RELEASE(_actionFly);
 }
 
 Player* Player::create()
@@ -58,9 +57,6 @@ bool Player::initActions()
 {
 	// run
 	createAnimationRun();
-
-	// fly
-	createAnimationFly();
 
 	return true;
 }
@@ -115,15 +111,6 @@ void Player::createAnimationRun()
 	_actionRun->retain();
 }
 
-void Player::createAnimationFly()
-{
-	DelayTime* delay = DelayTime::create( 0.5f );
-	ScaleTo* zoomin = ScaleTo::create( 0.2f, 1.5f );
-
-	_actionFly = Sequence::create( zoomin, delay, nullptr );
-	_actionFly->retain();
-}
-
 int Player::getState() const
 {
 	return _state;
@@ -155,7 +142,7 @@ void Player::reset( const cocos2d::Vec2& position )
 
 void Player::idle()
 {
-	stopAllActions();
+	_sprite->stopAllActions();
 
 	// run animation idle
 
@@ -168,7 +155,7 @@ void Player::run()
 {
 	if ( _state != IDLE ) return;
 
-	stopActionByTag( ACTION_RUN );
+	_sprite->stopActionByTag( ACTION_RUN );
 
 	// run animation running
 	_sprite->runAction( _actionRun );
@@ -181,10 +168,10 @@ void Player::run()
 void Player::turnLeft()
 {
 	if ( _state == DEAD ) return;
-	
+
 	// stop old action
-	stopActionByTag( ACTION_TURN_LEFT );
-	stopActionByTag( ACTION_TURN_RIGHT );
+	_sprite->stopActionByTag( ACTION_TURN_LEFT );
+	_sprite->stopActionByTag( ACTION_TURN_RIGHT );
 	float rotation = 0;
 
 	// calculate rotation
@@ -217,12 +204,12 @@ void Player::turnRight()
 	if ( _state == DEAD ) return;
 
 	// stop old action
-	stopActionByTag( ACTION_TURN_RIGHT );
-	stopActionByTag( ACTION_TURN_LEFT );
+	_sprite->stopActionByTag( ACTION_TURN_RIGHT );
+	_sprite->stopActionByTag( ACTION_TURN_LEFT );
 	float rotation = 0;
 
 	// calculate rotation
-	switch( _direction ) {
+	switch ( _direction ) {
 	case DIRECTION_UP: _direction = DIRECTION_RIGHT;
 		rotation = 90;
 		break;
@@ -250,9 +237,23 @@ void Player::fly()
 {
 	if ( _state == DEAD ) return;
 
-	_state = FLYING;
+	_sprite->stopActionByTag( ACTION_FLY );
+
+	// create action fly
+	auto zoomOut = ScaleTo::create( 0.25f, 1.5f );
+	auto delay = DelayTime::create( 0.1f );
+	auto zoomIn = ScaleTo::create( 0.2f, 1.0f );
+	auto resetState = CallFunc::create( CC_CALLBACK_0( Player::setStateToRunning, this ) );
+	auto actionFly = Sequence::create( zoomOut, delay, zoomIn, resetState, nullptr );
+
+	actionFly->setTag( ACTION_FLY );
+
+	// run action fly
+	_sprite->runAction( actionFly );
+
 	// run audio fly
 
+	_state = FLYING;
 }
 
 void Player::die()

@@ -89,3 +89,13 @@ int PlayScene::TurnRightGameMapNode2::getType() const
 	return NODE_TURN_RIGHT;
 }
 
+void PlayScene::TurnRightGameMapNode2::highLightNavi()
+{
+	_navigator->setColor(Color3B::YELLOW);
+}
+
+void PlayScene::TurnRightGameMapNode2::unHighLightNavi()
+{
+	_navigator->setColor(Color3B::WHITE);
+}
+

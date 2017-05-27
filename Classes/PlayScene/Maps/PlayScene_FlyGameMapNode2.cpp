@@ -85,3 +85,13 @@ int PlayScene::FlyGameMapNode2::getType() const
 	return NODE_FLY;
 }
 
+void PlayScene::FlyGameMapNode2::highLightNavi()
+{
+	_navigator->setColor(Color3B::YELLOW);
+}
+
+void PlayScene::FlyGameMapNode2::unHighLightNavi()
+{
+	_navigator->setColor(cocos2d::Color3B::WHITE);
+}
+

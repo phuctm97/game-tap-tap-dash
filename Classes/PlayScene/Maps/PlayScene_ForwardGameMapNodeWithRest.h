@@ -1,3 +1,4 @@
+
 #ifndef __PLAY_SCENE_FORWARD_GAME_MAP_NODE_WITH_REST_H__
 #define __PLAY_SCENE_FORWARD_GAME_MAP_NODE_WITH_REST_H__
 
@@ -27,6 +28,12 @@ public:
 
 	int getType() const override;
 
+	void highLightNavi() override {}
+
+	void unHighLightNavi() override {}
+
+	void decreaseRestCode() override;
+
 private:
 	cocos2d::Sprite* _sprite;
 	cocos2d::Sprite* _restSprite;
@@ -34,4 +41,4 @@ private:
 };
 }
 
-#endif //!__PLAY_SCENE_FORWARD_GAME_MAP_NODE_H__
+#endif //!__PLAY_SCENE_FORWARD_GAME_MAP_NODE_WITH_REST_H__

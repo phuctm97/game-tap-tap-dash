@@ -6,21 +6,27 @@
 
 namespace PlayScene
 {
-class ForwardGameMapNode : public GameMapNode
-{
-public:
-	ForwardGameMapNode()
-		: _sprite( nullptr ) {}
+	class ForwardGameMapNode : public GameMapNode
+	{
+	public:
+		ForwardGameMapNode()
+			: _sprite(nullptr) {}
 
-	static ForwardGameMapNode* create();
+		static ForwardGameMapNode* create();
 
-	bool init() override;
+		bool init() override;
 
-	bool initSprite();
+		bool initSprite();
 
-	int checkPositionInside( const cocos2d::Vec2& worldPosition ) override;
+		int checkPositionInside(const cocos2d::Vec2& worldPosition) override;
 
-	int getType() const override;
+		int getType() const override;
+
+		void highLightNavi() override {}
+
+		void unHighLightNavi() override{}
+
+		void decreaseRestCode() override {}
 
 private:
 	cocos2d::Sprite* _sprite;

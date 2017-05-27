@@ -1,10 +1,10 @@
-#include "PlayScene_ForwardGameMapNodeWithRest.h"
+#include "PlayScene_GameMapNodeBusStop.h"
 
 USING_NS_CC;
 
-PlayScene::ForwardGameMapNodeWithRest* PlayScene::ForwardGameMapNodeWithRest::create(int code, float energy)
+PlayScene::GameMapNodeBusStop* PlayScene::GameMapNodeBusStop::create()
 {
-	auto p = new ForwardGameMapNodeWithRest(code, energy);
+	auto p = new GameMapNodeBusStop();
 	if (p && p->init())
 	{
 		p->autorelease();
@@ -15,7 +15,7 @@ PlayScene::ForwardGameMapNodeWithRest* PlayScene::ForwardGameMapNodeWithRest::cr
 	return nullptr;
 }
 
-bool PlayScene::ForwardGameMapNodeWithRest::init()
+bool PlayScene::GameMapNodeBusStop::init()
 {
 	if (!Node::init())
 		return false;
@@ -32,7 +32,7 @@ bool PlayScene::ForwardGameMapNodeWithRest::init()
 	return true;
 }
 
-bool PlayScene::ForwardGameMapNodeWithRest::initSprite()
+bool PlayScene::GameMapNodeBusStop::initSprite()
 {
 
 	_sprite = Sprite::create("res/test/forward_rest.png");
@@ -60,9 +60,9 @@ bool PlayScene::ForwardGameMapNodeWithRest::initSprite()
 	return true;
 }
 
-bool PlayScene::ForwardGameMapNodeWithRest::initRestSprite()
+bool PlayScene::GameMapNodeBusStop::initRestSprite()
 {
-	_restSprite = Sprite::create("res/test/rest.png");
+	_restSprite = Sprite::create("res/test/busstop.png");
 
 	if (!_restSprite)
 		return false;
@@ -83,9 +83,9 @@ bool PlayScene::ForwardGameMapNodeWithRest::initRestSprite()
 	return true;
 }
 
-bool PlayScene::ForwardGameMapNodeWithRest::initLabel()
+bool PlayScene::GameMapNodeBusStop::initLabel()
 {
-	_restCodeLabel = Label::createWithTTF("Test Label", "res/font/Bungee-Regular.ttf", 80);
+	_restCodeLabel = Label::createWithTTF("Bus Stop", "res/font/Bungee-Regular.ttf", 80);
 	if (!_restCodeLabel)
 		return false;
 
@@ -96,7 +96,7 @@ bool PlayScene::ForwardGameMapNodeWithRest::initLabel()
 	return true;
 }
 
-int PlayScene::ForwardGameMapNodeWithRest::checkPositionInside(const cocos2d::Vec2& worldPosition)
+int PlayScene::GameMapNodeBusStop::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
 	Point rotatedPoint = rotatePoint(worldPosition, -1 * this->getRotation(), this->getPosition());
 
@@ -109,20 +109,12 @@ int PlayScene::ForwardGameMapNodeWithRest::checkPositionInside(const cocos2d::Ve
 	return POSITION_OUTSIDE;
 }
 
-int PlayScene::ForwardGameMapNodeWithRest::getType() const
+int PlayScene::GameMapNodeBusStop::getType() const
 {
 	return NODE_FORWARD;
 }
 
-void PlayScene::ForwardGameMapNodeWithRest::decreaseRestCode()
+void PlayScene::GameMapNodeBusStop::decreaseRestCode()
 {
-	if (_restCode <= 0)
-	{
-		_restSprite->runAction(TintTo::create(0.1f, Color3B::RED));
-		return;
-	}
-	_restCode--;
 
-
-	_restSprite->runAction(Sequence::create(TintTo::create(0.15f, Color3B::GREEN), TintTo::create(0.15f, Color3B::WHITE), nullptr));
 }

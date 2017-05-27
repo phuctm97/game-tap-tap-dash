@@ -40,7 +40,7 @@ public:
 	GameMap( GameMapGenerator* generator )
 		: _generator( generator ),
 		  _scrolling( false ), _scrollDirection( SCROLL_UP ), _scrollSpeed( 0 ),
-		  _currentNodeIndex( 0 ) {}
+		  _currentNodeIndex( 0 ), _nextControlNodeIndex( -1 ) {}
 
 	~GameMap();
 
@@ -64,6 +64,8 @@ public:
 
 	int getNextControl() const;
 
+	int getCurrentNodeIndex() const;
+
 	bool isEnd() const;
 
 	void reset( const cocos2d::Vec2& position );
@@ -84,8 +86,6 @@ private:
 	bool checkNodeOutOfView( GameMapNode* node ) const;
 
 	void doScroll();
-
-	void doRemoveNode( cocos2d::Node* node );
 };
 }
 

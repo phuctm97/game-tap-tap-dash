@@ -84,7 +84,7 @@ void MyDirector::createPlayScene()
 	_playScene->retain();
 
 	auto player = PlayScene::Player::create();
-	auto generator = PlayScene::TxtGameMapGenerator::create( "res/data/test.txt" );
+	auto generator = PlayScene::TxtGameMapGenerator::create( "res/data/test2.txt" );
 	auto gameMap = PlayScene::GameMap::create( generator );
 
 	auto mainLayer = PlayScene::MainLayer::create( player, gameMap );

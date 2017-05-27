@@ -197,6 +197,8 @@ void MainLayer::update( float dt )
 		loseGame();
 	}
 
+	CCLOG( "Current map node index: %d", _map->getCurrentNodeIndex() );
+
 	// check position
 	auto currentNode = _map->getCurrentNode();
 	if ( currentNode->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
@@ -206,7 +208,6 @@ void MainLayer::update( float dt )
 			throw "Player exit last map node";
 		}
 
-		// pass to next node
 		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_INSIDE ) {
 			onPassedNode( currentNode );
 		}

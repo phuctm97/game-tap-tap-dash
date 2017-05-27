@@ -133,24 +133,31 @@ GameMapNode* GameMap::nextNode()
 	}
 
 	// remove node out of view
+	std::vector<GameMapNode*> nodesToRemove;
 	for ( auto node: _activeNodes ) {
 		if ( checkNodeOutOfView( node ) ) {
-			node->runAction( CallFuncN::create( CC_CALLBACK_1( GameMap::doRemoveNode, this ) ) );
-
-			if ( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() ) {
-				_currentNodeIndex--;
-			}
-			if ( _nextControlNodeIndex >= 0 && _nextControlNodeIndex < _activeNodes.size() ) {
-				_nextControlNodeIndex--;
-			}
+			nodesToRemove.push_back( node );
 		}
 		else break;
 	}
+	for ( auto node: nodesToRemove ) {
+		auto nodeIt = std::find( _activeNodes.cbegin(), _activeNodes.cend(), node );
+		if( nodeIt == _activeNodes.cend() ) continue;
+
+		_activeNodes.erase( nodeIt );
+		removeChild( node );
+
+		if( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() ) {
+			_currentNodeIndex--;
+		}
+		if( _nextControlNodeIndex >= 0 && _nextControlNodeIndex < _activeNodes.size() ) {
+			_nextControlNodeIndex--;
+		}
+	}
+	nodesToRemove.clear();
 
 	// next node
 	++_currentNodeIndex;
-
-	CCLOG( "Current map node index: %d", _currentNodeIndex );
 
 	if ( _currentNodeIndex >= 0 && _currentNodeIndex < _activeNodes.size() )
 		return _activeNodes[_currentNodeIndex];
@@ -175,6 +182,11 @@ int GameMap::getNextControl() const
 	}
 
 	return NONE;
+}
+
+int GameMap::getCurrentNodeIndex() const
+{
+	return _currentNodeIndex;
 }
 
 void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
@@ -258,14 +270,5 @@ void GameMap::doScroll()
 	for ( auto node : _activeNodes ) {
 		node->setPosition( node->getPosition() + scrollVector );
 	}
-}
-
-void GameMap::doRemoveNode( cocos2d::Node* node )
-{
-	auto nodeIt = std::find( _activeNodes.cbegin(), _activeNodes.cend(), node );
-	if ( nodeIt == _activeNodes.cend() ) return;
-
-	removeChild( node );
-	_activeNodes.erase( nodeIt );
 }
 }

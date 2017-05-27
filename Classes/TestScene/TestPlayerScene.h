@@ -6,7 +6,7 @@
 
 namespace TestScene
 {
-class TestPlayerScene : public cocos2d::Layer
+class TestPlayerScene : public cocos2d::LayerColor
 {
 private:
 	PlayScene::IPlayer* _player;

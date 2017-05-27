@@ -4,15 +4,17 @@
 #include "PlayScene/Maps/PlayScene_TurnRightGameMapNode.h"
 #include "PlayScene/Maps/PlayScene_FlyGameMapNode.h"
 #include "PlayScene/Maps/PlayScene_GameMapGenerator.h"
-#include <iterator>
+#include "PlayScene/Maps/PlayScene_ForwardGameMapNodeWithRest.h"
+#include "PlayScene/Maps/PlayScene_FlyGameMapNode2.h"
+#include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
 using namespace cocos2d;
 
 namespace ToolScene
 {
 ToolCreateMapScene* ToolCreateMapScene::create( const std::string& fileToSave )
 {
-	auto p = new ToolCreateMapScene();
-	if ( p && p->init( fileToSave ) ) {
+	auto p = new ToolCreateMapScene( fileToSave );
+	if ( p && p->init() ) {
 		p->autorelease();
 		return p;
 	}
@@ -30,9 +32,9 @@ cocos2d::Scene* ToolCreateMapScene::createScene( const std::string& fileToSave )
 
 ToolCreateMapScene::~ToolCreateMapScene() {}
 
-bool ToolCreateMapScene::init( const std::string& fileToSave )
+bool ToolCreateMapScene::init()
 {
-	if ( !Layer::init() ) return false;
+	if ( !LayerColor::initWithColor( Color4B::WHITE ) ) return false;
 
 	// initial node
 	_previousNode = createNode( NODE_FORWARD );
@@ -67,7 +69,7 @@ void ToolCreateMapScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, 
 	}
 		break;
 	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW: {
-		if ( _currentNodeCode < 3 ) {
+		if ( _currentNodeCode < 5 ) {
 			_currentNodeCode++;
 			updateCurrentNode();
 		}
@@ -88,15 +90,43 @@ void ToolCreateMapScene::onExit()
 	save();
 }
 
-void ToolCreateMapScene::save() {}
+void ToolCreateMapScene::save()
+{
+	std::vector<int> saveCodes;
+
+	for ( int code: _recoredCodes ) {
+		int saveCode = PlayScene::TxtGameMapGenerator::NODE_FORWARD;
+
+		switch ( code ) {
+		case NODE_FORWARD: saveCode = PlayScene::TxtGameMapGenerator::NODE_FORWARD;
+			break;
+		case NODE_TURN_LEFT: saveCode = PlayScene::TxtGameMapGenerator::NODE_TURN_LEFT;
+			break;
+		case NODE_TURN_RIGHT: saveCode = PlayScene::TxtGameMapGenerator::NODE_TURN_RIGHT;
+			break;
+		case NODE_FLY: saveCode = PlayScene::TxtGameMapGenerator::NODE_FLY;
+			break;
+		case NODE_FLY2: saveCode = PlayScene::TxtGameMapGenerator::NODE_FLY2;
+			break;
+		case NODE_FORWARD_WITH_REST: saveCode = PlayScene::TxtGameMapGenerator::NODE_FORWARD_WITH_REST;
+			break;
+		}
+
+		saveCodes.push_back( saveCode );
+	}
+
+	PlayScene::TxtGameMapGenerator::save( _fileToSave, saveCodes );
+}
 
 PlayScene::GameMapNode* ToolCreateMapScene::createNode( int code )
 {
 	switch ( code ) {
 	case NODE_FORWARD: return PlayScene::ForwardGameMapNode::create();
+	case NODE_FORWARD_WITH_REST: return PlayScene::ForwardGameMapNodeWithRest::create( 10, 0.2f );
 	case NODE_TURN_LEFT: return PlayScene::TurnLeftGameMapNode::create();
 	case NODE_TURN_RIGHT: return PlayScene::TurnRightGameMapNode::create();
 	case NODE_FLY: return PlayScene::FlyGameMapNode::create();
+	case NODE_FLY2: return PlayScene::FlyGameMapNode2::create();
 	}
 
 	return nullptr;

@@ -40,17 +40,24 @@ bool Player::init()
 
 bool Player::preload()
 {
-	SpriteFrameCache::getInstance()->addSpriteFrame( SpriteFrame::create( "res/test/pikachu_0.png", Rect( 0, 0, 252, 388 ) ),
-	                                                 "pikachu_0.png" );
-	SpriteFrameCache::getInstance()->addSpriteFrame( SpriteFrame::create( "res/test/pikachu_1.png", Rect( 0, 0, 252, 388 ) ),
-	                                                 "pikachu_1.png" );
+	for ( int i = 0; i <= 20; i++ ) {
+		std::stringstream fileNameStringBuilder;
+		fileNameStringBuilder << "res/test/boy_" << i << ".png";
+
+		std::stringstream frameNameStringBuilder;
+		frameNameStringBuilder << "boy_" << i << ".png";
+
+		SpriteFrameCache::getInstance()->addSpriteFrame( SpriteFrame::create( fileNameStringBuilder.str(), Rect( 0, 0, 143, 98 ) ),
+		                                                 frameNameStringBuilder.str() );
+	}
+
 	return true;
 }
 
 bool Player::initSprite()
 {
 	// sprite
-	_sprite = Sprite::createWithSpriteFrameName( "pikachu_1.png" );
+	_sprite = Sprite::createWithSpriteFrameName( "boy_0.png" );
 	if ( !_sprite ) return false;
 
 	addChild( _sprite );
@@ -102,13 +109,17 @@ void Player::createAnimationRun()
 {
 	// get frames
 	Vector<SpriteFrame*> frames;
-	frames.pushBack( SpriteFrameCache::getInstance()->getSpriteFrameByName( "pikachu_0.png" ) );
-	frames.pushBack( SpriteFrameCache::getInstance()->getSpriteFrameByName( "pikachu_1.png" ) );
+	for( int i = 0; i <= 20; i++ ) {
+		std::stringstream frameNameStringBuilder;
+		frameNameStringBuilder << "boy_" << i << ".png";
+
+		frames.pushBack( SpriteFrameCache::getInstance()->getSpriteFrameByName( frameNameStringBuilder.str() ) );
+	}
 
 	// create animation
 
 	auto animation = Animation::createWithSpriteFrames( frames );
-	animation->setDelayPerUnit( 0.25f );
+	animation->setDelayPerUnit( 0.05f );
 	animation->setLoops( -1 );
 	animation->setRestoreOriginalFrame( true );
 
@@ -165,7 +176,7 @@ void Player::idle()
 
 void Player::setStateToIdle()
 {
-	_sprite->setSpriteFrame( "pikachu_1.png" );
+	_sprite->setSpriteFrame( "boy_0.png" );
 	_state = IDLE;
 }
 
@@ -262,7 +273,7 @@ void Player::fly()
 	_sprite->stopActionByTag( ACTION_FLY );
 
 	// create action fly
-	_sprite->setSpriteFrame( "pikachu_1.png" );
+	_sprite->setSpriteFrame( "boy_0.png" );
 	auto zoomOut = ScaleTo::create( 0.25f, 1.5f );
 	auto delay = DelayTime::create( 0.1f );
 	auto zoomIn = ScaleTo::create( 0.2f, 1.0f );

@@ -1,7 +1,7 @@
 #include "PlayScene_GameMap.h"
 using namespace cocos2d;
 
-#define NUMBER_OF_ACTIVE_NODES 10
+#define NUMBER_OF_ACTIVE_NODES 15
 
 namespace PlayScene
 {

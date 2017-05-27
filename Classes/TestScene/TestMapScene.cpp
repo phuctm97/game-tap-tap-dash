@@ -1,6 +1,6 @@
 #include "TestMapScene.h"
 #include "PlayScene/Maps/PlayScene_GameMap.h"
-#include "PlayScene/Maps/PlayScene_RandomGameMapGenerator.h"
+#include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
 using namespace cocos2d;
 
 namespace TestScene
@@ -28,8 +28,8 @@ bool TestMapScene::init()
 {
 	if ( !Layer::init() )return false;
 
-	_gameMap = PlayScene::GameMap::create( PlayScene::RandomGameMapGenerator::create() );
-	_gameMap->setScrollSpeed( 1.0f );
+	_gameMap = PlayScene::GameMap::create( PlayScene::TxtGameMapGenerator::create( "res/data/test.txt" ) );
+	_gameMap->setScrollSpeed( 5.0f );
 	_gameMap->scroll();
 	addChild( _gameMap );
 

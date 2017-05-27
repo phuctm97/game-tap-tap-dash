@@ -1,7 +1,7 @@
 #include "PlayScene_GameMapGenerator.h"
 using namespace cocos2d;
 
-#define FLY_DISTANCE 50
+#define FLY_DISTANCE 200
 
 namespace PlayScene
 {

@@ -25,7 +25,7 @@ cocos2d::Scene* TestPlayerScene::createScene()
 
 bool TestPlayerScene::init()
 {
-	if ( !Layer::init() )return false;
+	if ( !LayerColor::initWithColor( Color4B::WHITE ) )return false;
 
 	// player
 	_player = PlayScene::Player::create();

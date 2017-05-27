@@ -6,34 +6,38 @@
 
 namespace ToolScene
 {
-class ToolCreateMapScene : public cocos2d::Layer
+class ToolCreateMapScene : public cocos2d::LayerColor
 {
 private:
 	enum
 	{
 		NODE_TURN_LEFT = 0,
 		NODE_FORWARD = 1,
-		NODE_FLY = 2,
-		NODE_TURN_RIGHT = 3
+		NODE_FORWARD_WITH_REST = 2,
+		NODE_FLY = 3,
+		NODE_FLY2 = 4,
+		NODE_TURN_RIGHT = 5
 	};
 
 	int _currentNodeCode;
 	PlayScene::GameMapNode* _previousNode;
 
 	std::vector<int> _recoredCodes;
+	std::string _fileToSave;
 
 public:
 	static ToolCreateMapScene* create( const std::string& fileToSave );
 
 	static cocos2d::Scene* createScene( const std::string& fileToSave );
 
-	ToolCreateMapScene()
+	ToolCreateMapScene( const std::string& fileToSave )
 		: _currentNodeCode( NODE_FORWARD ),
-		  _previousNode( nullptr ) {}
+		  _previousNode( nullptr ),
+		  _fileToSave( fileToSave ) {}
 
 	~ToolCreateMapScene();
 
-	bool init( const std::string& fileToSave );
+	bool init() override;
 
 	void onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e ) override;
 

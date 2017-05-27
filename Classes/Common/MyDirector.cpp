@@ -54,11 +54,6 @@ PlayScene::MainLayer* MyDirector::getPlaySceneMainLayer() const
 	return static_cast<PlayScene::MainLayer*>(_playScene->getChildByName( "a" ));
 }
 
-PlayScene::HudLayer* MyDirector::getPlaySceneHudLayer() const
-{
-	return static_cast<PlayScene::HudLayer*>(_playScene->getChildByName( "b" ));
-}
-
 cocos2d::Scene* MyDirector::resetPlayScene() const
 {
 	auto mainLayer = static_cast<PlayScene::MainLayer*>(_playScene->getChildByName( "a" ));
@@ -95,8 +90,6 @@ void MyDirector::createPlayScene()
 	auto gameMap = PlayScene::GameMap::create( generator );
 
 	auto mainLayer = PlayScene::MainLayer::create( player, gameMap );
-	auto hudLayer = PlayScene::HudLayer::create();
 
 	_playScene->addChild( mainLayer, 0, "a" );
-	_playScene->addChild( hudLayer, 1, "b" );
 }

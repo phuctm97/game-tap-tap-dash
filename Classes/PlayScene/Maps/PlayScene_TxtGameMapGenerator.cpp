@@ -1,8 +1,11 @@
 #include "PlayScene_TxtGameMapGenerator.h"
 #include <fstream>
 #include "PlayScene_ForwardGameMapNode.h"
+#include "PlayScene_ForwardGameMapNode2.h"
 #include "PlayScene_TurnLeftGameMapNode.h"
+#include "PlayScene_TurnLeftGameMapNode2.h"
 #include "PlayScene_TurnRightGameMapNode.h"
+#include "PlayScene_TurnRightGameMapNode2.h"
 #include "PlayScene_FlyGameMapNode.h"
 #include "PlayScene_FlyGameMapNode2.h"
 #include "PlayScene_ForwardGameMapNodeWithRest.h"
@@ -32,8 +35,11 @@ GameMapNode* TxtGameMapGenerator::nextNode()
 
 	switch ( *codeIt ) {
 	case NODE_FORWARD: return ForwardGameMapNode::create();
+	case NODE_FORWARD2: return ForwardGameMapNode2::create();
 	case NODE_TURN_LEFT: return TurnLeftGameMapNode::create();
+	case NODE_TURN_LEFT2: return TurnLeftGameMapNode2::create();
 	case NODE_TURN_RIGHT: return TurnRightGameMapNode::create();
+	case NODE_TURN_RIGHT2: return TurnRightGameMapNode2::create();
 	case NODE_FLY: return FlyGameMapNode::create();
 	case NODE_FLY2: return FlyGameMapNode2::create();
 	case NODE_FORWARD_WITH_REST: return ForwardGameMapNodeWithRest::create( 10, 0 );

@@ -4,7 +4,6 @@
 #include <cocos2d.h>
 #include "PlayScene/Players/PlayScene_Player.h"
 #include "PlayScene/Layers/PlayScene_MainLayer.h"
-#include "PlayScene/Layers/PlayScene_HudLayer.h"
 #include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
 #include "IntroScene/Layers/IntroScene_MainLayer.h"
 
@@ -37,8 +36,6 @@ public:
 	cocos2d::Scene* getPlayScene() const;
 
 	PlayScene::MainLayer* getPlaySceneMainLayer() const;
-
-	PlayScene::HudLayer* getPlaySceneHudLayer() const;
 
 	cocos2d::Scene* resetPlayScene() const;
 

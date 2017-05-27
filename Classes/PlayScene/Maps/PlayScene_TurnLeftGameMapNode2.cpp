@@ -28,7 +28,7 @@ bool PlayScene::TurnLeftGameMapNode2::init()
 
 bool PlayScene::TurnLeftGameMapNode2::initSprite()
 {
-	_sprite = Sprite::create("res/test/left_b_2.png");
+	_sprite = Sprite::create("res/play-scene/map/left_b_2.png");
 
 
 	if (!_sprite)
@@ -52,7 +52,7 @@ bool PlayScene::TurnLeftGameMapNode2::initSprite()
 
 
 
-	_navigator = Sprite::create("res/test/left.png");
+	_navigator = Sprite::create("res/play-scene/map/left.png");
 
 	if (!_navigator)
 		return false;

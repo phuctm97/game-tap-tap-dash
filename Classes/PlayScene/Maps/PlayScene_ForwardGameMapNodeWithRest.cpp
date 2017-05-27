@@ -35,7 +35,7 @@ bool PlayScene::ForwardGameMapNodeWithRest::init()
 bool PlayScene::ForwardGameMapNodeWithRest::initSprite()
 {
 
-	_sprite = Sprite::create("res/test/forward_rest.png");
+	_sprite = Sprite::create("res/play-scene/map/forward_rest.png");
 
 
 	if (!_sprite)
@@ -62,7 +62,7 @@ bool PlayScene::ForwardGameMapNodeWithRest::initSprite()
 
 bool PlayScene::ForwardGameMapNodeWithRest::initRestSprite()
 {
-	_restSprite = Sprite::create("res/test/rest.png");
+	_restSprite = Sprite::create("res/play-scene/map/rest.png");
 
 	if (!_restSprite)
 		return false;

@@ -28,7 +28,7 @@ bool PlayScene::FlyGameMapNode::init()
 
 bool PlayScene::FlyGameMapNode::initSprite()
 {
-	_sprite = Sprite::create("res/test/fly_b.png");
+	_sprite = Sprite::create("res/play-scene/map/fly_b.png");
 
 	if (!_sprite)
 		return false;
@@ -49,7 +49,7 @@ bool PlayScene::FlyGameMapNode::initSprite()
 
 
 
-	_navigator = Sprite::create("res/test/fly.png");
+	_navigator = Sprite::create("res/play-scene/map/fly.png");
 
 	if (!_navigator)
 		return false;

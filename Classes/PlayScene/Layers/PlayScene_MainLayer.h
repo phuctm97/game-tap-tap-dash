@@ -80,6 +80,8 @@ public:
 	void postIntroCut1();
 
 	void postIntroCut2();
+
+	void startWinCut();
 };
 }
 

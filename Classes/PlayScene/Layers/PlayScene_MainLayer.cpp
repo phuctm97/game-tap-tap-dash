@@ -357,4 +357,12 @@ void MainLayer::postIntroCut2()
 
 	startGame();
 }
+
+void MainLayer::startWinCut()
+{
+	_player->runAction( Sequence::create( ScaleTo::create( 0.5f, 1.5f ),
+	                                      ScaleTo::create( 0.5f, 1.0f ),
+	                                      nullptr ) );
+	_player->runAction( MoveTo::create( 1.0f, _bus->getPosition() ) );
+}
 }

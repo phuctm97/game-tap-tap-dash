@@ -325,6 +325,7 @@ void Player::win()
 	_sprite->stopAllActions();
 
 	// run animation win
+	idle();
 
 	// run audio win
 

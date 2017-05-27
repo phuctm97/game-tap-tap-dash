@@ -2,7 +2,6 @@
 #include "PlayScene/Players/PlayScene_Player.h"
 #include "PlayScene/Layers/PlayScene_MainLayer.h"
 #include "PlayScene/Maps/PlayScene_TxtGameMapGenerator.h"
-#include "IntroScene/Layers/IntroScene_MainLayer.h"
 using namespace cocos2d;
 
 MyDirector* MyDirector::_instance = nullptr;
@@ -10,8 +9,6 @@ MyDirector* MyDirector::_instance = nullptr;
 MyDirector::MyDirector()
 	: _introScene( nullptr ), _playScene( nullptr )
 {
-	// createIntroScene();
-
 	createPlayScene();
 }
 
@@ -37,8 +34,8 @@ cocos2d::Scene* MyDirector::getIntroScene() const
 
 cocos2d::Scene* MyDirector::resetIntroScene() const
 {
-	auto mainLayer = static_cast<IntroScene::MainLayer*>(_introScene->getChildByName( "a" ));
-	mainLayer->reset();
+// 	auto mainLayer = static_cast<IntroScene::MainLayer*>(_introScene->getChildByName( "a" ));
+//	mainLayer->reset();
 
 	return _introScene;
 }
@@ -72,8 +69,8 @@ void MyDirector::createIntroScene()
 	_introScene = Scene::create();
 	_introScene->retain();
 
-	auto mainLayer = IntroScene::MainLayer::create();
-	_introScene->addChild( mainLayer, 0, "a" );
+	// auto mainLayer = IntroScene::MainLayer::create();
+	// _introScene->addChild( mainLayer, 0, "a" );
 }
 
 void MyDirector::createLevelScene() { throw "not implemented"; }

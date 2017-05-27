@@ -103,8 +103,8 @@ void MainLayer::updateMapScrollDirection() const
 void MainLayer::reset()
 {
 	// reset map and player
-	auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width / 2,
-	                           Director::getInstance()->getVisibleSize().height * 0.1f );
+	auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width * 0.5f,
+	                           Director::getInstance()->getVisibleSize().height * 0.5f );
 	_map->reset( startPosition );
 	_player->reset( startPosition );
 	_map->setScrollSpeed( 5.0f );
@@ -201,7 +201,7 @@ void MainLayer::update( float dt )
 
 	// check position
 	auto currentNode = _map->getCurrentNode();
-	if ( currentNode->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
+	if ( _player->getState() != IPlayer::FLYING && currentNode->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
 
 		// exception
 		if ( _map->isEnd() ) {

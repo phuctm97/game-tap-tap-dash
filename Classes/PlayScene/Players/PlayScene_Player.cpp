@@ -274,9 +274,9 @@ void Player::fly()
 
 	// create action fly
 	_sprite->setSpriteFrame( "boy_0.png" );
-	auto zoomOut = ScaleTo::create( 0.25f, 1.5f );
-	auto delay = DelayTime::create( 0.1f );
-	auto zoomIn = ScaleTo::create( 0.2f, 1.0f );
+	auto zoomOut = ScaleTo::create( 0.35f, 1.5f );
+	auto delay = DelayTime::create( 0.2f );
+	auto zoomIn = ScaleTo::create( 0.3f, 1.0f );
 	auto resetToRun = CallFunc::create( CC_CALLBACK_0( Player::run, this ) );
 	auto actionFly = Sequence::create( zoomOut, delay, zoomIn, resetToRun, nullptr );
 

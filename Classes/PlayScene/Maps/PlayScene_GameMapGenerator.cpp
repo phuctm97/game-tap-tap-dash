@@ -1,7 +1,7 @@
 #include "PlayScene_GameMapGenerator.h"
 using namespace cocos2d;
 
-#define FLY_DISTANCE 200
+#define FLY_DISTANCE 180
 
 namespace PlayScene
 {
@@ -60,9 +60,9 @@ void GameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node )
 	case GameMapNode::DIRECTION_LEFT: {
 		// set position
 		node->setPosition( previousNode->getPositionX()
-		                   - previousNode->getContentSize().width * 0.5f
+		                   - previousNode->getContentSize().height * 0.5f
 		                   - (previousNode->getType() == GameMapNode::NODE_FLY ? FLY_DISTANCE : 0)
-		                   - node->getContentSize().width * 0.5f,
+		                   - node->getContentSize().height * 0.5f,
 		                   previousNode->getPositionY() );
 		node->setRotation( -90 );
 
@@ -85,9 +85,9 @@ void GameMapGenerator::placeNode( GameMapNode* previousNode, GameMapNode* node )
 	case GameMapNode::DIRECTION_RIGHT: {
 		// set position
 		node->setPosition( previousNode->getPositionX()
-		                   + previousNode->getContentSize().width * 0.5f
+		                   + previousNode->getContentSize().height * 0.5f
 		                   + (previousNode->getType() == GameMapNode::NODE_FLY ? FLY_DISTANCE : 0)
-		                   + node->getContentSize().width * 0.5f,
+		                   + node->getContentSize().height * 0.5f,
 		                   previousNode->getPositionY() );
 		node->setRotation( 90 );
 

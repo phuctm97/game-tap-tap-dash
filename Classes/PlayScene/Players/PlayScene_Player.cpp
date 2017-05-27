@@ -251,8 +251,8 @@ void Player::fly()
 	if ( _state == DEAD ) return;
 
 	_state = FLYING;
-
 	// run audio fly
+
 }
 
 void Player::die()

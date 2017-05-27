@@ -1,8 +1,5 @@
 #include "AppDelegate.h"
-#include "TestScene/TestPlayerScene.h"
-#include "TestScene/TestMapScene.h"
 #include "TestScene/TestMapNodeScene.h"
-#include "ToolScene/ToolCreateMapScene.h"
 
 USING_NS_CC;
 
@@ -52,7 +49,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	register_all_packages();
 
 	// run
-	director->runWithScene( TestScene::TestPlayerScene::createScene() );
+	director->runWithScene( TestScene::TestMapNodeScene::createScene() );
 
 	return true;
 }

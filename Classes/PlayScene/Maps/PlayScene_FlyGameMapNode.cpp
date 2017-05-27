@@ -47,7 +47,7 @@ bool PlayScene::FlyGameMapNode::initSprite()
 
 	_sprite->setRotation(getRotation());
 
-	
+
 
 	_navigator = Sprite::create("res/test/fly.png");
 
@@ -88,5 +88,15 @@ int PlayScene::FlyGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPos
 int PlayScene::FlyGameMapNode::getType() const
 {
 	return NODE_FLY;
+}
+
+void PlayScene::FlyGameMapNode::highLightNavi()
+{
+	_navigator->setColor(Color3B::YELLOW);
+}
+
+void PlayScene::FlyGameMapNode::unHighLightNavi()
+{
+	_navigator->setColor(cocos2d::Color3B::WHITE);
 }
 

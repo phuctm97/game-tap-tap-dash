@@ -23,6 +23,13 @@ public:
 
 	int getType() const override;
 
+	void highLightNavi() override;
+
+	void unHighLightNavi() override;
+
+	void decreaseRestCode() override {}
+	
+
 private:
 	cocos2d::Sprite* _sprite;
 	cocos2d::Sprite* _navigator;

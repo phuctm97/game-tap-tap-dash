@@ -23,10 +23,16 @@ public:
 
 	int getType() const override;
 
+	void highLightNavi() override;
+
+	void unHighLightNavi() override;
+
+	void decreaseRestCode() override {}
+
 private:
 	cocos2d::Sprite* _sprite;
 	cocos2d::Sprite* _navigator;
 };
 }
 
-#endif //!__PLAY_SCENE_FLY_GAME_MAP_NODE_H__
+#endif //!__PLAY_SCENE_FLY_GAME_MAP_NODE_2_H__

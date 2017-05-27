@@ -36,7 +36,7 @@ bool PlayScene::TurnLeftGameMapNode2::initSprite()
 
 	this->addChild(_sprite);
 
-	
+
 
 	// synchronize transformations
 
@@ -50,7 +50,7 @@ bool PlayScene::TurnLeftGameMapNode2::initSprite()
 
 	_sprite->setRotation(getRotation());
 
-	
+
 
 	_navigator = Sprite::create("res/test/left.png");
 
@@ -76,7 +76,7 @@ bool PlayScene::TurnLeftGameMapNode2::initSprite()
 
 int PlayScene::TurnLeftGameMapNode2::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
-		Point rotatedPoint = rotatePoint(worldPosition, -1 * this->getRotation(), this->getPosition());
+	Point rotatedPoint = rotatePoint(worldPosition, -1 * this->getRotation(), this->getPosition());
 
 	Rect originRect = Rect(this->getPositionX() - this->getContentSize().width / 2,
 		this->getPositionY() - this->getContentSize().height / 2, this->getContentSize().width, this->getContentSize().height);
@@ -90,5 +90,15 @@ int PlayScene::TurnLeftGameMapNode2::checkPositionInside(const cocos2d::Vec2& wo
 int PlayScene::TurnLeftGameMapNode2::getType() const
 {
 	return NODE_TURN_LEFT;
+}
+
+void PlayScene::TurnLeftGameMapNode2::highLightNavi()
+{
+	_navigator->setColor(Color3B::YELLOW);
+}
+
+void PlayScene::TurnLeftGameMapNode2::unHighLightNavi()
+{
+	_navigator->setColor(Color3B::WHITE);
 }
 

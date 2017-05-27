@@ -88,7 +88,8 @@ void MainLayer::onBtnStartClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::T
 {
 
 	if( type == Widget::TouchEventType::ENDED ) {
-		//Director::getInstance()->replaceScene( MyDirector::getInstance()->getLevelScene() );
+		MyDirector::getInstance()->resetPlayScene();
+		Director::getInstance()->replaceScene( MyDirector::getInstance()->getPlayScene() );
 	}
 }
 

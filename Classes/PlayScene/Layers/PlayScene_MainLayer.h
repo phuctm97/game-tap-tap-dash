@@ -35,7 +35,8 @@ private:
 public:
 	MainLayer( IPlayer* player, GameMap* map )
 		: _player( player ), _map( map ),
-		  _house( nullptr ), _bus( nullptr ),
+		  _house( nullptr ), _houseAnchor( nullptr ),
+		  _bus( nullptr ),
 		  _state( WAIT_FOR_PLAY ), _gameSpeed( 0 ) {}
 
 	~MainLayer();

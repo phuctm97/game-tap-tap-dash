@@ -204,6 +204,12 @@ void MainLayer::update( float dt )
 		}
 	}
 
+	// update bus
+	if( _map->isPushedTail() ) {
+		_bus->setVisible( true );
+		_bus->setPosition( _map->getBusStopNode()->getPosition() );
+	}
+
 	// finish map
 	if ( _map->isEnd() ) {
 		winGame();
@@ -269,6 +275,7 @@ void MainLayer::startIntroCut()
 	_player->reset( playerStartPosition );
 
 	// bus run
+	_bus->stopAllActions();
 	_bus->runAction( Sequence::create( MoveBy::create( 1.5f, Vec2( 0, Director::getInstance()->getVisibleSize().height + _bus->getContentSize().height ) ),
 	                                   Hide::create(),
 	                                   nullptr ) );
@@ -281,6 +288,8 @@ void MainLayer::postIntroCut0()
 {
 	// player walk out house
 	_player->setSpeed( 5.0f );
+	_player->stopAllActions();
+
 	_player->run();
 	_player->turnLeft();
 

@@ -23,6 +23,8 @@ private:
 
 	int _scrollDirection;
 
+	bool _pushedTail;
+
 public:
 	enum
 	{
@@ -39,7 +41,10 @@ public:
 
 	GameMap( GameMapGenerator* generator )
 		: _generator( generator ),
-		  _scrolling( false ), _scrollDirection( SCROLL_UP ), _scrollSpeed( 0 ),
+		  _scrolling( false ),
+		  _scrollDirection( SCROLL_UP ),
+		  _scrollSpeed( 0 ),
+		  _pushedTail( false ),
 		  _currentNodeIndex( 0 ), _nextControlNodeIndex( -1 ) {}
 
 	~GameMap();
@@ -60,6 +65,8 @@ public:
 
 	GameMapNode* getCurrentNode() const;
 
+	GameMapNode* getBusStopNode() const;
+
 	GameMapNode* nextNode();
 
 	int nextControl();
@@ -69,6 +76,8 @@ public:
 	GameMapNode* getNode( int index ) const;
 
 	bool isEnd() const;
+
+	bool isPushedTail() const;
 
 	void reset( const cocos2d::Vec2& position );
 
@@ -83,6 +92,8 @@ private:
 
 	void pushNewNode();
 
+	void pushTail();
+
 	int findNextControlNode() const;
 
 	cocos2d::Vec2 calculateScrollVector() const;
@@ -90,6 +101,7 @@ private:
 	bool checkNodeOutOfView( GameMapNode* node ) const;
 
 	void doScroll();
+
 };
 }
 

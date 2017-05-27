@@ -1,7 +1,10 @@
 #include "PlayScene_GameMap.h"
+#include "PlayScene_GameMapNodeBusStop.h"
+#include "PlayScene_ForwardGameMapNode.h"
 using namespace cocos2d;
 
-#define NUMBER_OF_ACTIVE_NODES 25
+#define NUMBER_OF_ACTIVE_NODES 30
+#define NUMBER_OF_TAIL_NODES 10
 
 namespace PlayScene
 {
@@ -75,6 +78,8 @@ void GameMap::reset( const cocos2d::Vec2& position )
 	}
 	_activeNodes.clear();
 
+	_pushedTail = false;
+
 	// reset generator
 	_generator->reset();
 
@@ -124,6 +129,13 @@ GameMapNode* GameMap::getCurrentNode() const
 	return nullptr;
 }
 
+GameMapNode* GameMap::getBusStopNode() const
+{
+	if ( !_pushedTail ) return nullptr;
+
+	return _activeNodes[_activeNodes.size() - NUMBER_OF_TAIL_NODES + 1];
+}
+
 GameMapNode* GameMap::nextNode()
 {
 	if ( isEnd() ) return nullptr;
@@ -170,7 +182,12 @@ GameMapNode* GameMap::nextNode()
 
 bool GameMap::isEnd() const
 {
-	return _currentNodeIndex == _activeNodes.size() - 1;
+	return _currentNodeIndex == _activeNodes.size() - NUMBER_OF_TAIL_NODES;
+}
+
+bool GameMap::isPushedTail() const
+{
+	return _pushedTail;
 }
 
 int GameMap::nextControl()
@@ -243,12 +260,41 @@ void GameMap::generateInitialNodes( const cocos2d::Vec2& initialPosition )
 void GameMap::pushNewNode()
 {
 	auto node = _generator->nextNode();
-	if ( node == nullptr ) return;
+	if ( node == nullptr ) {
+		if ( !_pushedTail ) {
+			pushTail();
+		}
+		return;
+	}
 
 	_activeNodes.push_back( node );
 	addChild( node );
 
 	_generator->placeNode( _activeNodes[_activeNodes.size() - 2], node );
+}
+
+void GameMap::pushTail()
+{
+	_pushedTail = true;
+
+	GameMapNode* node;
+
+	node = ForwardGameMapNode::create();
+	_activeNodes.push_back( node );
+	addChild( node );
+	_generator->placeNode( _activeNodes[_activeNodes.size() - 2], node );
+
+	node = GameMapNodeBusStop::create();
+	_activeNodes.push_back( node );
+	addChild( node );
+	_generator->placeNode( _activeNodes[_activeNodes.size() - 2], node );
+
+	for ( int i = 2; i < NUMBER_OF_TAIL_NODES; i++ ) {
+		node = ForwardGameMapNode::create();
+		_activeNodes.push_back( node );
+		addChild( node );
+		_generator->placeNode( _activeNodes[_activeNodes.size() - 2], node );
+	}
 }
 
 int GameMap::findNextControlNode() const

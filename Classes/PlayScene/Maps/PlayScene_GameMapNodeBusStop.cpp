@@ -35,7 +35,7 @@ bool PlayScene::GameMapNodeBusStop::init()
 bool PlayScene::GameMapNodeBusStop::initSprite()
 {
 
-	_sprite = Sprite::create("res/test/forward_rest.png");
+	_sprite = Sprite::create("res/play-scene/map/forward_rest.png");
 
 
 	if (!_sprite)
@@ -62,7 +62,7 @@ bool PlayScene::GameMapNodeBusStop::initSprite()
 
 bool PlayScene::GameMapNodeBusStop::initRestSprite()
 {
-	_restSprite = Sprite::create("res/test/busstop.png");
+	_restSprite = Sprite::create("res/play-scene/map/busstop.png");
 
 	if (!_restSprite)
 		return false;

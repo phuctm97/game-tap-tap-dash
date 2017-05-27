@@ -151,11 +151,15 @@ void Player::increaseEnergy( float energy )
 
 void Player::reset( const cocos2d::Vec2& position )
 {
+	stopAllActions();
+
+	_sprite->setRotation( 0 );
+	
+	_energy = 1.0f;
+	
 	setPosition( position );
 
 	idle();
-
-	_energy = 1.0f;
 }
 
 void Player::setSpeed( float speed )

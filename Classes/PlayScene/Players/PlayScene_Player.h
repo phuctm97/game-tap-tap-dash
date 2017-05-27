@@ -72,6 +72,8 @@ public:
 	void win() override;
 
 private:
+	bool preload();
+
 	bool initSprite();
 
 	bool initActions();
@@ -84,7 +86,7 @@ private:
 
 	float calculateDelay() const;
 
-	void setStateToRunning();
+	void setStateToIdle();
 };
 }
 

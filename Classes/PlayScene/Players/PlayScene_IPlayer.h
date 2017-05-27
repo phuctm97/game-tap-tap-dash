@@ -41,8 +41,10 @@ public:
 
 	virtual void win() = 0;
 
-	virtual float getEnergy() const = 0;
-	virtual void increaseEnergy( float energy ) = 0;};
+	virtual float getEnergy() const = 0;
+
+	virtual void increaseEnergy( float energy ) = 0;
+};
 }
 
 #endif //!__I_PLAYER_H__

@@ -25,6 +25,8 @@ bool Player::init()
 {
 	if ( !IPlayer::init() ) return false;
 
+	if ( !preload() ) return false;
+
 	if ( !initSprite() ) return false;
 
 	if ( !initActions() ) return false;
@@ -36,10 +38,19 @@ bool Player::init()
 	return true;
 }
 
+bool Player::preload()
+{
+	SpriteFrameCache::getInstance()->addSpriteFrame( SpriteFrame::create( "res/test/pikachu_0.png", Rect( 0, 0, 252, 388 ) ),
+	                                                 "pikachu_0.png" );
+	SpriteFrameCache::getInstance()->addSpriteFrame( SpriteFrame::create( "res/test/pikachu_1.png", Rect( 0, 0, 252, 388 ) ),
+	                                                 "pikachu_1.png" );
+	return true;
+}
+
 bool Player::initSprite()
 {
 	// sprite
-	_sprite = Sprite::create( "res/test/pikachu1.png" );
+	_sprite = Sprite::createWithSpriteFrameName( "pikachu_1.png" );
 	if ( !_sprite ) return false;
 
 	addChild( _sprite );
@@ -87,19 +98,15 @@ float Player::calculateDelay() const
 		return 1.0f;
 }
 
-void Player::setStateToRunning()
-{
-	_state = RUNNING;
-}
-
 void Player::createAnimationRun()
 {
 	// get frames
 	Vector<SpriteFrame*> frames;
-	frames.pushBack( SpriteFrame::create( "res/test/pikachu.png", Rect( 0, 0, 252, 388 ) ) );
-	frames.pushBack( SpriteFrame::create( "res/test/pikachu1.png", Rect( 0, 0, 252, 388 ) ) );
+	frames.pushBack( SpriteFrameCache::getInstance()->getSpriteFrameByName( "pikachu_0.png" ) );
+	frames.pushBack( SpriteFrameCache::getInstance()->getSpriteFrameByName( "pikachu_1.png" ) );
 
 	// create animation
+
 	auto animation = Animation::createWithSpriteFrames( frames );
 	animation->setDelayPerUnit( 0.25f );
 	animation->setLoops( -1 );
@@ -142,23 +149,37 @@ void Player::reset( const cocos2d::Vec2& position )
 
 void Player::idle()
 {
-	_sprite->stopAllActions();
+	_sprite->stopActionByTag( ACTION_FLY );
+	_sprite->stopActionByTag( ACTION_RUN );
 
 	// run animation idle
+	if ( _sprite->getScale() > 1.0f ) {
+		auto resetScale = ScaleTo::create( 0.1f, 1.0f );
+		auto resetState = CallFunc::create( CC_CALLBACK_0( Player::setStateToIdle, this ) );
+		_sprite->runAction( Sequence::create( resetScale, resetState, nullptr ) );
+	}
+	else {
+		setStateToIdle();
+	}
+}
 
-	// run audio idle
-
+void Player::setStateToIdle()
+{
+	_sprite->setSpriteFrame( "pikachu_1.png" );
 	_state = IDLE;
 }
 
 void Player::run()
 {
-	if ( _state != IDLE ) return;
+	if ( _state != IDLE && _state != FLYING ) return;
 
 	_sprite->stopActionByTag( ACTION_RUN );
 
 	// run animation running
-	_sprite->runAction( _actionRun );
+	auto actionRun = _actionRun->clone();
+	actionRun->setTag( ACTION_RUN );
+
+	_sprite->runAction( actionRun );
 
 	// play audio running
 
@@ -237,14 +258,16 @@ void Player::fly()
 {
 	if ( _state == DEAD ) return;
 
+	_sprite->stopActionByTag( ACTION_RUN );
 	_sprite->stopActionByTag( ACTION_FLY );
 
 	// create action fly
+	_sprite->setSpriteFrame( "pikachu_1.png" );
 	auto zoomOut = ScaleTo::create( 0.25f, 1.5f );
 	auto delay = DelayTime::create( 0.1f );
 	auto zoomIn = ScaleTo::create( 0.2f, 1.0f );
-	auto resetState = CallFunc::create( CC_CALLBACK_0( Player::setStateToRunning, this ) );
-	auto actionFly = Sequence::create( zoomOut, delay, zoomIn, resetState, nullptr );
+	auto resetToRun = CallFunc::create( CC_CALLBACK_0( Player::run, this ) );
+	auto actionFly = Sequence::create( zoomOut, delay, zoomIn, resetToRun, nullptr );
 
 	actionFly->setTag( ACTION_FLY );
 
@@ -252,7 +275,6 @@ void Player::fly()
 	_sprite->runAction( actionFly );
 
 	// run audio fly
-
 	_state = FLYING;
 }
 
@@ -271,7 +293,7 @@ void Player::win()
 {
 	if ( _state == DEAD ) return;
 
-	stopAllActions();
+	_sprite->stopAllActions();
 
 	// run animation win
 

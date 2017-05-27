@@ -7,7 +7,7 @@
 
 namespace PlayScene
 {
-class MainLayer : public cocos2d::Layer
+class MainLayer : public cocos2d::LayerColor
 {
 	enum
 	{
@@ -26,9 +26,11 @@ private:
 
 	int _speed;
 
+	int _timeToStart;
+
 public:
 	MainLayer( IPlayer* player, GameMap* map )
-		: _player( player ), _map( map ), _state( WAIT_FOR_PLAY ), _speed( 2 ) {}
+		: _player( player ), _map( map ), _state( WAIT_FOR_PLAY ), _speed( 2 ), _timeToStart( 0 ) {}
 
 	static MainLayer* create( IPlayer* player, GameMap* map );
 
@@ -42,7 +44,7 @@ public:
 
 	bool onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e ) override;
 
-	void updateMapScrollDirection();
+	void updateMapScrollDirection() const;
 
 	void onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Event* e ) override;
 
@@ -50,11 +52,21 @@ public:
 
 	void startGame();
 
+	void interactGame() const;
+
 	void winGame();
 
 	void loseGame();
 
+	void onPassedNode( GameMapNode* node ) const;
+
 	void update( float dt ) override;
+
+	void startCountdownTimeToStart();
+
+	void stopCountdownTimeToStart();
+
+	void countdownTimeToStart( float dt );
 };
 }
 

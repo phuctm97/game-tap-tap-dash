@@ -44,6 +44,8 @@ public:
 
 	int getDirection() const override;
 	
+	float getEnergy() const override;
+
 	void reset( const cocos2d::Vec2& position ) override;
 
 	void idle() override;
@@ -59,6 +61,8 @@ public:
 	void die() override;
 
 	void win() override;
+
+	void increaseEnergy( float energy ) override;
 
 private:
 	bool initSprite();

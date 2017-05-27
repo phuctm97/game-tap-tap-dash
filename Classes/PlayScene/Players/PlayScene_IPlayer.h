@@ -25,7 +25,11 @@ public:
 
 	virtual int getDirection() const = 0;
 
+	virtual float getEnergy() const = 0;
+
 	virtual void reset( const cocos2d::Vec2& position ) = 0;
+
+	virtual void increaseEnergy( float energy ) = 0;
 
 	virtual void idle() = 0;
 

@@ -10,6 +10,12 @@ class GameMapNode : public cocos2d::Node
 private:
 	int _direction;
 
+	bool _isRestNode;
+
+	int _restCode;
+
+	float _restEnergy;
+
 public:
 	enum
 	{
@@ -28,13 +34,21 @@ public:
 	};
 
 	GameMapNode()
-		: _direction( DIRECTION_UP ) {}
+		: _direction( DIRECTION_UP ), _isRestNode( false ), _restCode( -1 ), _restEnergy( 0 ) {}
 
 	virtual int checkPositionInside( const cocos2d::Vec2& worldPosition ) = 0;
 
 	virtual int getType() const = 0;
 
 	int getDirection() const;
+
+	bool isRestNode() const;
+
+	void decreaseRestCode();
+
+	int getRestCode() const;
+
+	float getRestEnergy() const;
 
 	void setDirection( int direction );
 };

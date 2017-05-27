@@ -125,6 +125,11 @@ int Player::getDirection() const
 	throw "not implemented";
 }
 
+float Player::getEnergy() const
+{
+	throw "not implemented";
+}
+
 void Player::reset( const cocos2d::Vec2& position )
 {
 	setPosition( position );
@@ -211,5 +216,10 @@ void Player::win()
 	// run audio win
 
 	_state = IDLE;
+}
+
+void Player::increaseEnergy( float energy )
+{
+	
 }
 }

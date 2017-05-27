@@ -2,6 +2,8 @@
 #include "Common/MyDirector.h"
 using namespace cocos2d;
 
+#define TIME_TO_START 3
+
 namespace PlayScene
 {
 MainLayer* MainLayer::create( IPlayer* player, GameMap* map )
@@ -60,7 +62,7 @@ void MainLayer::initEvents()
 
 void MainLayer::onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Event* e )
 {
-	// allow exit game
+	// TODO: back to level scene
 	if ( key == EventKeyboard::KeyCode::KEY_BACK || key == EventKeyboard::KeyCode::KEY_ESCAPE ) {
 		MyDirector::getInstance()->end();
 	}
@@ -68,41 +70,14 @@ void MainLayer::onKeyReleased( cocos2d::EventKeyboard::KeyCode key, cocos2d::Eve
 
 bool MainLayer::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
 {
-	switch ( _state ) {
-
-		// start game
-	case WAIT_FOR_PLAY: {
-		startGame();
-	}
-		break;
-
-		// gameplay
-	case PLAYING: {
-
-		switch ( _map->getNextControl() ) {
-		case GameMap::TURN_LEFT: {
-			_player->turnLeft();
-		}
-			break;
-		case GameMap::TURN_RIGHT: {
-			_player->turnRight();
-		}
-			break;
-		case GameMap::FLY: {
-			_player->fly();
-		}
-			break;
-		}
-
-		updateMapScrollDirection();
-	}
-		break;
+	if ( _state == PLAYING ) {
+		interactGame();
 	}
 
 	return true;
 }
 
-void MainLayer::updateMapScrollDirection()
+void MainLayer::updateMapScrollDirection() const
 {
 	switch ( _player->getDirection() ) {
 	case IPlayer::DIRECTION_UP: _map->setScrollDirection( GameMap::SCROLL_DOWN );
@@ -118,22 +93,55 @@ void MainLayer::updateMapScrollDirection()
 
 void MainLayer::reset()
 {
+	// reset map and player
 	auto startPosition = Vec2( Director::getInstance()->getVisibleSize().width / 2,
 	                           Director::getInstance()->getVisibleSize().height * 0.1f );
-
-	_player->reset( startPosition );
 	_map->reset( startPosition );
+	_player->reset( startPosition );
 
+	// reset game state
 	_state = WAIT_FOR_PLAY;
+
+	// start timer
+	startCountdownTimeToStart();
 }
 
 void MainLayer::startGame()
 {
+	stopCountdownTimeToStart();
+
 	_state = PLAYING;
 
 	_map->scroll();
 
 	_player->run();
+}
+
+void MainLayer::interactGame() const
+{
+	// rest node
+	if ( _map->getCurrentNode()->isRestNode() ) {
+		_map->getCurrentNode()->decreaseRestCode();
+	}
+	// normal node
+	else {
+		switch ( _map->getNextControl() ) {
+		case GameMap::TURN_LEFT: {
+			_player->turnLeft();
+		}
+			break;
+		case GameMap::TURN_RIGHT: {
+			_player->turnRight();
+		}
+			break;
+		case GameMap::FLY: {
+			_player->fly();
+		}
+			break;
+		}
+	}
+
+	updateMapScrollDirection();
 }
 
 void MainLayer::winGame()
@@ -154,22 +162,69 @@ void MainLayer::loseGame()
 	_state = GAME_OVER;
 }
 
+void MainLayer::onPassedNode( GameMapNode* node ) const
+{
+	if ( node->isRestNode() && node->getRestCode() == 0 ) {
+		_player->increaseEnergy( node->getRestEnergy() );
+	}
+
+	// increase score
+}
+
 void MainLayer::update( float dt )
 {
 	if ( _state != PLAYING ) return;
 
+	// finish map
 	if ( _map->isEnd() ) {
 		winGame();
+		return;
 	}
 
-	if ( _map->getCurrentNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
+	// player out of energy
+	if ( _player->getEnergy() == 0 ) {
+		loseGame();
+	}
+
+	// check position
+	auto currentNode = _map->getCurrentNode();
+	if ( currentNode->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
+
+		// exception
 		if ( _map->isEnd() ) {
 			throw "Player exit last map node";
 		}
 
-		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_OUTSIDE ) {
+		// pass to next node
+		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_INSIDE ) {
+			onPassedNode( currentNode );
+		}
+		// drop out the road
+		else {
 			loseGame();
 		}
+	}
+}
+
+void MainLayer::startCountdownTimeToStart()
+{
+	_timeToStart = TIME_TO_START;
+	schedule( CC_CALLBACK_1( MainLayer::countdownTimeToStart, this ), 1.0f, "updateTimeToStart" );
+}
+
+void MainLayer::stopCountdownTimeToStart()
+{
+	_timeToStart = TIME_TO_START;
+	unschedule( "updateTimeToStart" );
+}
+
+void MainLayer::countdownTimeToStart( float dt )
+{
+	if ( _state != WAIT_FOR_PLAY ) return;
+
+	_timeToStart -= 1;
+	if ( _timeToStart <= 0 ) {
+		startGame();
 	}
 }
 }

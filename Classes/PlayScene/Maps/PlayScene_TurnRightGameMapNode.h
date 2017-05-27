@@ -11,7 +11,12 @@ namespace PlayScene
 	public:
 
 		TurnRightGameMapNode()
-			: _sprite(nullptr), _navigator(nullptr) {}
+			: _sprite(nullptr), _navigator(nullptr) 
+		{
+			_restCode = -1;
+			_energy = -1;
+			_isRestNode = false;
+		}
 
 		static TurnRightGameMapNode* create();
 

@@ -1,16 +1,16 @@
-#ifndef __PLAY_SCENE_TURN_LEFT_GAME_MAP_NODE_H__
-#define __PLAY_SCENE_TURN_LEFT_GAME_MAP_NODE_H__
+#ifndef __PLAY_SCENE_FLY_GAME_MAP_NODE_H_2__
+#define __PLAY_SCENE_FLY_GAME_MAP_NODE_H_2__
 
 #include <cocos2d.h>
 #include "PlayScene_GameMapNode.h"
 
 namespace PlayScene
 {
-	class TurnLeftGameMapNode : public GameMapNode
+	class FlyGameMapNode2 : public GameMapNode
 	{
 	public:
 
-		TurnLeftGameMapNode()
+		FlyGameMapNode2()
 			: _sprite(nullptr), _navigator(nullptr)
 		{
 			_restCode = -1;
@@ -18,7 +18,7 @@ namespace PlayScene
 			_isRestNode = false;
 		}
 
-		static TurnLeftGameMapNode* create();
+		static FlyGameMapNode2* create();
 
 		bool init() override;
 
@@ -30,8 +30,8 @@ namespace PlayScene
 
 	private:
 		cocos2d::Sprite* _sprite;
-		cocos2d::Sprite *_navigator;
+		cocos2d::Sprite* _navigator;
 	};
 }
 
-#endif //!__PLAY_SCENE_TURN_LEFT_GAME_MAP_NODE_H__
+#endif //!__PLAY_SCENE_FLY_GAME_MAP_NODE_H__

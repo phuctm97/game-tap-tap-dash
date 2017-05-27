@@ -28,7 +28,7 @@ bool PlayScene::FlyGameMapNode::init()
 
 bool PlayScene::FlyGameMapNode::initSprite()
 {
-	_sprite = Sprite::create("res/test/blank.png");
+	_sprite = Sprite::create("res/test/fly_b.png");
 
 	if (!_sprite)
 		return false;

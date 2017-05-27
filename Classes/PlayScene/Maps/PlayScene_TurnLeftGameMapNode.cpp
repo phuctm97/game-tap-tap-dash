@@ -28,7 +28,7 @@ bool PlayScene::TurnLeftGameMapNode::init()
 
 bool PlayScene::TurnLeftGameMapNode::initSprite()
 {
-	_sprite = Sprite::create("res/test/blank.png");
+	_sprite = Sprite::create("res/test/left_b.png");
 
 
 	if (!_sprite)

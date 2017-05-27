@@ -1,10 +1,10 @@
-#include "PlayScene_TurnRightGameMapNode.h"
+#include "PlayScene_FlyGameMapNode_2.h"
 
 USING_NS_CC;
 
-PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
+PlayScene::FlyGameMapNode2* PlayScene::FlyGameMapNode2::create()
 {
-	auto p = new TurnRightGameMapNode();
+	auto p = new FlyGameMapNode2();
 	if (p && p->init())
 	{
 		p->autorelease();
@@ -15,7 +15,7 @@ PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
 	return nullptr;
 }
 
-bool PlayScene::TurnRightGameMapNode::init()
+bool PlayScene::FlyGameMapNode2::init()
 {
 	if (!Node::init())
 		return false;
@@ -26,9 +26,9 @@ bool PlayScene::TurnRightGameMapNode::init()
 	return true;
 }
 
-bool PlayScene::TurnRightGameMapNode::initSprite()
+bool PlayScene::FlyGameMapNode2::initSprite()
 {
-	_sprite = Sprite::create("res/test/right_b.png");
+	_sprite = Sprite::create("res/test/fly_b_2.png");
 
 	if (!_sprite)
 		return false;
@@ -47,22 +47,24 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 
 	_sprite->setRotation(getRotation());
 
-	setContentSize(_sprite->getContentSize());
 
-	_navigator = Sprite::create("res/test/right.png");
+
+	_navigator = Sprite::create("res/test/fly.png");
 
 	if (!_navigator)
 		return false;
 
 	this->addChild(_navigator);
 
+	// synchronize transformations
+
 	_navigator->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	_navigator->setPosition(_sprite->getContentSize().width / 2, _sprite->getContentSize().height / 2);
 
-	_navigator->setScale(_sprite->getScale());
+	_navigator->setScale(getScale());
 
-	_navigator->setRotation(_sprite->getRotation());
+	_navigator->setRotation(getRotation());
 
 	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
@@ -70,8 +72,7 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 }
 
 
-
-int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
+int PlayScene::FlyGameMapNode2::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
 	if ((worldPosition.x >= this->getPositionX() - this->getContentSize().width / 2)
 		&& (worldPosition.x <= this->getPositionX() + this->getContentSize().width / 2)
@@ -82,8 +83,8 @@ int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& wo
 	return POSITION_OUTSIDE;
 }
 
-int PlayScene::TurnRightGameMapNode::getType() const
+int PlayScene::FlyGameMapNode2::getType() const
 {
-	return NODE_TURN_RIGHT;
+	return NODE_FLY;
 }
 

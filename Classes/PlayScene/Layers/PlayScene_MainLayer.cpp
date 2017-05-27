@@ -114,6 +114,8 @@ void MainLayer::updateMapScrollDirection() const
 void MainLayer::reset()
 {
 	// reset map and player
+	_player->setScale( 1.0f );
+	
 	_map->reset( Vec2::ZERO );
 	_player->reset( Vec2::ZERO );
 
@@ -171,6 +173,8 @@ void MainLayer::winGame()
 	_map->stop();
 
 	_state = GAME_OVER;
+
+	startWinCut();
 }
 
 void MainLayer::loseGame()
@@ -361,8 +365,10 @@ void MainLayer::postIntroCut2()
 void MainLayer::startWinCut()
 {
 	_player->runAction( Sequence::create( ScaleTo::create( 0.5f, 1.5f ),
-	                                      ScaleTo::create( 0.5f, 1.0f ),
+	                                      ScaleTo::create( 0.5f, 0 ),
 	                                      nullptr ) );
 	_player->runAction( MoveTo::create( 1.0f, _bus->getPosition() ) );
+	_player->runAction( RotateBy::create( 1.0f, 360 * 5 ) );
 }
+
 }

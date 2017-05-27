@@ -110,16 +110,16 @@ void MainLayer::onChkSoundClicked( cocos2d::Ref* pSender, cocos2d::ui::Widget::T
 
 void MainLayer::createLogoAnimation()
 {
-
-
 	Vector<SpriteFrame*> frames;
-	frames.reserve( 2 );
 
 	frames.pushBack( SpriteFrame::create( "res/ui/intro-scene/logo-on.png", Rect( 0, 0, 1620, 2880 ) ) );
 	frames.pushBack( SpriteFrame::create( "res/ui/intro-scene/logo-off.png", Rect( 0, 0, 1620, 2880 ) ) );
+	
+	auto animation = Animation::createWithSpriteFrames( frames, 0.3f );
+	animation->setLoops( -1 );
+	animation->setRestoreOriginalFrame( true );
 
-	auto animate = Animate::create( Animation::createWithSpriteFrames( frames, 0.3f ) );
-	_logo->runAction( RepeatForever::create( animate ) );
+	_logo->runAction( Animate::create( animation ) );
 }
 
 void MainLayer::reset() {}

@@ -7,7 +7,7 @@
 
 namespace PlayScene
 {
-class MainLayer : public cocos2d::LayerColor
+class MainLayer : public cocos2d::Layer
 {
 	enum
 	{
@@ -22,19 +22,20 @@ private:
 
 	GameMap* _map;
 
-	cocos2d::Sprite* _background;
-
 	int _state;
 
-	int _speed;
+	float _gameSpeed;
 
-	int _timeToStart;
-	cocos2d::Label* _labelTimeToStart;
+	cocos2d::Sprite* _house;
+	cocos2d::Sprite* _bus;
 
 public:
 	MainLayer( IPlayer* player, GameMap* map )
-		: _player( player ), _map( map ), _labelTimeToStart( nullptr ), _background( nullptr ),
-		  _state( WAIT_FOR_PLAY ), _speed( 2 ), _timeToStart( 0 ) {}
+		: _player( player ), _map( map ),
+		  _house( nullptr ),
+		  _state( WAIT_FOR_PLAY ), _gameSpeed( 0 ) {}
+
+	~MainLayer();
 
 	static MainLayer* create( IPlayer* player, GameMap* map );
 
@@ -66,13 +67,15 @@ public:
 
 	void update( float dt ) override;
 
-	void setSpeed( float speed ) const;
+	void setGameSpeed( float speed );
 
-	void startCountdownTimeToStart();
+	void startIntroCut();
 
-	void stopCountdownTimeToStart();
+	void postIntroCut0();
 
-	void countdownTimeToStart( float dt );
+	void postIntroCut1();
+
+	void postIntroCut2();
 };
 }
 

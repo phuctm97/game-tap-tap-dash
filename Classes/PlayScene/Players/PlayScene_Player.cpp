@@ -1,225 +1,319 @@
 #include "PlayScene_Player.h"
+
 using namespace cocos2d;
 
 namespace PlayScene
 {
-Player::~Player()
-{
-	CC_SAFE_RELEASE( _actionRun );
-	CC_SAFE_RELEASE( _actionTurnLeft );
-	CC_SAFE_RELEASE( _actionTurnRight );
-	CC_SAFE_RELEASE( _actionFly );
-}
-
-Player* Player::create()
-{
-	auto p = new Player();
-	if ( p && p->init() ) {
-		p->autorelease();
-		return p;
+	Player::~Player()
+	{
+		CC_SAFE_RELEASE(_actionRun);
+		CC_SAFE_RELEASE(_actionTurnLeft);
+		CC_SAFE_RELEASE(_actionTurnRight);
+		CC_SAFE_RELEASE(_actionFly);
 	}
 
-	CC_SAFE_DELETE( p );
-	return nullptr;
-}
+	Player* Player::create()
+	{
+		auto p = new Player();
+		if (p && p->init()) {
+			p->autorelease();
+			return p;
+		}
 
-bool Player::init()
-{
-	if ( !IPlayer::init() ) return false;
+		CC_SAFE_DELETE(p);
+		return nullptr;
+	}
 
-	if ( !initSprite() ) return false;
+	bool Player::init()
+	{
+		if (!IPlayer::init()) return false;
 
-	if ( !initActions() ) return false;
+		if (!initSprite()) return false;
 
-	if ( !initEvents() ) return false;
+		if (!initActions()) return false;
 
-	if ( !initContent() ) return false;
+		if (!initEvents()) return false;
 
-	return true;
-}
+		if (!initContent()) return false;
 
-bool Player::initSprite()
-{
-	// sprite
-	_sprite = Sprite::create( "res/player.png", Rect( 0, 0, 130, 125 ) );
-	if ( !_sprite ) return false;
+		return true;
+	}
 
-	addChild( _sprite );
-	_sprite->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-	_sprite->setPosition( 100, 300 );
-	setContentSize( _sprite->getContentSize() );
+	bool Player::initSprite()
+	{
+		// sprite
+		_sprite = Sprite::create("res/pikachu1.png");
+		if (!_sprite) return false;
 
-	return true;
-}
+		addChild(_sprite);
+		_sprite->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+		_sprite->setPosition(100, 300);
+		setContentSize(_sprite->getContentSize());
 
-bool Player::initActions()
-{
-	// run
-	createAnimationRun();
+		return true;
+	}
 
-	// turn left
-	createAnimationTurnLeft();
+	bool Player::initActions()
+	{
+		// run
+		createAnimationRun();
 
-	// turn right
-	createAnimationTurnRight();
+		// turn left
+		createAnimationTurnLeft();
 
-	// fly
-	createAnimationFly();
+		// turn right
+		createAnimationTurnRight();
 
-	return true;
-}
+		// fly
+		createAnimationFly();
 
-bool Player::initEvents()
-{
-	scheduleUpdate();
 
-	return true;
-}
+		return true;
+	}
 
-bool Player::initContent()
-{
-	_state = IDLE;
+	bool Player::initEvents()
+	{
+		scheduleUpdate();
 
-	return true;
-}
+		return true;
+	}
 
-void Player::createAnimationRun()
-{
-	Vector<SpriteFrame*> frames;
-	frames.reserve( 3 );
-	frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 0, 0, 130, 125 ) ) );
-	frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 130, 0, 130, 125 ) ) );
-	frames.pushBack( SpriteFrame::create( "res/player.png", Rect( 260, 0, 130, 125 ) ) );
-	_actionRun = Animate::create( Animation::createWithSpriteFrames( frames, 0.5f ) );
-	_actionRun->retain();
-}
+	bool Player::initContent()
+	{
+		_state = IDLE;
+		_energy = 1.0f;
 
-void Player::createAnimationTurnLeft()
-{
-	_actionTurnLeft = RotateBy::create( 0.1f, -90.0f );
-	_actionTurnLeft->retain();
-}
+		return true;
+	}
 
-void Player::createAnimationTurnRight()
-{
-	_actionTurnRight = RotateBy::create( 0.1f, 90.0f );
-	_actionTurnRight->retain();
-}
+	void Player::update(float dt)
+	{
+		_timer -= dt;
+		if (_timer <= 0.0f)
+		{
+			_timer = 1.0f;
+			_energy -= 0.1f;
+		}
 
-void Player::createAnimationFly()
-{
-	DelayTime* delay = DelayTime::create( 0.5f );
-	ScaleBy* zoomin = ScaleBy::create( 0.5f, 2.0f );
-	ScaleBy* zoomout = ScaleBy::create( 0.5f, 0.5f );
-	_actionFly = Sequence::create( zoomin, delay, zoomout, delay, nullptr );
-	_actionFly->retain();
-}
+		_flyingtime -= dt;
 
-int Player::getState() const
-{
-	return _state;
-}
 
-int Player::getDirection() const
-{
-	throw "not implemented";
-}
+		if (_keepflying == false)
+		{
+			ScaleTo* zoomout = ScaleTo::create(0.7f, 1.0f);
+			_sprite->runAction(zoomout->clone());
+			setStateToRunning();
+		}
 
-float Player::getEnergy() const
-{
-	throw "not implemented";
-}
 
-void Player::reset( const cocos2d::Vec2& position )
-{
-	setPosition( position );
 
-	idle();
-}
 
-void Player::idle()
-{
-	stopAllActions();
+		// test
+		if (_energy <= 0)
+			_energy = 1.0f;
+	}
 
-	// run animation idle
+	float Player::setDelay(float _energy)
+	{
+		if (_energy >= 0.7f)
+			return 0.0f;
+		else
+		{
+			if (_energy >= 0.3f)
+				return 0.5f;
+			else
+				return 1.0f;
+		}
 
-	// run audio idle
+	}
 
-	_state = IDLE;
-}
+	void Player::setEnergy(float energy)
+	{
+		this->_energy = energy;
+	}
 
-void Player::run()
-{
-	if ( _state != IDLE ) return;
+	float Player::getEnergy()
+	{
+		return this->_energy;
+	}
 
-	stopAllActions();
+	void Player::setStateToRunning()`
+	{
+		_state = RUNNING;
+	}
 
-	// run animation running
-	_sprite->runAction( _actionRun );
+	void Player::resetTurning()
+	{
+		_isturning = false;
+	}
 
-	// play audio running
+	void Player::setStateFalling()
+	{
+		_keepflying = false;
+	}
 
-	_state = RUNNING;
-}
+	float Player::getFlyingTime()
+	{
+		return this->_flyingtime;
+	}
 
-void Player::turnLeft()
-{
-	if ( _state == DEAD ) return;
+	void Player::setFlyingTime(float time)
+	{
+		this->_flyingtime = time;
+	}
 
-	// run animation turn left
-	_sprite->runAction( _actionTurnLeft );
 
-	// run audio turn left
-}
 
-void Player::turnRight()
-{
-	if ( _state == DEAD ) return;
 
-	// run animation turn right
-	_sprite->runAction( _actionTurnRight );
+	void Player::createAnimationRun()
+	{
+		Vector<SpriteFrame*> frames;
+		frames.reserve(3);
+		frames.pushBack(SpriteFrame::create("res/pikachu.png", Rect(0, 0, 252, 388)));
+		frames.pushBack(SpriteFrame::create("res/pikachu1.png", Rect(0, 0, 252, 388)));
+		_actionRun = Animate::create(Animation::createWithSpriteFrames(frames, 0.5f));
+		_actionRun->retain();
+	}
 
-	// run audio turn right
-}
+	void Player::createAnimationTurnLeft()
+	{
+		_actionTurnLeft = RotateBy::create(0.1f, -90.0f);
+		_actionTurnLeft->retain();
+	}
 
-void Player::fly()
-{
-	if ( _state == DEAD ) return;
+	void Player::createAnimationTurnRight()
+	{
+		_actionTurnRight = RotateBy::create(0.1f, 90.0f);
+		_actionTurnRight->retain();
+	}
 
-	// run animation fly
-	_sprite->runAction( _actionFly );
+	void Player::createAnimationFly()
+	{
+		DelayTime* delay = DelayTime::create(0.5f);
+		ScaleTo* zoomin = ScaleTo::create(0.2f, 1.5f);
 
-	// run audio fly
-}
+		_actionFly = Sequence::create(zoomin, delay, nullptr);
+		_actionFly->retain();
+	}
 
-void Player::die()
-{
-	if ( _state == DEAD ) return;
+	int Player::getState() const
+	{
+		return _state;
+	}
 
-	// run animation die
+	int Player::getDirection() const
+	{
+		throw "not implemented";
+	}
 
-	_sprite->setColor( Color3B::BLACK );
+	void Player::reset(const cocos2d::Vec2& position)
+	{
+		setPosition(position);
 
-	// run audio die
+		idle();
+	}
 
-	_state = DEAD;
-}
+	void Player::idle()
+	{
+		stopAllActions();
 
-void Player::win()
-{
-	if ( _state == DEAD ) return;
+		// run animation idle
 
-	stopAllActions();
+		// run audio idle
 
-	// run animation win
+		_state = IDLE;
+	}
 
-	// run audio win
+	void Player::run()
+	{
+		if (_state != IDLE) return;
 
-	_state = IDLE;
-}
+		stopAllActions();
 
-void Player::increaseEnergy( float energy )
-{
-	
-}
+		// run animation running
+		_sprite->runAction(RepeatForever::create(_actionRun->clone()));
+
+		// play audio running
+
+		_state = RUNNING;
+	}
+
+	void Player::turnLeft()
+	{
+		if (_state == DEAD) return;
+
+
+		// run animation turn left
+		if (_isturning == false)
+		{
+			_isturning = true;
+			auto seq = Sequence::create(DelayTime::create(setDelay(_energy)), _actionTurnLeft->clone(), nullptr);
+			_sprite->runAction(seq);
+		}
+
+		// run audio turn left
+	}
+
+	void Player::turnRight()
+	{
+		if (_state == DEAD) return;
+
+		// run animation turn right
+		if (_isturning == false)
+		{
+			_isturning = true;
+			auto seq = Sequence::create(DelayTime::create(setDelay(_energy)), _actionTurnRight->clone(), CallFunc::create(CC_CALLBACK_0(Player::resetTurning, this)), nullptr);
+			_sprite->runAction(seq);
+		}
+		// run audio turn right
+	}
+
+	void Player::fly()
+	{
+		if (_state == DEAD) return;
+
+		_state = FLYING;
+
+
+		_keepflying = true;
+		_flyingtime = 1.0f;
+
+		// run animation fly
+		auto seq = Sequence::create(DelayTime::create(setDelay(_energy)), _actionFly->clone(),
+			CallFunc::create(CC_CALLBACK_0(Player::setStateFalling, this)), nullptr);
+		_sprite->runAction(seq);
+
+
+
+
+		// run audio fly
+
+
+	}
+
+	void Player::die()
+	{
+		if (_state == DEAD) return;
+
+		// run animation die
+
+
+
+		// run audio die
+
+		_state = DEAD;
+	}
+
+	void Player::win()
+	{
+		if (_state == DEAD) return;
+
+		stopAllActions();
+
+		// run animation win
+
+		// run audio win
+
+		_state = IDLE;
+	}
 }

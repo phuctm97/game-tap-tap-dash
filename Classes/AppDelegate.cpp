@@ -52,7 +52,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 	register_all_packages();
 
 	// run
-	director->runWithScene( TestScene::TestMapNodeScene::createScene() );
+	director->runWithScene( TestScene::TestPlayerScene::createScene() );
 
 	return true;
 }

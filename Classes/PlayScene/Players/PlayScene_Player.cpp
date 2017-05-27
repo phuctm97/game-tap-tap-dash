@@ -184,6 +184,7 @@ void Player::turnLeft()
 	
 	// stop old action
 	stopActionByTag( ACTION_TURN_LEFT );
+	stopActionByTag( ACTION_TURN_RIGHT );
 	float rotation = 0;
 
 	// calculate rotation
@@ -215,7 +216,32 @@ void Player::turnRight()
 {
 	if ( _state == DEAD ) return;
 
+	// stop old action
+	stopActionByTag( ACTION_TURN_RIGHT );
+	stopActionByTag( ACTION_TURN_LEFT );
+	float rotation = 0;
+
+	// calculate rotation
+	switch( _direction ) {
+	case DIRECTION_UP: _direction = DIRECTION_RIGHT;
+		rotation = 90;
+		break;
+	case DIRECTION_DOWN: _direction = DIRECTION_LEFT;
+		rotation = -90;
+		break;
+	case DIRECTION_LEFT: _direction = DIRECTION_UP;
+		rotation = 0;
+		break;
+	case DIRECTION_RIGHT: _direction = DIRECTION_DOWN;
+		rotation = -180;
+		break;
+	}
+
 	// run animation turn right
+	auto turn = RotateTo::create( 0.25f, rotation );
+	turn->setTag( ACTION_TURN_RIGHT );
+
+	_sprite->runAction( turn );
 
 	// run audio turn right
 }

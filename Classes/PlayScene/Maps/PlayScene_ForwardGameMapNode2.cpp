@@ -1,10 +1,10 @@
-#include "PlayScene_TurnRightGameMapNode.h"
+#include "PlayScene_ForwardGameMapNode2.h"
 
 USING_NS_CC;
 
-PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
+PlayScene::ForwardGameMapNode2* PlayScene::ForwardGameMapNode2::create()
 {
-	auto p = new TurnRightGameMapNode();
+	auto p = new ForwardGameMapNode2();
 	if (p && p->init())
 	{
 		p->autorelease();
@@ -15,7 +15,7 @@ PlayScene::TurnRightGameMapNode* PlayScene::TurnRightGameMapNode::create()
 	return nullptr;
 }
 
-bool PlayScene::TurnRightGameMapNode::init()
+bool PlayScene::ForwardGameMapNode2::init()
 {
 	if (!Node::init())
 		return false;
@@ -26,9 +26,11 @@ bool PlayScene::TurnRightGameMapNode::init()
 	return true;
 }
 
-bool PlayScene::TurnRightGameMapNode::initSprite()
+bool PlayScene::ForwardGameMapNode2::initSprite()
 {
-	_sprite = Sprite::create("res/test/right_b.png");
+
+	_sprite = Sprite::create("res/test/forward_b_2.png");
+
 
 	if (!_sprite)
 		return false;
@@ -47,31 +49,12 @@ bool PlayScene::TurnRightGameMapNode::initSprite()
 
 	_sprite->setRotation(getRotation());
 
-	setContentSize(_sprite->getContentSize());
-
-	_navigator = Sprite::create("res/test/right.png");
-
-	if (!_navigator)
-		return false;
-
-	this->addChild(_navigator);
-
-	_navigator->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
-
-	_navigator->setPosition(_sprite->getContentSize().width / 2, _sprite->getContentSize().height / 2);
-
-	_navigator->setScale(_sprite->getScale());
-
-	_navigator->setRotation(_sprite->getRotation());
-
-	this->setAnchorPoint(Vec2::ANCHOR_MIDDLE);
+	setAnchorPoint(Vec2::ANCHOR_MIDDLE);
 
 	return true;
 }
 
-
-
-int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
+int PlayScene::ForwardGameMapNode2::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
 	Point rotatedPoint = rotatePoint(worldPosition, -1 * this->getRotation(), this->getPosition());
 
@@ -84,8 +67,7 @@ int PlayScene::TurnRightGameMapNode::checkPositionInside(const cocos2d::Vec2& wo
 	return POSITION_OUTSIDE;
 }
 
-int PlayScene::TurnRightGameMapNode::getType() const
+int PlayScene::ForwardGameMapNode2::getType() const
 {
-	return NODE_TURN_RIGHT;
+	return NODE_FORWARD;
 }
-

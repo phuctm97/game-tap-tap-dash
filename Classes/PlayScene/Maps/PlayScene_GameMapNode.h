@@ -54,4 +54,6 @@ public:
 };
 }
 
+cocos2d::Point rotatePoint(const cocos2d::Point target, float degree, cocos2d::Point center);
+
 #endif //!__PLAY_SCENE_GAME_MAP_NODE_H__

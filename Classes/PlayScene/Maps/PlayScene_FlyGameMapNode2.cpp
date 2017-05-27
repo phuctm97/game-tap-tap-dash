@@ -74,10 +74,7 @@ bool PlayScene::FlyGameMapNode2::initSprite()
 
 int PlayScene::FlyGameMapNode2::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
-	if ((worldPosition.x >= this->getPositionX() - this->getContentSize().width / 2)
-		&& (worldPosition.x <= this->getPositionX() + this->getContentSize().width / 2)
-		&& (worldPosition.y >= this->getPositionY() - this->getContentSize().height / 2)
-		&& (worldPosition.y <= this->getPositionY() + this->getContentSize().height / 2))
+	if (worldPosition.distance(this->getPosition()) <= this->getContentSize().width / 2)
 		return POSITION_INSIDE;
 
 	return POSITION_OUTSIDE;

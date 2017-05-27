@@ -56,10 +56,12 @@ bool PlayScene::ForwardGameMapNode::initSprite()
 
 int PlayScene::ForwardGameMapNode::checkPositionInside(const cocos2d::Vec2& worldPosition)
 {
-	if ((worldPosition.x >= this->getPositionX() - this->getContentSize().width / 2)
-		&& (worldPosition.x <= this->getPositionX() + this->getContentSize().width / 2)
-		&& (worldPosition.y >= this->getPositionY() - this->getContentSize().height / 2)
-		&& (worldPosition.y <= this->getPositionY() + this->getContentSize().height / 2))
+	Point rotatedPoint = rotatePoint(worldPosition, -1 * this->getRotation(), this->getPosition());
+
+	Rect originRect = Rect(this->getPositionX() - this->getContentSize().width / 2,
+		this->getPositionY() - this->getContentSize().height / 2, this->getContentSize().width, this->getContentSize().height);
+
+	if (originRect.containsPoint(rotatedPoint))
 		return POSITION_INSIDE;
 
 	return POSITION_OUTSIDE;

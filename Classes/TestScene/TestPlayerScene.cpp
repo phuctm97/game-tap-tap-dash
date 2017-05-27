@@ -29,20 +29,17 @@ bool TestPlayerScene::init()
 
 	// player
 	_player = PlayScene::Player::create();
-	_player->setAnchorPoint( Vec2::ANCHOR_MIDDLE );
-	_player->setPosition( Director::getInstance()->getVisibleSize().width / 2,
-												Director::getInstance()->getVisibleSize().height / 2 );
 	addChild( _player );
 
 	// event
 	auto listenerTouch = EventListenerTouchOneByOne::create();
 	listenerTouch->onTouchBegan = CC_CALLBACK_2( TestPlayerScene::onTouchBegan, this );
 	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerTouch, this );
-	
+
 	auto listenerKeyboard = EventListenerKeyboard::create();
 	listenerKeyboard->onKeyReleased = CC_CALLBACK_2( TestPlayerScene::onKeyPressed, this );
 	_eventDispatcher->addEventListenerWithSceneGraphPriority( listenerKeyboard, this );
-	
+
 	// update
 	scheduleUpdate();
 
@@ -56,7 +53,7 @@ void TestPlayerScene::update( float dt )
 
 void TestPlayerScene::onKeyPressed( cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* e )
 {
-	if( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE || keyCode == EventKeyboard::KeyCode::KEY_BACK )
+	if ( keyCode == EventKeyboard::KeyCode::KEY_ESCAPE || keyCode == EventKeyboard::KeyCode::KEY_BACK )
 		Director::getInstance()->end();
 }
 
@@ -64,35 +61,37 @@ bool TestPlayerScene::onTouchBegan( cocos2d::Touch* touch, cocos2d::Event* e )
 {
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 
-	if( touch->getLocation().x < visibleSize.width * 1 / 3
-			&& touch->getLocation().y > visibleSize.height * 1 / 3
-			&& touch->getLocation().y < visibleSize.height * 2 / 3 ) {
+	if ( _player->getState() == PlayScene::IPlayer::IDLE ) {
+		_player->run();
+	}
+	else if ( touch->getLocation().x < visibleSize.width * 1 / 3
+		&& touch->getLocation().y > visibleSize.height * 1 / 3
+		&& touch->getLocation().y < visibleSize.height * 2 / 3 ) {
 
 		// left
 		_player->turnLeft();
 	}
-	else if( touch->getLocation().x > visibleSize.width * 2 / 3
-					 && touch->getLocation().y > visibleSize.height * 1 / 3
-					 && touch->getLocation().y < visibleSize.height * 2 / 3 ) {
+	else if ( touch->getLocation().x > visibleSize.width * 2 / 3
+		&& touch->getLocation().y > visibleSize.height * 1 / 3
+		&& touch->getLocation().y < visibleSize.height * 2 / 3 ) {
 
 		// right
 		_player->turnRight();
 	}
-	else if( touch->getLocation().y > visibleSize.height * 2 / 3
-					 && touch->getLocation().x > visibleSize.width * 1 / 3
-					 && touch->getLocation().x < visibleSize.width * 2 / 3 ) {
+	else if ( touch->getLocation().y > visibleSize.height * 2 / 3
+		&& touch->getLocation().x > visibleSize.width * 1 / 3
+		&& touch->getLocation().x < visibleSize.width * 2 / 3 ) {
 
 		// up
 		_player->fly();
 	}
-	else if( touch->getLocation().y < visibleSize.height * 1 / 3
-					 && touch->getLocation().x > visibleSize.width * 1 / 3
-					 && touch->getLocation().x < visibleSize.width * 2 / 3 ) {
+	else if ( touch->getLocation().y < visibleSize.height * 1 / 3
+		&& touch->getLocation().x > visibleSize.width * 1 / 3
+		&& touch->getLocation().x < visibleSize.width * 2 / 3 ) {
 
 		// down
 	}
 
 	return true;
-
 }
 }

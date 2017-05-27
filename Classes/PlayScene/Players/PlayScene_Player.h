@@ -8,34 +8,38 @@ namespace PlayScene
 class Player : public IPlayer
 {
 private:
+	enum
+	{
+		ACTION_RUN,
+		ACTION_TURN_LEFT,
+		ACTION_TURN_RIGHT,
+		ACTION_FLY,
+
+		DIRECTION_UP,
+		DIRECTION_DOWN,
+		DIRECTION_LEFT,
+		DIRECTION_RIGHT
+	};
+
 	cocos2d::Sprite* _sprite;
+
+	cocos2d::Action* _actionRun;
+	cocos2d::Action* _actionFly;
 
 	int _state;
 
-	cocos2d::Animate* _actionRun;
-	cocos2d::Action* _actionTurnLeft;
-	cocos2d::Action* _actionTurnRight;
-	cocos2d::Action* _actionFly;
-
+	int _direction;
 
 	float _energy;
 
-	float _timer = 1.0f;
-	float _flyingtime = 1.0f;
-
-	bool _isturning = false;
-	bool _keepflying = false;
-
-
-	
 public:
 	Player()
-		: _state( -1 ),
-		  _sprite( nullptr ),
+		: _sprite( nullptr ),
 		  _actionRun( nullptr ),
-		  _actionTurnLeft( nullptr ),
-		  _actionTurnRight( nullptr ),
-		  _actionFly( nullptr ) {}
+		  _actionFly( nullptr ),
+		  _state( IDLE ),
+		  _direction( DIRECTION_UP ),
+		  _energy( 1.0f ) {}
 
 	~Player();
 
@@ -45,18 +49,16 @@ public:
 
 	void createAnimationRun();
 
-	void createAnimationTurnLeft();
-
-	void createAnimationTurnRight();
-
 	void createAnimationFly();
-
-
 
 	int getState() const override;
 
 	int getDirection() const override;
-	
+
+	float getEnergy() const override;
+
+	void increaseEnergy( float energy ) override;
+
 	void reset( const cocos2d::Vec2& position ) override;
 
 	void idle() override;
@@ -82,28 +84,11 @@ private:
 
 	bool initContent();
 
-	void update(float dt);
+	void update( float dt ) override;
 
-	float setDelay(float _energy) ;
-
-	void setEnergy(float _energy) override;
-
-	float getEnergy() override ;
+	float calculateDelay() const;
 
 	void setStateToRunning();
-
-	void resetTurning();
-
-	void setStateFalling();
-
-	float getFlyingTime();
-
-	void setFlyingTime(float time);
-
-
-
-	
-
 };
 }
 

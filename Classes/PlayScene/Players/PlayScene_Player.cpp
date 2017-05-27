@@ -154,9 +154,11 @@ void Player::reset( const cocos2d::Vec2& position )
 	stopAllActions();
 
 	_sprite->setRotation( 0 );
-	
+
+	_sprite->setScale( 1.0f );
+
 	_energy = 1.0f;
-	
+
 	setPosition( position );
 
 	idle();
@@ -303,6 +305,13 @@ void Player::die()
 	if ( _state == DEAD ) return;
 
 	// run animation die
+	_sprite->stopAllActions();
+	_sprite->setRotation( 0 );
+	_sprite->runAction( Sequence::create( RotateBy::create( 0.2f, 180 ),
+	                                      RotateBy::create( 0.2f, 180 ),
+	                                      RotateTo::create( 0.2f, 0 ),
+	                                      nullptr ) );
+	_sprite->runAction( ScaleTo::create( 0.6f, 0 ) );
 
 	// run audio die
 

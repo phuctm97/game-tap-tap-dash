@@ -205,7 +205,7 @@ void MainLayer::update( float dt )
 	}
 
 	// update bus
-	if( _map->isPushedTail() ) {
+	if ( _map->isPushedTail() ) {
 		_bus->setVisible( true );
 		_bus->setPosition( _map->getBusStopNode()->getPosition() );
 	}
@@ -230,12 +230,28 @@ void MainLayer::update( float dt )
 			throw "Player exit last map node";
 		}
 
+		// bug: when player fly in forward node
 		if ( _map->nextNode()->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_INSIDE ) {
 			onPassedNode( currentNode );
 		}
 		// drop out the road
 		else {
-			loseGame();
+
+			GameMapNode* previousNode = nullptr;
+			GameMapNode* nextNode = _map->getCurrentNode();
+			do {
+				previousNode = nextNode;
+				nextNode = _map->nextNode();
+
+				if ( nextNode->checkPositionInside( _player->getPosition() ) == GameMapNode::POSITION_INSIDE ) break;
+			} while ( !_map->isEnd() );
+
+			if ( _map->isEnd() ) {
+				loseGame();
+			}
+			else {
+				onPassedNode( previousNode );
+			}
 		}
 	}
 }

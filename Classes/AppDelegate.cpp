@@ -47,12 +47,12 @@ bool AppDelegate::applicationDidFinishLaunching()
 	}
 
 	// Set the design resolution
-	glview->setDesignResolutionSize( smallResolutionSize.width, smallResolutionSize.height, ResolutionPolicy::EXACT_FIT );
+	glview->setDesignResolutionSize( designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::EXACT_FIT );
 
 	register_all_packages();
 
 	// run
-	director->runWithScene( TestScene::TestPlayerScene::createScene() );
+	director->runWithScene( TestScene::TestMapNodeScene::createScene() );
 
 	return true;
 }
